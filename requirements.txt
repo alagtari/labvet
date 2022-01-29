@@ -1,0 +1,9 @@
+python-multipart
+fastapi-login
+mysql-connector-python
+uvicorn[standard]
+pymysql
+SQLAlchemy
+fastapi
+email
+secure-smtplib
