@@ -1,6 +1,5 @@
 
 from sqlalchemy.orm import Session
-from sqlalchemy import update
 import models, schemas
 import mysql.connector
 
@@ -22,7 +21,7 @@ def delete_user(db: Session, id: int):
     return {'status': 'Success'}
 
 def create_user(db: Session, user: schemas.UserCreate):
-    db_user = models.User(id= user.id ,name=user.name, email=user.email,password=user.password,cin=user.cin,telephone=user.telephone,photo=user.photo,role=user.role)
+    db_user = models.User(id= user.id ,name=user.name, email=user.email,password=user.password,cin=user.cin,tel=user.tel,photo=user.photo,role=user.role,contrat=user.contrat,datecr=user.datecr)
     db.add(db_user)
     db.commit()
     return {'status': 'Success'}
@@ -30,8 +29,8 @@ def create_user(db: Session, user: schemas.UserCreate):
 def update_user(user: schemas.UserBaseMini):
     mydb = mysql.connector.connect(host = "localhost" , user = "root" , password = "" , database = "labvet")
     cursor = mydb.cursor()
-    sql ="UPDATE users SET name = %s, telephone = %s, photo = %s, role = %s  WHERE id = %s"
-    val =  (user.name, user.telephone, user.photo , user.role ,user.id)
+    sql ="UPDATE utilisateur SET name = %s, tel = %s, photo = %s, role = %s  WHERE id = %s"
+    val =  (user.name, user.tel, user.photo , user.role ,user.id)
     cursor.execute(sql,val)
     mydb.commit()
     return {'status': 'Success'}

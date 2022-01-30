@@ -4,16 +4,13 @@ from sqlalchemy.orm import Session
 import crud, models, schemas
 from database import SessionLocal, engine
 from mailsender import SendMail
-from fastapi_login import LoginManager
-from fastapi.security import OAuth2PasswordRequestForm
-from fastapi_login.exceptions import InvalidCredentialsException
 
 models.Base.metadata.create_all(bind=engine)
 db = Session()
 app = FastAPI()
 
-ADMIN_EMAIL_ADDRESS = ''
-ADMIN_EMAIL_PASSWORD = ''
+ADMIN_EMAIL_ADDRESS = 'agtari957@gmail.com'
+ADMIN_EMAIL_PASSWORD = 'ybcviudloihrglfv'
 
 
 
@@ -58,21 +55,19 @@ def delete_user(id : int , db: Session = Depends(get_db)):
     return crud.delete_user(db=db, id=id)
 
 
-SECRET = "super-secret-key"
-manager = LoginManager(SECRET, '/login')
 
 
 @app.post('/login')
-def login(data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+def login(data : schemas.Login , db: Session = Depends(get_db)):
 
-    email = data.username
+    username = data.username
     password = data.password
     
-    db_user = crud.get_user_by_email(db, email=email)
+    db_user = crud.get_user_by_email(db, email=username)
     if not db_user:
         raise HTTPException(status_code=404, detail="no such table account with this email address")
     elif password != db_user.password:
-        raise InvalidCredentialsException   
+        raise  HTTPException(status_code=403, detail="wrong password")
     return {'status': 'Success','role' :db_user.role}
 
 
