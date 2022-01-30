@@ -9,8 +9,8 @@ models.Base.metadata.create_all(bind=engine)
 db = Session()
 app = FastAPI()
 
-ADMIN_EMAIL_ADDRESS = 'agtari957@gmail.com'
-ADMIN_EMAIL_PASSWORD = 'ybcviudloihrglfv'
+ADMIN_EMAIL_ADDRESS = ''
+ADMIN_EMAIL_PASSWORD = ''
 
 
 
