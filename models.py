@@ -14,3 +14,14 @@ class User(Base):
     contrat = Column(String(200))
     role = Column(String(20))
     datecr = Column(DATE)
+
+class Client(Base):
+    __tablename__ = "client"
+
+    idc = Column(Integer, primary_key=True, index=True)
+    email = Column(String(40), unique=True, index=True)
+    raisonSocial = Column(String(8))
+    responsable = Column(String(40))
+    adresse = Column(String(8))
+    tel = Column(String(8))
+ 
