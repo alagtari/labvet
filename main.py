@@ -1,17 +1,28 @@
-from typing import List
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException , Request
 from sqlalchemy.orm import Session
-import crud, models, schemas
+import crud, models, schemas ,tokens
+from fastapi.middleware import Middleware
+from fastapi.middleware.cors import CORSMiddleware
 from database import SessionLocal, engine
 from mailsender import SendMail
 
 models.Base.metadata.create_all(bind=engine)
 db = Session()
-app = FastAPI()
+origins = ["*"]
+middleware = [ Middleware(CORSMiddleware, allow_origins=['*'], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])]
+app = FastAPI(middleware=middleware)
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 ADMIN_EMAIL_ADDRESS = ''
 ADMIN_EMAIL_PASSWORD = ''
-
 
 
 # Dependency
@@ -22,52 +33,95 @@ def get_db():
     finally:
         db.close()
 
+@app.post('/login')
+def login( db: Session = Depends(get_db),request:schemas.Login = Depends()):
+    db_user = crud.get_user_by_email(db, email=request.username)
+    if not db_user:
+        raise HTTPException(status_code=404, detail="no such table account with this email address")
+    elif request.password != db_user.password:
+        raise  HTTPException(status_code=403, detail="wrong password")
+    access_token = tokens.create_access_token(request.username)
+    return {"access_token": access_token, "token_type": "bearer"}
+
+#lawem ma yrajaach pwd
+@app.get("/users/all")
+def read_users( request : Request ,db: Session = Depends(get_db)):
+    token = request.headers.get('Authorization')
+    if (tokens.verify_token(token)):
+        decoded = tokens.decode_token(token)
+        email = decoded['user']['data']
+        db_user = crud.get_user_by_email(db, email=email)
+        if db_user.role != 'admin' :
+          raise HTTPException(status_code=403, detail="not authorized")  
+        users = crud.get_users(db)
+        return users 
+    else:
+        return{"token expired"}
+    
+
+
 
 @app.post("/users/create")
-def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    db_user = crud.get_user_by_email(db, email=user.email)
-    if db_user:
-        raise HTTPException(status_code=400, detail="Email already registered")
-    mail = SendMail(ADMIN_EMAIL_ADDRESS,ADMIN_EMAIL_PASSWORD,user.email,user.password,user.name)
-    mail.send() 
-    return crud.create_user(db=db, user=user)
+def create_user(user: schemas.UserCreate,request : Request , db: Session = Depends(get_db)):
+    token = request.headers.get('Authorization')
+    if (tokens.verify_token(token)):
+        decoded = tokens.decode_token(token)
+        email = decoded['user']['data']
+        accessed_user = crud.get_user_by_email(db, email=email)
+        if accessed_user.role != 'admin' :
+          raise HTTPException(status_code=403, detail="not authorized")  
+        
+        db_user = crud.get_user_by_email(db, email=user.email)
+        if db_user:
+          raise HTTPException(status_code=400, detail="Email already registered") 
+        mail = SendMail(ADMIN_EMAIL_ADDRESS,ADMIN_EMAIL_PASSWORD,user.email,user.password,user.name)
+        mail.send() 
+        return crud.create_user(db=db, user=user)  
+    else:
+        return{"token expired"}
+    
+    
 
-
-
-@app.get("/users/all", response_model=List[schemas.User])
-def read_users( db: Session = Depends(get_db)):
-    users = crud.get_users(db)
-    return users
 
 
 @app.put("/users/update")
-def update_user(user: schemas.UserBaseMini, db: Session = Depends(get_db)):
-    db_user = crud.get_user(db, user_id=user.id)
-    if not db_user:
-        raise HTTPException(status_code=404, detail="User dosen't exist ")
-    return crud.update_user(user=user)
-    
+def update_user(user: schemas.UserBaseMini,request : Request , db: Session = Depends(get_db)):
+    token = request.headers.get('Authorization')
+    if (tokens.verify_token(token)):
+        decoded = tokens.decode_token(token)
+        email = decoded['user']['data']
+        db_user = crud.get_user_by_email(db, email=email)
+        if db_user.role != 'admin' :
+          raise HTTPException(status_code=403, detail="not authorized")  
+        return crud.update_user(user=user) 
+    else:
+        return{"token expired"}
+
+
+
 @app.delete("/users/delete")
-def delete_user(id : int , db: Session = Depends(get_db)):
-    db_user = crud.get_user(db,user_id=id)
-    if not db_user:
-        raise HTTPException(status_code=404, detail="User dosen't exist")
-    return crud.delete_user(db=db, id=id)
-
-
-
-
-@app.post('/login')
-def login(data : schemas.Login , db: Session = Depends(get_db)):
-
-    username = data.username
-    password = data.password
+def delete_user(id :int ,request : Request , db: Session = Depends(get_db)):
+    token = request.headers.get('Authorization')
+    if (tokens.verify_token(token)):
+        decoded = tokens.decode_token(token)
+        email = decoded['user']['data']
+        db_user = crud.get_user_by_email(db, email=email)
+        if db_user.role != 'admin' :
+          raise HTTPException(status_code=403, detail="not authorized")  
+        return crud.delete_user(db=db, id=id)
+    else:
+        return{"token expired"}
     
-    db_user = crud.get_user_by_email(db, email=username)
-    if not db_user:
-        raise HTTPException(status_code=404, detail="no such table account with this email address")
-    elif password != db_user.password:
-        raise  HTTPException(status_code=403, detail="wrong password")
-    return {'status': 'Success','role' :db_user.role}
 
 
+
+@app.get('/users/info')
+def get_info(request : Request , db: Session  = Depends(get_db)):
+    token = request.headers.get('Authorization')
+    if (tokens.verify_token(token)):
+        decoded = tokens.decode_token(token)
+        email = decoded['user']['data']
+        db_user = crud.get_user_by_email(db, email=email)
+        return {db_user}
+    else:
+        return{"token expired"}
