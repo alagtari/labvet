@@ -30,6 +30,14 @@ class User(UserBase):
     class Config:
         orm_mode = True
 
+class Client(BaseModel):
+    idc: int
+    email: str
+    tel: str 
+    raisonSocial : str
+    adresse: str
+    responsable : str
 
 
 
+ 
