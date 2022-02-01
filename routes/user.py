@@ -39,7 +39,7 @@ def read_users( request : Request ,db: Session = Depends(get_db)):
 
 
 @router.post("/users/create")
-def create_user(user: schemas.UserCreate,request : Request , db: Session = Depends(get_db)):
+def create_user(user: schemas.UserBase,request : Request , db: Session = Depends(get_db)):
     token = request.headers.get('Authorization')
     if (tokens.verify_token(token)):
         decoded = tokens.decode_token(token)
@@ -51,10 +51,10 @@ def create_user(user: schemas.UserCreate,request : Request , db: Session = Depen
         db_user = users.get_user_by_email(db, email=user.email)
         if db_user:
           raise HTTPException(status_code=400, detail="Email already registered") 
-        mail = SendMail(ADMIN_EMAIL_ADDRESS,ADMIN_EMAIL_PASSWORD,user.email,user.password,user.name)
+        mail = SendMail(ADMIN_EMAIL_ADDRESS,ADMIN_EMAIL_PASSWORD,user.email,user.cin,user.name)
         mail.send() 
-        user.password = hashlib.md5(user.password.encode())
-        return users.create_user(db=db, user=user)  
+        password = hashlib.md5(user.cin.encode())
+        return users.create_user(db=db, user=user,password=password)  
     else:
         return{"token expired"}
     

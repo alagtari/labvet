@@ -21,8 +21,6 @@ class UserBase(UserBaseMini):
     cin : str
     contrat :str
 
-class UserCreate(UserBase):
-    password: str
 
 
 class User(UserBase):
