@@ -19,7 +19,6 @@ class UserBaseMini(BaseModel):
 class UserBase(UserBaseMini):
     email: str
     cin : str
-    datecr :date
     contrat :str
 
 class UserCreate(UserBase):
@@ -40,4 +39,14 @@ class Client(BaseModel):
 
 
 
- 
+class methode(BaseModel):
+    id: int
+    designation : str
+
+class source(BaseModel):
+    id: int
+    designation : str
+
+class nature(BaseModel):
+    id: int
+    designation : str    

@@ -4,3 +4,4 @@ pymysql
 SQLAlchemy
 fastapi
 secure-smtplib
+SQLAlchemy-Utils

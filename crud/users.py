@@ -1,4 +1,5 @@
 
+from datetime import datetime
 from sqlalchemy.orm import Session
 import models, schemas
 import mysql.connector
@@ -21,7 +22,7 @@ def delete_user(db: Session, id: int):
     return {'status': 'Success'}
 
 def create_user(db: Session, user: schemas.UserCreate):
-    db_user = models.User(id= user.id ,name=user.name, email=user.email,password=user.password,cin=user.cin,tel=user.tel,photo=user.photo,role=user.role,contrat=user.contrat,datecr=user.datecr)
+    db_user = models.User(id= user.id ,name=user.name, email=user.email,password=user.password,cin=user.cin,tel=user.tel,photo=user.photo,role=user.role,contrat=user.contrat,datecr=datetime.timestamp())
     db.add(db_user)
     db.commit()
     return {'status': 'Success'}

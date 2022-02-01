@@ -1,6 +1,7 @@
+import hashlib
 from fastapi import Depends, FastAPI, HTTPException , Request
 from sqlalchemy.orm import Session
-import crud.user as user, models, schemas ,tokens
+import crud.users as users, models, schemas ,tokens
 from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
 from database import SessionLocal, engine
@@ -35,7 +36,7 @@ def get_db():
 
 @app.post('/login')
 def login( db: Session = Depends(get_db),request:schemas.Login = Depends()):
-    db_user = user.get_user_by_email(db, email=request.username)
+    db_user = users.get_user_by_email(db, email=request.username)
     if not db_user:
         raise HTTPException(status_code=404, detail="no such table account with this email address")
     elif request.password != db_user.password:
@@ -50,11 +51,11 @@ def read_users( request : Request ,db: Session = Depends(get_db)):
     if (tokens.verify_token(token)):
         decoded = tokens.decode_token(token)
         email = decoded['user']['data']
-        db_user = user.get_user_by_email(db, email=email)
+        db_user = users.get_user_by_email(db, email=email)
         if db_user.role != 'admin' :
           raise HTTPException(status_code=403, detail="not authorized")  
-        users = user.get_users(db)
-        return users 
+        returned_users = users.get_users(db)
+        return returned_users 
     else:
         return{"token expired"}
     
@@ -67,16 +68,17 @@ def create_user(user: schemas.UserCreate,request : Request , db: Session = Depen
     if (tokens.verify_token(token)):
         decoded = tokens.decode_token(token)
         email = decoded['user']['data']
-        accessed_user = user.get_user_by_email(db, email=email)
+        accessed_user = users.get_user_by_email(db, email=email)
         if accessed_user.role != 'admin' :
           raise HTTPException(status_code=403, detail="not authorized")  
         
-        db_user = user.get_user_by_email(db, email=user.email)
+        db_user = users.get_user_by_email(db, email=user.email)
         if db_user:
           raise HTTPException(status_code=400, detail="Email already registered") 
         mail = SendMail(ADMIN_EMAIL_ADDRESS,ADMIN_EMAIL_PASSWORD,user.email,user.password,user.name)
         mail.send() 
-        return user.create_user(db=db, user=user)  
+        user.password = hashlib.md5(user.password.encode())
+        return users.create_user(db=db, user=user)  
     else:
         return{"token expired"}
     
@@ -90,10 +92,10 @@ def update_user(user: schemas.UserBaseMini,request : Request , db: Session = Dep
     if (tokens.verify_token(token)):
         decoded = tokens.decode_token(token)
         email = decoded['user']['data']
-        db_user = user.get_user_by_email(db, email=email)
+        db_user = users.get_user_by_email(db, email=email)
         if db_user.role != 'admin' :
           raise HTTPException(status_code=403, detail="not authorized")  
-        return user.update_user(user=user) 
+        return users.update_user(user=user) 
     else:
         return{"token expired"}
 
