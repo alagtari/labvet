@@ -1,7 +1,0 @@
-mysql-connector-python
-uvicorn[standard]
-pymysql
-SQLAlchemy
-fastapi
-secure-smtplib
-SQLAlchemy-Utils
