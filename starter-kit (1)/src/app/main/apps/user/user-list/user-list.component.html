@@ -107,9 +107,9 @@
               </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column name="Email" prop="email" [width]="200"></ngx-datatable-column>
-
-            <ngx-datatable-column name="tel" prop="tel" [width]="100"></ngx-datatable-column>
-            <ngx-datatable-column name="CIN" prop="cin" [width]="100"></ngx-datatable-column>
+            
+            <ngx-datatable-column name="tel" prop="tel" [width]="80"></ngx-datatable-column>
+            <ngx-datatable-column name="CIN" prop="cin" [width]="80"></ngx-datatable-column>
             <ngx-datatable-column name="Role" prop="role" [width]="100">
               <ng-template let-role="value" ngx-datatable-cell-template>
                 <div>
@@ -140,17 +140,16 @@
                 </div>
               </ng-template>
             </ngx-datatable-column>
+            <ngx-datatable-column name="Date de creation" prop="datecr" [width]="80"></ngx-datatable-column>
             <ngx-datatable-column name="Actions" [width]="40" [sortable]="false">
               <ng-template ngx-datatable-cell-template let-row="row">
                 
                   
                  
-                    <a routerLink="/apps/user/user-view/{{ row.id }}" 
-                      ><span [data-feather]="'file-text'" [size]="16" [class]="'mr-50'"></span></a
-                    ><a routerLink="/apps/user/user-edit/{{ row.id }}" 
-                      ><span [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span></a
-                    ><a href="javascript:;" 
-                      ><span [data-feather]="'trash'" [size]="16" [class]="'mr-50'"></span> </a
+                    <a routerLink="/apps/user/user-edit/{{ row.id }}" 
+                      ><span [data-feather]="'edit'" [size]="16" class = "text-warning" [class]="'mr-50'"></span></a
+                    ><a  (click) = "deleteUser(row.id)" 
+                      ><span [data-feather]="'trash'" class = "text-danger"  [size]="16" [class]="'mr-50'"></span> </a
                     >
                   
                 

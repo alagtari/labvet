@@ -13,7 +13,7 @@ class User(Base):
     photo = Column(TEXT)
     contrat = Column(TEXT)
     role = Column(String(20))
-    datecr = Column(DATE)
+    datecr = Column(Integer)
 
 class Client(Base):
     __tablename__ = "client"

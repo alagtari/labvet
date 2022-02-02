@@ -25,21 +25,13 @@ export const menu: CoreMenu[] = [
     icon: 'package',
     children: [
       {
-        id: 'users',
-        title: 'PERSONNELS',
+        id: 'list',
+        title: 'Liste',
         translate: '',
-        type: 'collapsible',
-        icon: 'users',
-        children: [
-          {
-            id: 'list',
-            title: 'Liste',
-            translate: '',
-            type: 'item',
-            icon: 'list',
-            url: 'apps/user/user-list'
-          },]
-        }
+        type: 'item',
+        icon: 'list',
+        url: 'apps/user/user-list'
+      }
     ]
   }
 

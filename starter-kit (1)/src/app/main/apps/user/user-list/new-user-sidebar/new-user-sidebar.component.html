@@ -44,7 +44,7 @@
                   placeholder="12345678"
                   aria-describedby="basic-icon-default-uname2"
                   name="cin"
-                  [pattern]="unamePattern"
+                  [pattern]="cinPattern"
                   #uname="ngModel"
                   [(ngModel)]="cin"
                   [class.error]="newUserForm.submitted && FUserNameRef.invalid"
@@ -58,7 +58,9 @@
             <div class="form-group">
               <label class="form-label" for="basic-icon-default-email">Email</label>
               <input
-                type="text"
+              
+                type="email"
+                [pattern]="pattern"
                 id="basic-icon-default-email"
                 class="form-control dt-email"
                 placeholder="john.doe@example.com"
@@ -68,6 +70,7 @@
                 [(ngModel)]="email"
                 [class.error]="newUserForm.submitted && FEmailRef.invalid"
                 #FEmailRef="ngModel"
+                
                 required
               />
               <span *ngIf="newUserForm.submitted && FEmailRef.invalid" class="invalid-form">

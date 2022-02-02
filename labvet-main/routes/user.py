@@ -75,11 +75,12 @@ def update_user(user: schemas.UserBaseMini,request : Request , db: Session = Dep
         decoded = tokens.decode_token(token)
         email = decoded['user']['data']
         db_user = users.get_user_by_email(db, email=email)
-        if db_user.role != 'admin' :
-          raise HTTPException(status_code=403, detail="not authorized")  
-        return users.update_user(user=user) 
+        if db_user.role != 'Admin' :
+          return {"status": 403 , "message" : "Unauthorized"}
+        users.update_user(user=user)
+        return {"status" : 200 , "message":"User updated"} 
     else:
-        return{"token expired"}
+        return {"status": 401 , "message" : "Token expired!"}
 
 
 
@@ -90,11 +91,12 @@ def delete_user(id :int ,request : Request , db: Session = Depends(get_db)):
         decoded = tokens.decode_token(token)
         email = decoded['user']['data']
         db_user = users.get_user_by_email(db, email=email)
-        if db_user.role != 'admin' :
-          raise HTTPException(status_code=403, detail="not authorized")  
-        return users.delete_user(db=db, id=id)
+        if db_user.role != 'Admin' :
+          return {"status" : 403 , "message" : "Unauthorized"}  
+        users.delete_user(db=db, id=id)
+        return {"status" :  200 , "message" : "User deleted"}
     else:
-        return{"token expired"}
+        return{"status" : 401 ,"message":"token expired"}
     
 
 

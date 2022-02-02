@@ -9,11 +9,13 @@ import { UserListComponent } from '../user-list.component';
 })
 export class NewUserSidebarComponent implements OnInit {
   public fullname;
+  public pattern = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"
   public role;
   public tel;
   public cin;
   public photo;
-  public unamePattern = "^[0-9]{8}$";
+  public cinPattern = "[0-1]\\d{7}"
+  public unamePattern = "[2-5-4-7-9]\\d{7}";
   public contrat;
   public email;
   public photo_url;
@@ -44,6 +46,8 @@ export class NewUserSidebarComponent implements OnInit {
    *
    * @param form
    */
+
+
   submit(form) {
     if (form.valid) {
       console.log(form.form.value)

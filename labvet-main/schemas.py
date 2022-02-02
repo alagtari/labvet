@@ -13,6 +13,8 @@ class UserBaseMini(BaseModel):
     tel: str 
     photo : str
     role: str
+    cin: str
+    password : str
 
 
 
@@ -22,7 +24,7 @@ class UserBase(UserBaseMini):
     contrat :str
     id:int
     name : str
-    phoyo : str
+    photo : str
     role : str
     contrat : str
 

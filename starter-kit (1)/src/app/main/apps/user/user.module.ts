@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -19,6 +18,8 @@ import { UserListComponent } from 'app/main/apps/user/user-list/user-list.compon
 import { UserListService } from 'app/main/apps/user/user-list/user-list.service';
 
 import { NewUserSidebarComponent } from 'app/main/apps/user/user-list/new-user-sidebar/new-user-sidebar.component';
+import { UserEditComponent } from './user-edit/user-edit.component';
+import { UserEditService } from './user-edit/user-edit.service';
 
 // routing
 const routes: Routes = [
@@ -30,20 +31,18 @@ const routes: Routes = [
     },
     data: { animation: 'UserListComponent' }
   },
-  
-  
   {
-    path: 'user-view',
-    redirectTo: '/apps/user/user-view/2' // Redirection
+    path: 'user-edit/:id',
+    component: UserEditComponent,
+    resolve: {
+      ues: UserEditService
+    },
+    data: { animation: 'UserEditComponent' }
   },
-  {
-    path: 'user-edit',
-    redirectTo: '/apps/user/user-edit/2' // Redirection
-  }
 ];
 
 @NgModule({
-  declarations: [UserListComponent,  NewUserSidebarComponent],
+  declarations: [UserListComponent, NewUserSidebarComponent, UserEditComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -57,6 +56,6 @@ const routes: Routes = [
     CoreDirectivesModule,
     CoreSidebarModule
   ],
-  providers: [UserListService]
+  providers: [UserListService, UserEditService]
 })
-export class UserModule {}
+export class UserModule { }

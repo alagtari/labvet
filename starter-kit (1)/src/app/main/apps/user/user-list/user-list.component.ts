@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
-
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -9,6 +9,7 @@ import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.s
 
 import { UserListService } from 'app/main/apps/user/user-list/user-list.service';
 import { componentFactoryName } from '@angular/compiler';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-list',
@@ -70,7 +71,9 @@ export class UserListComponent implements OnInit {
   constructor(
     private _userListService: UserListService,
     private _coreSidebarService: CoreSidebarService,
-    private _coreConfigService: CoreConfigService
+    private _coreConfigService: CoreConfigService,
+    private _toastr: ToastrService,
+    private _router: Router
   ) {
     this._unsubscribeAll = new Subject();
   }
@@ -102,7 +105,8 @@ export class UserListComponent implements OnInit {
 
     // Filter Our Data
     const temp = this.tempData.filter(function (d) {
-      return d.name.toLowerCase().indexOf(val) !== -1 || !val;
+
+      return d.name.toLowerCase().indexOf(val) !== -1 || !val || d.email.toLowerCase().indexOf(val) !== -1 || d.tel.toLowerCase().indexOf(val) !== -1 || d.cin.toLowerCase().indexOf(val) !== -1 || d.role.toLowerCase().indexOf(val) !== -1;
     });
 
     // Update The Rows
@@ -137,6 +141,8 @@ export class UserListComponent implements OnInit {
    *
    * @param event
    */
+
+
   filterByPlan(event) {
     const filter = event ? event.value : '';
     this.previousPlanFilter = filter;
@@ -183,7 +189,37 @@ export class UserListComponent implements OnInit {
   /**
    * On init
    */
+  deleteUser(id) {
+    console.log(id)
+    this._userListService.deleteUser(id).subscribe(
+      result => {
+        if (result) {
+          if (result['status'] == 200) {
+            this._toastr.success('Utilisateur supprimé', 'Succès!', {
+              toastClass: 'toast ngx-toastr',
+              closeButton: true
+            });
+            setTimeout(() => {                           // <<<---using ()=> syntax
+              window.location.reload();
+            }, 1100);
+          }
 
+          else if (result['status'] == 401) {
+            localStorage.removeItem("currentUser")
+            this._toastr.error('Session expirée', 'Erreur!', {
+              toastClass: 'toast ngx-toastr',
+              closeButton: true
+            });
+            this._router.navigate(['/home']);
+          }
+          else {
+            console.log(result)
+          }
+        }
+      }
+    )
+
+  }
   refreshFromParent() {
     window.location.reload();
   }
@@ -209,7 +245,7 @@ export class UserListComponent implements OnInit {
         });
       }
     });
-    
+
   }
 
   /**
