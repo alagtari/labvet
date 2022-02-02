@@ -64,8 +64,7 @@ export class AuthenticationService {
             // Display welcome toast!
             setTimeout(() => {
               this._toastrService.success(
-                'You have successfully logged in to Labvet.',
-                '👋 Welcome',
+                'Vous vous êtes connecté avec succès à Labvet.','👋 Bienvenue',
                 { toastClass: 'toast ngx-toastr', closeButton: true }
               );
             }, 2500);

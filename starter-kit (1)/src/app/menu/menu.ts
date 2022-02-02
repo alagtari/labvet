@@ -3,8 +3,8 @@ import { CoreMenu } from '@core/types'
 export const menu: CoreMenu[] = [
   {
     id: 'home',
-    title: 'Home',
-    translate: 'MENU.HOME',
+    title: 'Menu',
+    translate: '',
     type: 'item',
     icon: 'home',
     url: 'home'
@@ -20,23 +20,23 @@ export const menu: CoreMenu[] = [
   {
     id: 'apps',
     type: 'section',
-    title: 'Apps & Pages',
+    title: 'PERSONNELS',
     translate: '',
     icon: 'package',
     children: [
       {
         id: 'users',
-        title: 'Utilisateurs',
+        title: 'PERSONNELS',
         translate: '',
         type: 'collapsible',
-        icon: 'user',
+        icon: 'users',
         children: [
           {
             id: 'list',
-            title: 'List',
+            title: 'Liste',
             translate: '',
             type: 'item',
-            icon: 'circle',
+            icon: 'list',
             url: 'apps/user/user-list'
           },]
         }

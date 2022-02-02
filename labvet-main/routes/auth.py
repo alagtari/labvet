@@ -20,9 +20,9 @@ def get_db():
 def login( db: Session = Depends(get_db),request:schemas.Login = Depends()):
     db_user = users.get_user_by_email(db, email=request.username)
     if not db_user:
-       return {'status' :404  , 'message' : "Email not found." }
+       return {'status' :404  , 'message' : "Adresse Email incorrecte." }
     elif request.password != db_user.password:
-          return {'status' :404  , 'message' : "Password is incorrect." }
+          return {'status' :404  , 'message' : "Mot de passe incorrect." }
     access_token = tokens.create_access_token(request.username)
     return {"access_token": access_token, "token_type": "bearer" , "status" : 200}
         

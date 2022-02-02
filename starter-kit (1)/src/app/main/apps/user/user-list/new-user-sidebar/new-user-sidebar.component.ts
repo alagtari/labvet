@@ -53,7 +53,7 @@ export class NewUserSidebarComponent implements OnInit {
         result => {
           console.log(result)
           if (result.status == 200) {
-            this._toastr.success('User created', 'Success!', {
+            this._toastr.success('Utilisateur créé', 'Succès!', {
               toastClass: 'toast ngx-toastr',
               closeButton: true
             });
@@ -61,7 +61,7 @@ export class NewUserSidebarComponent implements OnInit {
 
           }
           else if (result.status == 400) {
-            this._toastr.error('User already exists!', 'Error', {
+            this._toastr.error("L'utilisateur existe déjà!", 'Erreur', {
               toastClass: 'toast ngx-toastr',
               closeButton: true
             });
