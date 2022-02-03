@@ -1,3 +1,4 @@
+import datetime
 import hashlib
 from fastapi import Depends,  HTTPException,APIRouter,Request
 from sqlalchemy.orm import Session
@@ -82,6 +83,30 @@ def update_user(user: schemas.UserBaseMini,request : Request , db: Session = Dep
     else:
         return {"status": 401 , "message" : "Token expired!"}
 
+@router.get("/users/byid")
+def get_user_by_id(id :int ,request : Request , db: Session = Depends(get_db)):
+    token = request.headers.get('Authorization')
+    if (tokens.verify_token(token)):
+        decoded = tokens.decode_token(token)
+        email = decoded['user']['data']
+        db_user = users.get_user_by_email(db, email=email)
+        if db_user.role != 'Admin' :
+          return {"status" : 403 , "message" : "Unauthorized"} 
+        db_user = users.get_user(db,id)  
+        user = {}
+        user['name'] = db_user.name
+        user['tel'] = db_user.tel
+        user['photo'] = db_user.photo
+        user['role']  = db_user.role
+        user['email'] = db_user.email
+        user['cin'] = db_user.cin
+        user['contrat'] = db_user.contrat
+        user['id'] = db_user.id
+        user['datecr'] = db_user.datecr
+        return {"status" :  200 , "data" : user }
+    else:
+        return{"status" : 401 ,"message":"token expired"}
+    
 
 
 @router.delete("/users/delete")
