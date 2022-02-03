@@ -1,7 +1,6 @@
 import datetime
 import hashlib
-from msilib import schema
-from fastapi import Depends,  HTTPException,APIRouter,Request
+from fastapi import Depends,APIRouter,Request
 from sqlalchemy.orm import Session
 import crud.users as users, schemas ,tokens
 from database import  SessionLocal
@@ -15,7 +14,7 @@ def get_db():
     db = SessionLocal()
     try:
         yield db
-    finally:
+    finally: 
         db.close()
 
 
@@ -58,7 +57,7 @@ async def create_user(request : Request , db: Session = Depends(get_db)):
         db_user = users.get_user_by_email(db, email=body['email'])
         if db_user:
           return {"status" : 400 , "message" : "User already exists"}
-        #mail = SendMail(ADMIN_EMAIL_ADDRESS,ADMIN_EMAIL_PASSWORD,body['email'],body['cin'],body['name'])
+        #mail = SendMail(ADMIN_EMAIL_ADDRESS,ADMIN_EMAIL_PASSWORD,body['email'],body['cin'],body['name'],'new')
         #mail.send() 
         password = hashlib.md5(body['cin'].encode())
         users.create_user(db=db, user=body,mdp=password.hexdigest())
@@ -71,17 +70,18 @@ async def create_user(request : Request , db: Session = Depends(get_db)):
 
 
 @router.put("/users/update")
-async def update_user(request : Request , db: Session = Depends(get_db)):
+def update_user(user: schemas.UserBaseMini,request : Request , db: Session = Depends(get_db)):
     token = request.headers.get('Authorization')
     if (tokens.verify_token(token)):
         decoded = tokens.decode_token(token)
         email = decoded['user']['data']
         db_user = users.get_user_by_email(db, email=email)
-        body = await request.json()
         if db_user.role != 'Admin' :
           return {"status": 403 , "message" : "Unauthorized"}
-        body['password']=hashlib.md5(body['password'].encode()).hexdigest()
-        users.update_user(user=schemas.UserBaseMini(**body))
+        if users.update_user(user=user,db=db):
+           #mail = SendMail(ADMIN_EMAIL_ADDRESS,ADMIN_EMAIL_PASSWORD,user.email,user.cin,user.name,'update')
+           #mail.send() 
+           print('')
         return {"status" : 200 , "message":"User updated"} 
     else:
         return {"status": 401 , "message" : "Token expired!"}
