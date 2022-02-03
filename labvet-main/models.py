@@ -1,4 +1,4 @@
-from sqlalchemy import TEXT, Column, Integer, String ,DATE, ForeignKey,Table,BigInteger
+from sqlalchemy import BLOB, Column, Integer, String ,DATE, ForeignKey,Table,BigInteger
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -12,8 +12,8 @@ class User(Base):
     name = Column(String(40))
     cin = Column(String(8))
     tel = Column(String(8))
-    photo = Column(TEXT)
-    contrat = Column(TEXT)
+    photo = Column(BLOB)
+    contrat = Column(BLOB)
     role = Column(String(20))
     datecr = Column(BigInteger)
 
@@ -58,7 +58,7 @@ class Echantillon(Base):
     __tablename__ = "echantillon"
 
     ref = Column(String(20), primary_key=True, index=True)
-    barcode = Column(TEXT)
+    barcode = Column(BLOB)
     quantite = Column(Integer)
     nlot = Column(Integer)
     temperature = Column(String(20)) 
