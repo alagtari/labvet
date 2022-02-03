@@ -1,3 +1,4 @@
+from ast import Str
 from datetime import date
 from pydantic import BaseModel
 
@@ -37,6 +38,14 @@ class Client(BaseModel):
     responsable : str
 
 
+class Demande(BaseModel):
+    ref :str
+    observation :str
+    date_reception = int
+    preleveur :str
+    controle :str
+    client_id :int
+
 
 class methode(BaseModel):
     id: int
@@ -49,3 +58,11 @@ class source(BaseModel):
 class nature(BaseModel):
     id: int
     designation : str    
+
+class parametre(BaseModel):
+    id: int
+    nomp : str
+
+class famille(BaseModel):
+    idf: int
+    nomf : str

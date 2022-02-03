@@ -46,7 +46,7 @@ class Demande(Base):
 
     ref = Column(String(20), primary_key=True, index=True)
     observation = Column(String(40), unique=True, index=True)
-    date_reception = Column(DATE)
+    date_reception = Column(BigInteger)
     preleveur = Column(String(100))
     controle = Column(String(100))
     client_id = Column(Integer, ForeignKey('client.idc'))
@@ -127,5 +127,5 @@ try:
         Parametre.natures = relationship("Nature",secondary=parametre_nature)
         Methode.parametres = relationship("Parametre",secondary=parametre_methode)
         Nature.parametres = relationship("Parametre",secondary=parametre_nature)
-finally:
-    print('')        
+except:
+    print('e')        

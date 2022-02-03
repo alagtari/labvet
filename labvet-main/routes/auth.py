@@ -1,4 +1,4 @@
-from fastapi import Depends,  HTTPException,APIRouter
+from fastapi import Depends,APIRouter
 from sqlalchemy.orm import Session
 import crud.users as users, schemas ,tokens
 from database import  SessionLocal
