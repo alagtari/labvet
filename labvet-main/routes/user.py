@@ -80,6 +80,7 @@ async def update_user(request : Request , db: Session = Depends(get_db)):
         body = await request.json()
         if db_user.role != 'Admin' :
           return {"status": 403 , "message" : "Unauthorized"}
+        body['password']=hashlib.md5(body['password'].encode()).hexdigest()
         users.update_user(user=schemas.UserBaseMini(**body))
         return {"status" : 200 , "message":"User updated"} 
     else:

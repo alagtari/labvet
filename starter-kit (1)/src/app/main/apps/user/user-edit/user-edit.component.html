@@ -133,10 +133,10 @@
                                 class="form-control"
                                 placeholder="********"
                                 name="password"
-                                [(ngModel)]="currentRow.password"
+                                [(ngModel)]="currentRow.cin"
                                 [class.error]="accountForm.submitted && EmailRef.invalid"
                                 #EmailRef="ngModel"
-                                required
+                                
                               />
                               <span *ngIf="accountForm.submitted && EmailRef.invalid" class="invalid-form">
                                 <small class="form-text text-danger" *ngIf="EmailRef.errors.required"
