@@ -5,7 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { CoreConfigService } from '@core/services/config.service';
-import { AuthenticationService } from 'app/auth/service';
+import { AuthenticationService, UserService } from 'app/auth/service';
 
 @Component({
   selector: 'app-auth-login-v2',
@@ -38,7 +38,8 @@ export class AuthLoginV2Component implements OnInit {
     private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
     private _router: Router,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private userServiceInfo : UserService
   ) {
     this._unsubscribeAll = new Subject();
 
@@ -89,6 +90,22 @@ export class AuthLoginV2Component implements OnInit {
       if (result) {
         if (result['status'] == 200){
           this.loading = true;
+          this.userServiceInfo.getInfo().subscribe(
+            user => {
+              if (user) {
+                if (user['status'] == 200) {
+                  localStorage.setItem("reloaded"  , "true")
+                  localStorage.setItem("role" , user['data']['role'])
+                }
+                else {
+                  localStorage.removeItem("currentUser")
+                  this._router.navigate(['/pages/authentication/login-v2']);
+                }
+    
+    
+              }
+            }
+          )
           setTimeout(() => {
             this._router.navigate(['/']);
           }, 100);

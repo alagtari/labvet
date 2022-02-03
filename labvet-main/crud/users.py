@@ -52,7 +52,7 @@ def create_user(db: Session, user,mdp):
 def update_user(user: schemas.UserBaseMini):
     mydb = mysql.connector.connect(host = "localhost" , user = "root" , password = "" , database = "labvet")
     cursor = mydb.cursor()
-    sql ="UPDATE utilisateur SET name = %s, tel = %s, photo = %s, role = %s , password = %s , cin = %  WHERE id = %s"
+    sql ="UPDATE utilisateur SET name = %s, tel = %s, photo = %s, role = %s , password = %s , cin = %s  WHERE id = %s"
     val =  (user.name, user.tel, user.photo , user.role , user.password ,user.cin,user.id)
     cursor.execute(sql,val)
     mydb.commit()

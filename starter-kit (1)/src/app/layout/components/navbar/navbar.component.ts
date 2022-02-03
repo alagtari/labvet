@@ -35,7 +35,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public languageOptions: any;
   public navigation: any;
   public selectedLanguage: any;
-
+  public reloaded  = false;
   @HostBinding('class.fixed-top')
   public isFixed = false;
 
@@ -168,6 +168,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
    */
   logout() {
     this.authService.logout()
+    localStorage.clear()
     this._router.navigate(['/pages/authentication/login-v2']);
   }
 
@@ -178,6 +179,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
    * On init
    */
   ngOnInit(): void {
+    
+    if (localStorage.getItem("reloaded") == "true"){
+      
+      window.location.reload()
+      localStorage.setItem("reloaded" , "false")
+    }
     if (localStorage.getItem("currentUser")) {
       this.userService.getInfo().subscribe(
         user => {
@@ -196,7 +203,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
           }
           else {
-            localStorage.removeItem("currentUser")
+            localStorage.clear()
             this._router.navigate(['/pages/authentication/login-v2']);
           }
         }
