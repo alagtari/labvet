@@ -62,7 +62,7 @@ class Echantillon(Base):
     quantite = Column(Integer)
     nlot = Column(Integer)
     temperature = Column(String(20)) 
-    demande = relationship("Demande")
+    demandes = relationship("Demande")
     parametres = relationship("Parametre")
 
 class Parametre(Base):

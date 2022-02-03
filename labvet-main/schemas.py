@@ -66,3 +66,10 @@ class parametre(BaseModel):
 class famille(BaseModel):
     idf: int
     nomf : str
+
+class echantillon(BaseModel):
+    ref :str
+    barcode :str
+    quantite :int
+    nlot :int 
+    temperature :str
