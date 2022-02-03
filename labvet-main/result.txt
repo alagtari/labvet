@@ -1,1 +1,1 @@
-eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0cyI6MTY0Mzg4Mzg5MjgzMywidXNlciI6eyJkYXRhIjoibGFidmV0aW50ZXJuYXRpb25hbEBnbWFpbC5jb20ifX0.EefoSGSuVCzvsq14RtxprlLbjzD-sArfsVpjj9O5W4s
+{'name': 'fedfg', 'tel': '5445', 'photo': 'qa', 'role': 'sdbsgb', 'email': 'ala', 'cin': '96300', 'contrat': 'wsd', 'id': 1, 'datecr': '2022-02-09'}

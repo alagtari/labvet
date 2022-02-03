@@ -1,4 +1,5 @@
 
+import hashlib
 import time
 from sqlalchemy.orm import Session
 import models, schemas
@@ -49,15 +50,21 @@ def create_user(db: Session, user,mdp):
    
     
 
-def update_user(user: schemas.UserBaseMini):
-    mydb = mysql.connector.connect(host = "localhost" , user = "root" , password = "" , database = "labvet")
-    cursor = mydb.cursor()
-    sql ="UPDATE utilisateur SET name = %s, tel = %s, photo = %s, role = %s  WHERE id = %s"
-    val =  (user.name, user.tel, user.photo , user.role ,user.id)
-    cursor.execute(sql,val)
-    mydb.commit()
-    return {'status': 200}
 
 
+def update_user(user: schemas.UserBaseMini ,db :Session):
+    db_user = db.query(models.User).filter(models.User.id == user.id).first()
+    send_email = False
+    if db_user.cin != user.cin or db_user.email != user.email :
+       send_email =True 
+    db_user.name = user.name
+    db_user.tel = user.tel
+    db_user.role  = user.role
+    db_user.email= user.email
+    db_user.cin= user.cin
+    password = hashlib.md5(user.cin.encode())
+    db_user.password=password.hexdigest()
+    db.commit()
+    return send_email
 
     

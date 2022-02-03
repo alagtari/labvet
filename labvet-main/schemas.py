@@ -20,13 +20,6 @@ class UserBaseMini(BaseModel):
 
 
 class UserBase(UserBaseMini):
-    email: str
-    cin : str
-    contrat :str
-    id:int
-    name : str
-    photo : str
-    role : str
     contrat : str
 
 
