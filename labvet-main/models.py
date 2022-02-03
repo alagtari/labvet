@@ -118,12 +118,14 @@ demande_echantillon = Table('demande_echantillon', Base.metadata,
     Column('demande_ref', ForeignKey('demande.ref')),
     Column('echantillon_ref', ForeignKey('echantillon.ref'))
 )
-
-Demande.echantillons = relationship("Echantillon",secondary=demande_echantillon)
-Echantillon.demande = relationship("Demande",secondary=demande_echantillon)
-Echantillon.parametres = relationship("Parametre",secondary=parametre_echantillon)
-Parametre.echantillons = relationship("Echantillon",secondary=parametre_echantillon)
-Parametre.methodes = relationship("Methode",secondary=parametre_methode)
-Parametre.natures = relationship("Nature",secondary=parametre_nature)
-Methode.parametres = relationship("Parametre",secondary=parametre_methode)
-Nature.parametres = relationship("Parametre",secondary=parametre_nature)
+try:
+        Demande.echantillons = relationship("Echantillon",secondary=demande_echantillon)
+        Echantillon.demande = relationship("Demande",secondary=demande_echantillon)
+        Echantillon.parametres = relationship("Parametre",secondary=parametre_echantillon)
+        Parametre.echantillons = relationship("Echantillon",secondary=parametre_echantillon)
+        Parametre.methodes = relationship("Methode",secondary=parametre_methode)
+        Parametre.natures = relationship("Nature",secondary=parametre_nature)
+        Methode.parametres = relationship("Parametre",secondary=parametre_methode)
+        Nature.parametres = relationship("Parametre",secondary=parametre_nature)
+finally:
+    print('')        

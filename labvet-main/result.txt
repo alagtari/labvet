@@ -1,1 +1,1 @@
-{'name': 'fedfg', 'tel': '5445', 'photo': 'qa', 'role': 'sdbsgb', 'email': 'ala', 'cin': '96300', 'contrat': 'wsd', 'id': 1, 'datecr': '2022-02-09'}
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0cyI6MTY0Mzg5MzcyNjgwNiwidXNlciI6eyJkYXRhIjoiYWRtaW4ifX0.jyRHKKQwx04BaQUpj5VCIByXZsZTtV0h5SY7ZZmD5Nk
