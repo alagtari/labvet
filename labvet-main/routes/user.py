@@ -1,4 +1,5 @@
 import hashlib
+from msilib import schema
 from fastapi import Depends,  HTTPException,APIRouter,Request
 from sqlalchemy.orm import Session
 import crud.users as users, schemas ,tokens
@@ -69,15 +70,16 @@ async def create_user(request : Request , db: Session = Depends(get_db)):
 
 
 @router.put("/users/update")
-def update_user(user: schemas.UserBaseMini,request : Request , db: Session = Depends(get_db)):
+async def update_user(request : Request , db: Session = Depends(get_db)):
     token = request.headers.get('Authorization')
     if (tokens.verify_token(token)):
         decoded = tokens.decode_token(token)
         email = decoded['user']['data']
         db_user = users.get_user_by_email(db, email=email)
+        body = await request.json()
         if db_user.role != 'Admin' :
           return {"status": 403 , "message" : "Unauthorized"}
-        users.update_user(user=user)
+        users.update_user(user=schemas.UserBaseMini(**body))
         return {"status" : 200 , "message":"User updated"} 
     else:
         return {"status": 401 , "message" : "Token expired!"}

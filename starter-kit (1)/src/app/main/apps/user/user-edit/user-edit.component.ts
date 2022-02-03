@@ -83,7 +83,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
   submit(form) {
     if (form.valid) {
       form.form.value.photo = this.avatarImage;
-      form.form.value.id = this.urlLastValue;
+      form.form.value.id = parseInt(this.urlLastValue);
       console.log(form.form.value)
       this._userEditService.updateUser(JSON.stringify(form.form.value)).subscribe(
         result => {

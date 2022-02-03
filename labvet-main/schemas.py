@@ -14,6 +14,7 @@ class UserBaseMini(BaseModel):
     photo : str
     role: str
     cin: str
+    email:str
     password : str
 
 

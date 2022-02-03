@@ -47,11 +47,11 @@
                   [pattern]="cinPattern"
                   #uname="ngModel"
                   [(ngModel)]="cin"
-                  [class.error]="newUserForm.submitted && FUserNameRef.invalid"
+                  [class.error]="FUserNameRef.invalid"
                   #FUserNameRef="ngModel"
                   required
                 />
-                <span *ngIf="newUserForm.submitted && uname.errors?.pattern" class="invalid-form">
+                <span *ngIf="uname.errors?.pattern" class="invalid-form">
                   <small class="form-text text-danger" *ngIf="uname.errors?.pattern">This field is required!</small>
                 </span>
               </div>
@@ -68,12 +68,12 @@
                 aria-describedby="basic-icon-default-email2"
                 name="email"
                 [(ngModel)]="email"
-                [class.error]="newUserForm.submitted && FEmailRef.invalid"
+                [class.error]="FEmailRef.invalid"
                 #FEmailRef="ngModel"
                 
                 required
               />
-              <span *ngIf="newUserForm.submitted && FEmailRef.invalid" class="invalid-form">
+              <span *ngIf="FEmailRef.invalid" class="invalid-form">
                 <small class="form-text text-danger" *ngIf="FEmailRef.errors.required">This field is required!</small>
               </span>
               <small class="form-text text-muted"> You can use letters, numbers & periods </small>
@@ -85,7 +85,7 @@
                   type="text"
                   id="basic-icon-default-email"
                   class="form-control dt-email"
-                  [class.error]="newUserForm.submitted && FTelRef.invalid"
+                  [class.error]="FTelRef.invalid"
                   placeholder="24724704"
                   aria-describedby="basic-icon-default-email2"
                   name="tel"
@@ -96,7 +96,7 @@
                   
                   required
                 />
-                <span *ngIf="newUserForm.submitted && uname.errors?.pattern" class="invalid-form">
+                <span *ngIf="uname.errors?.pattern" class="invalid-form">
                   <small class="form-text text-danger" *ngIf="uname.errors?.pattern">This field is required!</small>
                 </span>
                 <small class="form-text text-muted"> You can use only numbers </small>
