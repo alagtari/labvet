@@ -1,6 +1,6 @@
 import datetime
 import hashlib
-from fastapi import Depends,  HTTPException,APIRouter,Request
+from fastapi import Depends,APIRouter,Request
 from sqlalchemy.orm import Session
 import crud.users as users, schemas ,tokens
 from database import  SessionLocal

@@ -2,6 +2,7 @@
 
 import smtplib
 from email.message import EmailMessage
+from email.mime.text import MIMEText   
 
 class SendMail():
     msg = EmailMessage()
@@ -15,11 +16,25 @@ class SendMail():
 
     def setMsg(self):
       msg = EmailMessage()
-      msg.set_content(f"Bonjour {self.NAME},\n LABVET a le plaisir de vous annoncer la mise en place de la solution LABVET pour vous simplifier et améliorez le travail à l'aide d'outils simples, flexibles et sécurisés. \n Email :{self.EMAIL_ADDRESS_DEST} \n Mot de passe :{self.PASSWORD}")
       msg['Subject'] = "Message Officiel de LABVET: Votre nouveau compte LABVET"
       msg['From'] = self.EMAIL_ADDRESS
       msg['To'] = self.EMAIL_ADDRESS_DEST
+      html = """
+      <html>
+        <body>
+          <p><b>Python Mail Test</b><br>
+            This is HTML email with attachment.<br>
+            Click on <a href="https://fedingo.com">Fedingo Resources</a> 
+            for more python articles.
+          </p>
+        </body>
+      </html>
+      """
+      part = MIMEText(html, "html")
+      msg.set_content(part)
       return msg
+
+      
     def send(self):
         msg = self.setMsg()
         try:
