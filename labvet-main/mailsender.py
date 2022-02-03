@@ -24,9 +24,9 @@ class SendMail():
             html = f"""
       <html>
         <body>
-          <h1>Bienvenue {self.NAME},<br> vous étés ajouté dans notre plateforme </h1><br>
+          <h1>Bienvenue <span style="color:Red;">{self.NAME}</span>,<br>Vous avez été ajouté dans notre plateforme.</h1><br>
            <h3 style="font-weight: normal;"> vous pouvez connecter maintenant a travers ce lien : http://www.abvet.tn <br>
-           avec l'acces suivant : <br>
+           Avec l'acces suivant : <br>
            email :{self.EMAIL_ADDRESS_DEST} <br>
            password :{self.PASSWORD}
            </h3>
@@ -37,7 +37,7 @@ class SendMail():
         html = f"""
       <html>
         <body>
-          <h1>Bienvenue {self.NAME},<br> votre données de connection ont été modifiés</h1><br>
+          <h1>Bienvenue <span style="color:Red;">{self.NAME}</span>,<br> votre données de connection ont été modifiés</h1><br>
            <h3 style="font-weight: normal;"> vous pouvez connecter maintenant avec l'acces suivant : <br>
            email :{self.EMAIL_ADDRESS_DEST} <br>
            password :{self.PASSWORD}
@@ -62,10 +62,7 @@ class SendMail():
         except Exception:
          print(Exception)
 
-   
-    
-send =SendMail('agtari957@gmail.com','ybcviudloihrglfv','agtari957@gmail.com','09639893','ala','')
-send.send()
+  
 
 
  
