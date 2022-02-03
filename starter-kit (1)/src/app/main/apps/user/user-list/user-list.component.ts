@@ -269,6 +269,12 @@ export class UserListComponent implements OnInit {
    * On init
    */
   deleteUser(id) {
+    console.log(this.rows)
+    this.rows.map(row => {
+      if(row.id==id){
+        this.rows.splice(this.rows.indexOf(row) , 1)
+      }
+    })
     console.log(id)
     this._userListService.deleteUser(id).subscribe(
       result => {
@@ -278,9 +284,7 @@ export class UserListComponent implements OnInit {
               toastClass: 'toast ngx-toastr',
               closeButton: true
             });
-            setTimeout(() => {                           // <<<---using ()=> syntax
-              window.location.reload();
-            }, 1100);
+           
           }
 
           else if (result['status'] == 401) {

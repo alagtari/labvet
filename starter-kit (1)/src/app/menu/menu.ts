@@ -23,7 +23,7 @@ export const menu: CoreMenu[] = [
     title: 'PERSONNELS',
     translate: '',
     icon: 'package',
-    hidden : !(localStorage.getItem("role") == "Admin"),
+    role : ['Admin'],
     children: [
       {
         id: 'list',
@@ -31,7 +31,7 @@ export const menu: CoreMenu[] = [
         translate: '',
         type: 'item',
         icon: 'list',
-        hidden : !(localStorage.getItem("role") == "Admin"),
+        role : ['Admin'],
         url: 'apps/user/user-list'
       }
     ]

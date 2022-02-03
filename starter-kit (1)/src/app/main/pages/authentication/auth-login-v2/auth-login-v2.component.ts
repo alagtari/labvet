@@ -94,7 +94,6 @@ export class AuthLoginV2Component implements OnInit {
             user => {
               if (user) {
                 if (user['status'] == 200) {
-                  localStorage.setItem("reloaded"  , "true")
                   localStorage.setItem("role" , user['data']['role'])
                 }
                 else {

@@ -62,7 +62,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     // Get the application main menu
     this.menu = menu;
-
+    
     // Register the menu to the menu service
     this._coreMenuService.register('main', this.menu);
 
@@ -88,6 +88,10 @@ export class AppComponent implements OnInit, OnDestroy {
   /**
    * On init
    */
+
+  get condition(){
+    return localStorage.getItem("role") !=undefined
+  }
   ngOnInit(): void {
     // Init wave effect (Ripple effect)
     Waves.init();

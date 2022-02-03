@@ -1,4 +1,4 @@
-from sqlalchemy import BLOB, Column, Integer, String ,DATE, ForeignKey,Table,BigInteger
+from sqlalchemy import BLOB, TEXT, Column, Integer, String ,DATE, ForeignKey,Table,BigInteger
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -12,8 +12,8 @@ class User(Base):
     name = Column(String(40))
     cin = Column(String(8))
     tel = Column(String(8))
-    photo = Column(BLOB)
-    contrat = Column(BLOB)
+    photo = Column(TEXT)
+    contrat = Column(TEXT)
     role = Column(String(20))
     datecr = Column(BigInteger)
 

@@ -27,6 +27,8 @@ export class VerticalLayoutComponent implements OnInit, OnDestroy {
     this._unsubscribeAll = new Subject();
   }
 
+
+
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
 

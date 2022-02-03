@@ -179,12 +179,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
    * On init
    */
   ngOnInit(): void {
-    
-    if (localStorage.getItem("reloaded") == "true"){
-      
-      window.location.reload()
-      localStorage.setItem("reloaded" , "false")
-    }
     if (localStorage.getItem("currentUser")) {
       this.userService.getInfo().subscribe(
         user => {

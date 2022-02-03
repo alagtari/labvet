@@ -56,6 +56,6 @@ const routes: Routes = [
     CoreDirectivesModule,
     CoreSidebarModule
   ],
-  providers: [UserListService, UserEditService]
+  providers: [UserListService, UserEditService , UserListComponent]
 })
 export class UserModule { }

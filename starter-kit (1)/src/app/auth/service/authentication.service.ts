@@ -74,13 +74,15 @@ export class AuthenticationService {
 
             // notify
             this.currentUserSubject.next(user);
+            this.currentUserSubject.value.role = Role.User;
           }
-          console.log(user);
 
           return user;
         })
       );
   }
+
+  
 
   /**
    * User logout
