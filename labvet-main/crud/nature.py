@@ -1,7 +1,6 @@
 
 from sqlalchemy.orm import Session
 import models, schemas
-import mysql.connector
 
 def get_nature(db: Session, id: int):
     return db.query(models.Nature).filter(models.Nature.id == id).first()
@@ -19,7 +18,7 @@ def delete_nature(db: Session, id: int):
     return True
 
 def create_nature(db: Session, nature: schemas.nature):
-    nature = models.Nature(id= nature.id,designation=nature.designation)
+    nature = models.Nature(id= nature.id,designation=nature.designation,famille_id=nature.famille_id)
     db.add(nature)
     db.commit()
     return True
@@ -27,6 +26,7 @@ def create_nature(db: Session, nature: schemas.nature):
 def update_nature(db:Session ,nature: schemas.nature):
     db_nature = get_nature(db,nature.id)
     db_nature.designation = nature.designation
+    db_nature.famille_id = nature.famille_id
     db.commit()
     return True
 

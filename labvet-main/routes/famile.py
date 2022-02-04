@@ -110,6 +110,8 @@ def delete_famille(id :int ,request : Request , db: Session = Depends(get_db)):
         db_user = users.get_user_by_email(db, email=email)
         if db_user.role != 'Admin' :
           return {"status" : 403 , "message" : "Unauthorized"}  
+        if not famille.get_famille_by_id(db,id) :
+            return {"status" : 404 , "message" : "famille not found"}   
         famille.delete_famille(db,id)
         return {"status" :  200 , "message" : "famille deleted"}
     else:
