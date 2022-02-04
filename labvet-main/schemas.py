@@ -57,7 +57,8 @@ class source(BaseModel):
 
 class nature(BaseModel):
     id: int
-    designation : str    
+    designation : str  
+    famille_id :   
 
 class parametre(BaseModel):
     id: int
