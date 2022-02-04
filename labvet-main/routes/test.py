@@ -1,7 +1,7 @@
 from fastapi import Depends,APIRouter
 from sqlalchemy import null
 from sqlalchemy.orm import Session
-import crud.client as client, schemas ,tokens
+import crud.parametre as parametre, schemas ,tokens
 from database import  SessionLocal
 
 router = APIRouter(tags=['test'])
@@ -17,11 +17,7 @@ def get_db():
 
 
 
-@router.get('/get_demandes')
+@router.get('/get')
 def get_demandes(id :int, db: Session = Depends(get_db) ):
-    return client.get_demandes_by_cient(db , id)
+    return parametre.get_parametre_by_id(db,id).methodes
 
-@router.post('/add')
-def get_demandes(c:schemas.Client , db: Session = Depends(get_db) ):
-    return client.create_client(db,c)
-                

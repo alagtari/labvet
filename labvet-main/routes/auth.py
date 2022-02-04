@@ -17,7 +17,7 @@ def get_db():
 
 
 @router.post('/login')
-def login( db: Session = Depends(get_db),request:schemas.Login = Depends()):
+def login(request:schemas.Login, db: Session = Depends(get_db) ):
     db_user = users.get_user_by_email(db, email=request.username)
     if not db_user:
        return {'status' :404  , 'message' : "Adresse Email incorrecte." }

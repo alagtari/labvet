@@ -3,7 +3,6 @@ import hashlib
 import time
 from sqlalchemy.orm import Session
 import models, schemas
-import mysql.connector
 import datetime
 
 def get_user(db: Session, user_id: int):

@@ -4,9 +4,13 @@ import  models
 from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
 from database import  engine
-from  routes import auth,user,test as t
+from  routes import test as t, auth,user,famile,nature
 
-models.Base.metadata.create_all(bind=engine)
+
+
+models.Base.metadata.create_all(bind=engine)   
+    
+
 
 origins = ["*"]
 middleware = [ Middleware(CORSMiddleware, allow_origins=['*'], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])]
@@ -23,4 +27,6 @@ app.add_middleware(
 
 app.include_router(auth.router)
 app.include_router(user.router)
+app.include_router(famile.router)
+app.include_router(nature.router)
 app.include_router(t.router)

@@ -16,22 +16,19 @@ def delete_nature(db: Session, id: int):
     nature =db.query(models.Nature).filter(models.Nature.id == id).first()
     db.delete(nature)
     db.commit()
-    return {'status': 200}
+    return True
 
 def create_nature(db: Session, nature: schemas.nature):
     nature = models.Nature(id= nature.id,designation=nature.designation)
     db.add(nature)
     db.commit()
-    return {'status': 200}
+    return True
 
-def update_client(nature: schemas.nature):
-    mydb = mysql.connector.connect(host = "localhost" , client = "root" , password = "" , database = "labvet")
-    cursor = mydb.cursor()
-    sql ="UPDATE nature SET designation = %s WHERE id = %s"
-    val =  (nature.designation,nature.id)
-    cursor.execute(sql,val)
-    mydb.commit()
-    return {'status': 200}
+def update_nature(db:Session ,nature: schemas.nature):
+    db_nature = get_nature(db,nature.id)
+    db_nature.designation = nature.designation
+    db.commit()
+    return True
 
 
 
