@@ -45,7 +45,7 @@ export class UserEditService implements Resolve<any> {
         'Authorization': token
       })
     };
-    return this._httpClient.put<any>(`${environment.apiUrl}/users/update`, data, optionRequete).pipe(
+    return this._httpClient.put<any>(`${environment.apiUrl}/users/update`, JSON.parse(data), optionRequete).pipe(
       map(result => {
         if (result) {
           return result;

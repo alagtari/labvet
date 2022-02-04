@@ -22,14 +22,14 @@ export class NewUserSidebarComponent implements OnInit {
   public contrat_url;
 
 
-  @ViewChild(UserListComponent) childComponent: UserListComponent;
+  
   /**
    * Constructor
    *
    * @param {CoreSidebarService} _coreSidebarService
    * @param {ToastrService} _toastr
    */
-  constructor(private _coreSidebarService: CoreSidebarService, private _userService: UserListService, private _toastr: ToastrService) { }
+  constructor(private _coreSidebarService: CoreSidebarService, private _userService: UserListService, private _toastr: ToastrService , private _userlist:UserListComponent) { }
 
   /**
    * Toggle the sidebar
@@ -57,11 +57,14 @@ export class NewUserSidebarComponent implements OnInit {
         result => {
           console.log(result)
           if (result.status == 200) {
+            
+            
+            window.location.reload()
             this._toastr.success('Utilisateur créé', 'Succès!', {
               toastClass: 'toast ngx-toastr',
               closeButton: true
             });
-            this.childComponent.refreshFromParent();
+         
 
           }
           else if (result.status == 400) {

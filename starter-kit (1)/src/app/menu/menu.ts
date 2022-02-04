@@ -23,6 +23,7 @@ export const menu: CoreMenu[] = [
     title: 'PERSONNELS',
     translate: '',
     icon: 'package',
+    role : ['Admin'],
     children: [
       {
         id: 'list',
@@ -30,6 +31,7 @@ export const menu: CoreMenu[] = [
         translate: '',
         type: 'item',
         icon: 'list',
+        role : ['Admin'],
         url: 'apps/user/user-list'
       }
     ]

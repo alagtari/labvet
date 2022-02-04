@@ -3,7 +3,9 @@
 <!--/ NAVBAR -->
 
 <!-- MENU -->
-<ng-container *ngTemplateOutlet="menu"></ng-container>
+
+  <ng-container  *ngTemplateOutlet="menu"></ng-container>
+
 <!--/ MENU -->
 
 <!-- APP-CONTENT -->
@@ -43,22 +45,26 @@
 <!--/ NAVBAR -->
 
 <!-- MENU -->
-<ng-template #menu>
-  <core-sidebar
-    name="menu"
-    [collapsed]="coreConfig.layout.menu.collapsed"
-    collapsibleSidebar="bs-gt-xl"
-    *ngIf="!coreConfig.layout.menu.hidden"
-    class="main-menu menu-fixed menu-accordio menu-shadow"
-    overlayClass="sidenav-overlay"
-    [ngClass]="[
-      coreConfig.layout.skin === 'semi-dark' || coreConfig.layout.skin === 'dark' ? 'menu-dark' : 'menu-light',
-      coreConfig.layout.menu.collapsed ? '' : 'expanded'
-    ]"
-  >
-    <app-menu menuType="vertical-menu" class="vertical-menu"></app-menu>
-  </core-sidebar>
-</ng-template>
+
+  <ng-template #menu >
+    <core-sidebar
+      name="menu"
+      [collapsed]="coreConfig.layout.menu.collapsed"
+      collapsibleSidebar="bs-gt-xl"
+      *ngIf="!coreConfig.layout.menu.hidden"
+      class="main-menu menu-fixed menu-accordio menu-shadow"
+      overlayClass="sidenav-overlay"
+      [ngClass]="[
+        coreConfig.layout.skin === 'semi-dark' || coreConfig.layout.skin === 'dark' ? 'menu-dark' : 'menu-light',
+        coreConfig.layout.menu.collapsed ? '' : 'expanded'
+      ]"
+    >
+      <app-menu menuType="vertical-menu" class="vertical-menu"></app-menu>
+    </core-sidebar>
+  </ng-template>
+
+
+
 <!--/ MENU -->
 
 <!-- FOOTER -->
