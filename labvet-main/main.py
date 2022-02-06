@@ -4,7 +4,7 @@ import  models
 from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
 from database import  engine
-from  routes import test as t, auth,user,famile,nature,methode,echantillon
+from  routes import test as t, auth,user,famile,nature,methode,echantillon,client,demande
 
 
 
@@ -32,4 +32,6 @@ app.include_router(famile.router)
 app.include_router(nature.router)
 app.include_router(methode.router)
 app.include_router(echantillon.router)
+app.include_router(client.router)
+app.include_router(demande.router)
 app.include_router(t.router)
