@@ -48,33 +48,10 @@ async def create_methode(meth:schemas.methode ,request : Request , db: Session =
 
 
 
-@router.put("/methodes/update")
-def update_methode(meth: schemas.methode,request : Request , db: Session = Depends(get_db)):
-    token = request.headers.get('Authorization')
-    if (tokens.verify_token(token)):
-        decoded = tokens.decode_token(token)
-        email = decoded['user']['data']
-        db_user = users.get_user_by_email(db, email=email)
-        if db_user.role != 'Admin' :
-          return {"status": 403 , "message" : "Unauthorized"}
-        if not methode.get_methode(db,meth.id):
-           return {"status" : 404 , "message":"methode not found"} 
-        methode.update_methode(db,meth)                       
-        return {"status" : 200 , "message":"methode updated"} 
-    else:
-        return {"status": 401 , "message" : "Token expired!"}
-
 @router.get("/methodes/byid")
 def get_methode_by_id(id :int ,request : Request , db: Session = Depends(get_db)):
     token = request.headers.get('Authorization')
     if (tokens.verify_token(token)):
-        decoded = tokens.decode_token(token)
-        email = decoded['user']['data']
-        db_user = users.get_user_by_email(db, email=email)
-        if db_user.role != 'Admin' :
-          return {"status" : 403 , "message" : "Unauthorized"} 
-        if db_user.role != 'Admin' :
-              return {"status" : 403 , "message" : "Unauthorized"} 
         meth = methode.get_methode(db,id)
         if not meth :
             return {"status" : 404 , "message" : "methode not found"}    
@@ -86,13 +63,6 @@ def get_methode_by_id(id :int ,request : Request , db: Session = Depends(get_db)
 def get_Parametres_by_methode_id(id :int ,request : Request , db: Session = Depends(get_db)):
     token = request.headers.get('Authorization')
     if (tokens.verify_token(token)):
-        decoded = tokens.decode_token(token)
-        email = decoded['user']['data']
-        db_user = users.get_user_by_email(db, email=email)
-        if db_user.role != 'Admin' :
-          return {"status" : 403 , "message" : "Unauthorized"} 
-        if db_user.role != 'Admin' :
-              return {"status" : 403 , "message" : "Unauthorized"} 
         m = methode.get_methode(db,id)
         if not m:
             return {"status" : 404 , "message" : "methode not found"}    

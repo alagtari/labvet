@@ -10,7 +10,7 @@ def get_clients_by_email(db: Session, email: str):
     return db.query(models.Client).filter(models.Client.email == email).first()
 
 
-def get_clientss(db: Session):
+def get_clients(db: Session):
     return db.query(models.Client).all()
 
 def delete_client(db: Session, idc: int):

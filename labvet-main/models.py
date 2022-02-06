@@ -1,4 +1,4 @@
-from sqlalchemy import BLOB, TEXT, Column, Integer, String ,DATE, ForeignKey,Table,BigInteger
+from sqlalchemy import BLOB, LargeBinary, Column, Integer, String ,DATE, ForeignKey,Table,BigInteger,LargeBinary
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -12,8 +12,8 @@ class User(Base):
     name = Column(String(40))
     cin = Column(String(8))
     tel = Column(String(8))
-    photo = Column(TEXT)
-    contrat = Column(TEXT)
+    photo = Column(LargeBinary(length=(2**32)-1))
+    contrat = Column(LargeBinary(length=(2**32)-1))
     role = Column(String(20))
     datecr = Column(BigInteger)
 
@@ -53,18 +53,23 @@ parametre_methode = Table('Parametre_methode', Base.metadata,
 
 parametre_echantillon = Table('Parametre_echantillon', Base.metadata,
     Column('parametre_id', ForeignKey('parametre.id')),
-    Column('echantillon_ref', ForeignKey('echantillon.ref'))
+    Column('echantillon_refCodebarre', ForeignKey('echantillon.refCodebarre'))
 ) 
 
 demande_echantillon = Table('demande_echantillon', Base.metadata,
     Column('demande_ref', ForeignKey('demande.ref')),
-    Column('echantillon_ref', ForeignKey('echantillon.ref'))
+    Column('echantillon_refCodebarre', ForeignKey('echantillon.refCodebarre'))
 )
+
+nature_echantillon = Table('nature_echantillon', Base.metadata,
+    Column('nature_id', ForeignKey('nature.id')),
+    Column('echantillon_refCodebarre', ForeignKey('echantillon.refCodebarre'))
+)    
 
 class Demande(Base):
     __tablename__ = "demande"
 
-    ref = Column(String(20), primary_key=True, index=True)
+    ref = Column(Integer, primary_key=True, index=True)
     observation = Column(String(40), unique=True, index=True)
     date_reception = Column(BigInteger)
     preleveur = Column(String(100))
@@ -76,15 +81,16 @@ class Demande(Base):
 
 class Echantillon(Base):
     __tablename__ = "echantillon"
-
-    ref = Column(String(20), primary_key=True, index=True)
-    barcode = Column(BLOB)
+    refCodebarre = Column(String(40), primary_key=True, index=True)
+    id = Column(Integer,autoincrement=True)
+    barcode = Column(LargeBinary(length=(2**32)-1))
+    ref = Column(String(2))
     quantite = Column(Integer)
     nlot = Column(Integer)
     temperature = Column(String(20)) 
-    demande = relationship("Demande",secondary=demande_echantillon)
+    demandes = relationship("Demande",secondary=demande_echantillon)
     parametres = relationship("Parametre",secondary=parametre_echantillon)
-
+    natures = relationship("Nature",secondary=nature_echantillon)
 
 
 class Parametre(Base):
@@ -119,5 +125,6 @@ class Nature(Base):
     famille_id = Column(Integer, ForeignKey('famille.idf'))
     famille = relationship("Famille", back_populates="natures")
     parametres = relationship("Parametre",secondary=parametre_nature)
+    echantillons = relationship("Echantillon",secondary=nature_echantillon)
 
     

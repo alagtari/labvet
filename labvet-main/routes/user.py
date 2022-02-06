@@ -1,4 +1,3 @@
-import datetime
 import hashlib
 from fastapi import Depends,APIRouter,Request
 from sqlalchemy.orm import Session
@@ -19,7 +18,7 @@ def get_db():
 
 
 
-ADMIN_EMAIL_ADDRESS = ''
+ADMIN_EMAIL_ADDRESS = 'agtari957@gmail.com'
 ADMIN_EMAIL_PASSWORD = ''
 
 #lawem ma yrajaach pwd
@@ -57,8 +56,8 @@ async def create_user(request : Request , db: Session = Depends(get_db)):
         db_user = users.get_user_by_email(db, email=body['email'])
         if db_user:
           return {"status" : 400 , "message" : "User already exists"}
-        #mail = SendMail(ADMIN_EMAIL_ADDRESS,ADMIN_EMAIL_PASSWORD,body['email'],body['cin'],body['name'],'new')
-        #mail.send() 
+        mail = SendMail(ADMIN_EMAIL_ADDRESS,ADMIN_EMAIL_PASSWORD,body['email'],body['cin'],body['name'],'new')
+        mail.send() 
         password = hashlib.md5(body['cin'].encode())
         users.create_user(db=db, user=body,mdp=password.hexdigest())
         return   {"status" : 200 , "message": "user created."}
@@ -79,8 +78,8 @@ def update_user(user: schemas.UserBaseMini,request : Request , db: Session = Dep
         if db_user.role != 'Admin' :
           return {"status": 403 , "message" : "Unauthorized"}
         if users.update_user(user=user,db=db):
-           #mail = SendMail(ADMIN_EMAIL_ADDRESS,ADMIN_EMAIL_PASSWORD,user.email,user.cin,user.name,'update')
-           #mail.send() 
+           mail = SendMail(ADMIN_EMAIL_ADDRESS,ADMIN_EMAIL_PASSWORD,user.email,user.cin,user.name,'update')
+           mail.send() 
            print('')
         return {"status" : 200 , "message":"User updated"} 
     else:
