@@ -23,24 +23,27 @@ def delete_echantillon(db: Session, ref_codebarre:str):
 
 def create_echantillon(db: Session, echantillon: schemas.echantillon ):
     n = nature.get_nature(db,echantillon.idn)
-    ref_codebarre = str(echantillon.idd)+echantillon.ref + str(echantillon.idn)+str(n.famille_id)+str(echantillon.idp)+'000000'
+    ref_codebarre = '000000'+str(echantillon.idd)+echantillon.ref + str(echantillon.idn)+str(n.famille_id)+str(echantillon.idp)
+    db_echantillon = models.Echantillon(refCodebarre= ref_codebarre,id= echantillon.id,ref= echantillon.ref ,quantite=echantillon.quantite,nlot=echantillon.nlot,temperature=echantillon.temperature)
+    db.add(db_echantillon)
+    db.commit()
 
     my_code = EAN13(ref_codebarre, writer=ImageWriter()) 
     my_code.save("code_a_barre")
 
-    with open('code_a_barre.png', encoding='utf-8') as f :
+    echan =  db.query(models.Echantillon).filter(models.Echantillon.refCodebarre == ref_codebarre).first()
+    ref_codebarre = ref_codebarre + str(db_echantillon.id)
+    echan.refCodebarre = ref_codebarre 
+    with open('code_a_barre.png', 'rb') as f :
         barcode = f.read()
-       
-        
-        
-
-    db_echantillon = models.Echantillon(refCodebarre= ref_codebarre,id= echantillon.id,ref= echantillon.ref ,barcode=barcode,quantite=echantillon.quantite,nlot=echantillon.nlot,temperature=echantillon.temperature)
+    echan.barcode = barcode
+    db.commit()
     st = models.parametre_echantillon.insert().values(parametre_id= echantillon.idp , echantillon_refCodebarre=ref_codebarre)
     st2 = models.nature_echantillon.insert().values(nature_id= echantillon.idn , echantillon_refCodebarre=ref_codebarre)
     st3 = models.demande_echantillon.insert().values(demande_ref= echantillon.idd , echantillon_refCodebarre=ref_codebarre)
 
-    db.add(db_echantillon)
-    db.commit()
+    
+    
     db.execute(st)
     db.commit()
     db.execute(st2)

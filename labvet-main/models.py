@@ -82,7 +82,7 @@ class Demande(Base):
 class Echantillon(Base):
     __tablename__ = "echantillon"
     refCodebarre = Column(String(40), primary_key=True, index=True)
-    id = Column(Integer,autoincrement=True)
+    id = Column(Integer,autoincrement=True, nullable=False,)
     barcode = Column(LargeBinary(length=(2**32)-1))
     ref = Column(String(2))
     quantite = Column(Integer)

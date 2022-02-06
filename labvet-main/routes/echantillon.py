@@ -1,6 +1,6 @@
 from fastapi import Depends,APIRouter,Request
 from sqlalchemy.orm import Session
-import crud.users as users,crud.echantillon as echantillon,crud.nature as nature,crud.parametre as parametre, schemas ,tokens
+import crud.demande as demande,crud.echantillon as echantillon,crud.nature as nature,crud.parametre as parametre, schemas ,tokens
 from database import  SessionLocal
 
 
@@ -37,6 +37,12 @@ async def create_echantillon(ech:schemas.echantillon ,request : Request , db: Se
         db_echantillon = echantillon.get_echantillon_by_ref_codebarre(db,ech.ref_codebarre)
         if db_echantillon:
           return {"status" : 400 , "message" : "echantillon already exists"} 
+        if not parametre.get_parametre_by_id(db,ech.idp) :
+            return   {"status" : 404 , "message" : "parametre not found."} 
+        if not nature.get_nature(db,ech.idn) :
+            return   {"status" : 404 , "message" : "nature not found."}  
+        if not demande.get_demande_by_ref(db,ech.idd) :
+            return   {"status" : 404 , "message" : "demande not found."}      
         echantillon.create_echantillon(db,ech)
         return   {"status" : 200 , "message": "echantillon created."}
     else:
