@@ -1,6 +1,6 @@
 
 from sqlalchemy.orm import Session
-import models, schemas ,crud.nature as nature ,crud.parametre as parametre ,crud.demande as demande 
+import models, schemas ,crud.nature as nature 
 from barcode import EAN13 
 from barcode.writer import ImageWriter 
 import base64

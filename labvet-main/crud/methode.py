@@ -18,8 +18,8 @@ def delete_methode(db: Session, id: int):
     return True
 
 def create_methode(db: Session, methode: schemas.methode):
-    methode = models.Methode(id= methode.id,designation=methode.designation)
-    db.add(methode)
+    m = models.Methode(id= methode.id,designation=methode.designation)
+    db.add(m)
     db.commit()
     return True
 
@@ -32,3 +32,4 @@ def update_methode(db: Session,methode: schemas.methode):
 
 
     
+ 
