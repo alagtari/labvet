@@ -70,6 +70,7 @@ class famille(BaseModel):
 
 
 class echantillonUpdate(BaseModel):
+    id :int
     ref :str
     quantite :int
     nlot :int 

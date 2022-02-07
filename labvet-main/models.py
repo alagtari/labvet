@@ -50,21 +50,7 @@ parametre_methode = Table('Parametre_methode', Base.metadata,
     Column('parametre_id', ForeignKey('parametre.id')),
     Column('methode_id', ForeignKey('methode.id'))
 ) 
-
-parametre_echantillon = Table('Parametre_echantillon', Base.metadata,
-    Column('parametre_id', ForeignKey('parametre.id')),
-    Column('echantillon_refCodebarre', ForeignKey('echantillon.refCodebarre'))
-) 
-
-demande_echantillon = Table('demande_echantillon', Base.metadata,
-    Column('demande_ref', ForeignKey('demande.ref')),
-    Column('echantillon_refCodebarre', ForeignKey('echantillon.refCodebarre'))
-)
-
-nature_echantillon = Table('nature_echantillon', Base.metadata,
-    Column('nature_id', ForeignKey('nature.id')),
-    Column('echantillon_refCodebarre', ForeignKey('echantillon.refCodebarre'))
-)    
+ 
 
 class Demande(Base):
     __tablename__ = "demande"
@@ -76,21 +62,10 @@ class Demande(Base):
     controle = Column(String(100))
     client_id = Column(Integer, ForeignKey('client.idc'))
     client = relationship("Client", back_populates="demandes")
-    echantillons = relationship("Echantillon",secondary=demande_echantillon)
+    echantillons = relationship("Echantillon", back_populates="demande")
 
 
-class Echantillon(Base):
-    __tablename__ = "echantillon"
-    refCodebarre = Column(String(40), primary_key=True, index=True)
-    id = Column(Integer,autoincrement=True, nullable=False,unique=True,)
-    barcode = Column(LargeBinary(length=(2**32)-1))
-    ref = Column(String(2))
-    quantite = Column(Integer)
-    nlot = Column(Integer)
-    temperature = Column(String(20)) 
-    demandes = relationship("Demande",secondary=demande_echantillon)
-    parametres = relationship("Parametre",secondary=parametre_echantillon)
-    natures = relationship("Nature",secondary=nature_echantillon)
+
 
 
 class Parametre(Base):
@@ -98,7 +73,7 @@ class Parametre(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     nomp = Column(String(40))
-    echantillons = relationship("Echantillon",secondary=parametre_echantillon)
+    echantillons = relationship("Echantillon", back_populates="parametre")
     methodes = relationship("Methode",secondary=parametre_methode)
     natures = relationship("Nature",secondary=parametre_nature)
 
@@ -125,6 +100,22 @@ class Nature(Base):
     famille_id = Column(Integer, ForeignKey('famille.idf'))
     famille = relationship("Famille", back_populates="natures")
     parametres = relationship("Parametre",secondary=parametre_nature)
-    echantillons = relationship("Echantillon",secondary=nature_echantillon)
+    echantillons = relationship("Echantillon", back_populates="nature")
 
+    
+class Echantillon(Base):
+    __tablename__ = "echantillon"
+    id = Column(Integer, primary_key=True, index=True)
+    barcode = Column(LargeBinary(length=(2**32)-1))
+    ref = Column(String(2))
+    quantite = Column(Integer)
+    nlot = Column(Integer)
+    temperature = Column(String(20)) 
+    datecr = Column(BigInteger)
+    idd = Column(Integer, ForeignKey('demande.ref'))
+    idn = Column(Integer, ForeignKey('nature.id'))
+    idp = Column(Integer, ForeignKey('parametre.id'))
+    demande = relationship("Demande", back_populates="echantillons")
+    parametre = relationship("Parametre", back_populates="echantillons")
+    nature = relationship("Nature", back_populates="echantillons")
     
