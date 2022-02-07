@@ -17,7 +17,7 @@ def delete_echantillon(db: Session, id:int):
     db_echantillon =db.query(models.Echantillon).filter(models.Echantillon.id == id).first()
     db.delete(db_echantillon)
     db.commit()
-    return True
+    return True 
 
 def create_echantillon(db: Session, echantillon: schemas.echantillon ):
     n = nature.get_nature(db,echantillon.idn)
