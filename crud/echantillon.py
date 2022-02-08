@@ -20,13 +20,12 @@ def delete_echantillon(db: Session, id:int):
     return True 
 
 def create_echantillon(db: Session, echantillon: schemas.echantillon ):
-    n = nature.get_nature(db,echantillon.idn)
     datecr = round(time.time() * 1000)
     db_echantillon = models.Echantillon(id= echantillon.id,idn= echantillon.idn,idp= echantillon.idp,idd= echantillon.idd,ref= echantillon.ref ,quantite=echantillon.quantite,nlot=echantillon.nlot,temperature=echantillon.temperature,datecr=datecr)
     db.add(db_echantillon)
     db.commit()
     db_echantillon =db.query(models.Echantillon).filter(models.Echantillon.datecr == datecr).first()
-    ref_codebarre = str(db_echantillon.idd)+'00000'+db_echantillon.ref+str(db_echantillon.idn)+str(n.famille_id)+str(db_echantillon.idp)+str(db_echantillon.id)
+    ref_codebarre = str(db_echantillon.idd)+'0000000'+db_echantillon.ref+str(db_echantillon.idn)+str(db_echantillon.idp)+str(db_echantillon.id)
     print(ref_codebarre)
     my_code = EAN13(ref_codebarre, writer=ImageWriter()) 
     my_code.save("code_a_barre")

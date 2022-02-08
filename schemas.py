@@ -51,14 +51,10 @@ class methode(BaseModel):
     id: int
     designation : str
 
-class source(BaseModel):
-    id: int
-    designation : str
-
 class nature(BaseModel):
     id: int
     designation : str  
-    famille_id :  int 
+    
 
 class parametre(BaseModel):
     id: int
@@ -67,6 +63,7 @@ class parametre(BaseModel):
 class famille(BaseModel):
     idf: int
     nomf : str
+    idn :  int 
 
 
 class echantillonUpdate(BaseModel):

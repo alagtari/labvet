@@ -67,7 +67,7 @@ def get_famille_by_nature_id(id :int ,request : Request , db: Session = Depends(
         n = nature.get_nature(db,id)
         if not n:
             return {"status" : 404 , "message" : "nature not found"}    
-        return {"status" :  200 , "data" : n.famille }
+        return {"status" :  200 , "data" : n.familles }
     else:
         return{"status" : 401 ,"message":"token expired"}
     
