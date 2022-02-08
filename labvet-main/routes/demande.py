@@ -4,7 +4,7 @@ import crud.demande as demande, schemas ,tokens
 from database import  SessionLocal
 
 
-router = APIRouter(tags=['nature'])
+router = APIRouter(tags=['demande'])
 
 db = Session()
 def get_db():

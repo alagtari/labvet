@@ -24,8 +24,8 @@ class SendMail():
             html = f"""
       <html>
         <body>
-          <h1>Bienvenue <span style="color:Red;">{self.NAME}</span>,<br>Vous avez été ajouté dans notre plateforme.</h1><br>
-           <h3 style="font-weight: normal;"> vous pouvez connecter maintenant a travers ce lien : http://www.abvet.tn <br>
+          <h1>Bienvenue <span style="color:#4169E1;">{self.NAME}</span>,<br>Vous avez été ajouté dans notre plateforme.</h1><br>
+           <h3 style="font-weight: normal;"> vous pouvez connecter maintenant a travers ce lien : http://www.labvet.tn <br>
            Avec l'acces suivant : <br>
            email :{self.EMAIL_ADDRESS_DEST} <br>
            password :{self.PASSWORD}
@@ -37,7 +37,7 @@ class SendMail():
         html = f"""
       <html>
         <body>
-          <h1>Bienvenue <span style="color:Red;">{self.NAME}</span>,<br> votre données de connection ont été modifiés</h1><br>
+          <h1>Bienvenue <span style="color:#4169E1;">{self.NAME}</span>,<br> votre données de connection ont été modifiés</h1><br>
            <h3 style="font-weight: normal;"> vous pouvez connecter maintenant avec l'acces suivant : <br>
            email :{self.EMAIL_ADDRESS_DEST} <br>
            password :{self.PASSWORD}

@@ -89,7 +89,8 @@ class Famille(Base):
 
     idf = Column(Integer, primary_key=True, index=True)
     nomf = Column(String(40))
-    natures = relationship("Nature", back_populates="famille")
+    nature_id = Column(Integer, ForeignKey('nature.id'))
+    nature = relationship("Nature", back_populates="familles")
 
 
 class Nature(Base):
@@ -97,8 +98,7 @@ class Nature(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     designation = Column(String(40))
-    famille_id = Column(Integer, ForeignKey('famille.idf'))
-    famille = relationship("Famille", back_populates="natures")
+    familles = relationship("Famille", back_populates="nature")
     parametres = relationship("Parametre",secondary=parametre_nature)
     echantillons = relationship("Echantillon", back_populates="nature")
 

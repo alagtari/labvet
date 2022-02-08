@@ -26,7 +26,7 @@ def create_echantillon(db: Session, echantillon: schemas.echantillon ):
     db.add(db_echantillon)
     db.commit()
     db_echantillon =db.query(models.Echantillon).filter(models.Echantillon.datecr == datecr).first()
-    ref_codebarre = str(db_echantillon.idd)+'00000'+db_echantillon.ref+str(db_echantillon.idn)+str(n.famille_id)+str(db_echantillon.idp)+str(db_echantillon.id)
+    ref_codebarre = str(db_echantillon.idd)+'000000'+db_echantillon.ref+str(db_echantillon.idn)+str(db_echantillon.idp)+str(db_echantillon.id)
     print(ref_codebarre)
     my_code = EAN13(ref_codebarre, writer=ImageWriter()) 
     my_code.save("code_a_barre")

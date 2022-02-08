@@ -59,7 +59,7 @@ def get_methode_by_id(id :int ,request : Request , db: Session = Depends(get_db)
     else:
         return{"status" : 401 ,"message":"token expired"}
     
-@router.get("/natures/getParametresByMthode")
+@router.get("/methodes/getParametresByMthode")
 def get_Parametres_by_methode_id(id :int ,request : Request , db: Session = Depends(get_db)):
     token = request.headers.get('Authorization')
     if (tokens.verify_token(token)):

@@ -7,7 +7,11 @@ def get_famille_by_id(db: Session, idf: str):
 
 
 def get_familles(db: Session):
-    return db.query(models.Famille).all()
+    faimlles = db.query(models.Famille).all()
+    for faimlle in faimlles:
+        fam = faimlle.nature
+    return faimlles    
+
 
 def delete_famille(db: Session, idf: str):
     db_famille =db.query(models.Famille).filter(models.Famille.idf == idf).first()
@@ -16,7 +20,7 @@ def delete_famille(db: Session, idf: str):
     return True
 
 def create_famille(db: Session, famille: schemas.famille):
-    db_famille = models.Famille(idf= famille.idf ,nomf=famille.nomf)
+    db_famille = models.Famille(idf= famille.idf ,nomf=famille.nomf,nature_id=famille.idn)
     db.add(db_famille)
     db.commit()
     return True
@@ -29,7 +33,7 @@ def update_famille(db: Session,famille: schemas.famille):
 
 def get_natures_by_famille(db: Session,idf :str) :
     famille = get_famille_by_id(db, idf)
-    return famille.natures
+    return famille.nature
 
 
     

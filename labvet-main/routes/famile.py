@@ -60,17 +60,7 @@ def get_famille_by_id(id :int ,request : Request , db: Session = Depends(get_db)
     else:
         return{"status" : 401 ,"message":"token expired"}
     
-@router.get("/familles/getNaturesByFamId")
-def get_natures_by_famille_id(id :int ,request : Request , db: Session = Depends(get_db)):
-    token = request.headers.get('Authorization')
-    if (tokens.verify_token(token)):
-        f = famille.get_famille_by_id(db,id)
-        if not f :
-            return {"status" : 404 , "message" : "famille not found"}    
-        return {"status" :  200 , "data" : f.natures }
-    else:
-        return{"status" : 401 ,"message":"token expired"}
-    
+
 
 @router.delete("/familles/delete")
 def delete_famille(id :int ,request : Request , db: Session = Depends(get_db)):

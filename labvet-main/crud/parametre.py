@@ -27,17 +27,5 @@ def update_parametre(db: Session,parametre: schemas.parametre):
     db.commit()
     return True
 
-def get_echantillons_by_parametre(db: Session,id :str) :
-    parametre = get_parametre_by_id(db, id)
-    return parametre.echantillons
-
-def get_natures_by_parametre(db: Session,id :str) :
-    parametre = get_parametre_by_id(db, id)
-    return parametre.natures
-
-def get_methodes_by_parametre(db: Session,id :str) :
-    parametre = get_parametre_by_id(db, id)
-    return parametre.methodes
-
 
     
