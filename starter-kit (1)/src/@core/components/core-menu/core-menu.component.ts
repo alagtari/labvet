@@ -49,9 +49,7 @@ export class CoreMenuComponent implements OnInit {
       this.currentUser = this._coreMenuService.currentUser;
 
       // Load menu
-        this.menu = this._coreMenuService.getCurrentMenu();
-
-      
+      this.menu = this._coreMenuService.getCurrentMenu();
 
       this._changeDetectorRef.markForCheck();
     });

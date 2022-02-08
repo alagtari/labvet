@@ -80,9 +80,9 @@ export class UserListComponent implements OnInit {
     private _coreConfigService: CoreConfigService,
     private _toastr: ToastrService,
     private _router: Router,
-    private modalservice : NgbModal,
-    private _userEditService : UserEditService,
-    private router : Router
+    private modalservice: NgbModal,
+    private _userEditService: UserEditService,
+    private router: Router
   ) {
     this._unsubscribeAll = new Subject();
   }
@@ -113,7 +113,7 @@ export class UserListComponent implements OnInit {
    *
    * @param form
    */
-  submit(form  , modal) {
+  submit(form, modal) {
     if (form.valid) {
       form.form.value.photo = this.avatarImage;
       form.form.value.id = parseInt(this.urlLastValue);
@@ -122,13 +122,13 @@ export class UserListComponent implements OnInit {
         result => {
           if (result) {
             if (result['status'] == 200) {
-              this._toastr.success('aaaaa', 'aaaa', {
+              this._toastr.success('Utilisateur modifié', 'Succès!', {
                 toastClass: 'toast ngx-toastr',
                 closeButton: true
               });
               modal.close('Accept click')
               setTimeout(() => {                           // <<<---using ()=> syntax
-                this.router.navigate(['/apps/user/user-list']);
+                window.location.reload()
               }, 1100);
 
             }
@@ -147,23 +147,23 @@ export class UserListComponent implements OnInit {
     }
   }
 
-   modalOpenSM(modalSM  , id) {
-     this.modal = modalSM;
-     this.urlLastValue = id;
+  modalOpenSM(modalSM, id) {
+    this.modal = modalSM;
+    this.urlLastValue = id;
     this.modalservice.open(modalSM, {
       centered: true,
       size: 'lg' // size: 'xs' | 'sm' | 'lg' | 'xl'
     });
-    
-      this.rows.map(row => {
-        console.log(row)
-        if (row.id == id) {
-          this.currentRow = row;
-          this.avatarImage = this.currentRow.photo;
-          this.tempRow = cloneDeep(row);
-        }
-      });
-   
+
+    this.rows.map(row => {
+      console.log(row)
+      if (row.id == id) {
+        this.currentRow = row;
+        this.avatarImage = this.currentRow.photo;
+        this.tempRow = cloneDeep(row);
+      }
+    });
+
   }
 
   showContrat(contrat: any) {
@@ -271,8 +271,8 @@ export class UserListComponent implements OnInit {
   deleteUser(id) {
     console.log(this.rows)
     this.rows.map(row => {
-      if(row.id==id){
-        this.rows.splice(this.rows.indexOf(row) , 1)
+      if (row.id == id) {
+        this.rows.splice(this.rows.indexOf(row), 1)
       }
     })
     console.log(id)
@@ -284,7 +284,7 @@ export class UserListComponent implements OnInit {
               toastClass: 'toast ngx-toastr',
               closeButton: true
             });
-           
+
           }
 
           else if (result['status'] == 401) {

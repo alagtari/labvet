@@ -78,6 +78,7 @@
               <ng-template let-row="row" let-name="value" ngx-datatable-cell-template>
                 <div class="d-flex align-items-center">
                   <div *ngIf="row.photo.length > 0; else customAvatar">
+                    
                     <img
                       class="rounded-circle mr-1"
                       src="{{ row.photo }}"
@@ -310,11 +311,12 @@
                                 <div class="form-group">
                                   <label for="email">Password</label>
                                   <input
-                                    type="password"
+                                    type="text"
                                     class="form-control"
                                     placeholder="********"
                                     name="password"
-                                    [(ngModel)]="currentRow.cin"
+                                    [(ngModel)]="currentRow.password"
+                                    value = "currentRow.password"
                                     [class.error]="accountForm.submitted && EmailRef.invalid"
                                     #EmailRef="ngModel"
                                     

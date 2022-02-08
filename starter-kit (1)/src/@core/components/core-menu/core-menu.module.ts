@@ -29,4 +29,4 @@ CoreMenuVerticalCollapsibleComponent;
     CoreMenuHorizontalCollapsibleComponent
   ]
 })
-export class CoreMenuModule {}
+export class CoreMenuModule { }

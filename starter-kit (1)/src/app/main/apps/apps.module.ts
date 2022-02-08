@@ -13,13 +13,19 @@ const routes: Routes = [
   {
     path: 'user',
     loadChildren: () => import('./user/user.module').then(m => m.UserModule)
-  }
+  },
+  {
+    path: 'gestion',
+    loadChildren: () => import('./gestion/gestion.module').then(m => m.GestionModule)
+  },
+
 ];
 
 FullCalendarModule.registerPlugins([dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]);
 
 @NgModule({
-  declarations: [],
+  declarations: [
+  ],
   imports: [CommonModule, RouterModule.forChild(routes)]
 })
-export class AppsModule {}
+export class AppsModule { }

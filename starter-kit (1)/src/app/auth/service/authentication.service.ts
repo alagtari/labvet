@@ -56,7 +56,7 @@ export class AuthenticationService {
     const md5_pwd = hash.toString(CryptoJS.enc.Hex)
     console.log(md5_pwd)
     return this._http
-      .post<any>(`${environment.apiUrl}/login?username=${email}&password=${md5_pwd}`, { "username": email, "password": password, "grant_type": "", "scope": [], "client_id": "", "client_secret": "" })
+      .post<any>(`${environment.apiUrl}/login?username=${email}&password=${md5_pwd}`, { "username": email, "password": md5_pwd, "grant_type": "", "scope": [], "client_id": "", "client_secret": "" })
       .pipe(
         map(user => {
           // login successful if there's a jwt token in the response
@@ -67,14 +67,17 @@ export class AuthenticationService {
             // Display welcome toast!
             setTimeout(() => {
               this._toastrService.success(
-                'Vous vous êtes connecté avec succès à Labvet.','👋 Bienvenue',
+                'Vous vous êtes connecté avec succès à Labvet.', '👋 Bienvenue',
                 { toastClass: 'toast ngx-toastr', closeButton: true }
               );
             }, 2500);
 
             // notify
             this.currentUserSubject.next(user);
-            this.currentUserSubject.value.role = Role.User;
+            console.log(this.currentUserSubject.value)
+            console.log("###########")
+            console.log(this.currentUser)
+
           }
 
           return user;
@@ -82,7 +85,7 @@ export class AuthenticationService {
       );
   }
 
-  
+
 
   /**
    * User logout
