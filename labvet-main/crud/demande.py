@@ -2,14 +2,14 @@
 from sqlalchemy.orm import Session
 import models, schemas
 
-def get_demande_by_ref(db: Session, ref: str):
+def get_demande_by_ref(db: Session, ref: int):
     return db.query(models.Demande).filter(models.Demande.ref == ref).first()
 
 
 def get_demandes(db: Session):
     return db.query(models.Demande).all()
 
-def delete_demande(db: Session, ref: str):
+def delete_demande(db: Session, ref: int):
     db_demande =db.query(models.Demande).filter(models.Demande.ref == ref).first()
     db.delete(db_demande)
     db.commit()
@@ -31,12 +31,12 @@ def update_demande(db: Session,demande: schemas.Demande):
     db.commit()
     return True
 
-def get_client_by_demande(db: Session,ref :str) :
+def get_client_by_demande(db: Session,ref :int) :
     demande = get_demande_by_ref(db, ref)
     return demande.client
 
 
-def get_echantillons_by_demande(db: Session,ref :str) :
+def get_echantillons_by_demande(db: Session,ref :int) :
     demande = get_demande_by_ref(db, ref)
     return demande.echantillons
 

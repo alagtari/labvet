@@ -16,10 +16,12 @@ def delete_parametre(db: Session, id: str):
     return True
 
 def create_parametre(db: Session, parametre: schemas.parametre):
-    db_parametre = models.Parametre(id= parametre.id ,nomp=parametre.nomp)
+    db_parametre = models.Parametre(nomp=parametre.nomp)
     db.add(db_parametre)
+    db.flush()
+    db.refresh(db_parametre)
     db.commit()
-    return True
+    return db_parametre.id
 
 def update_parametre(db: Session,parametre: schemas.parametre):
     db_parametre = get_parametre_by_id(db, parametre.id)

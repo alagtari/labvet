@@ -1,4 +1,3 @@
-import datetime
 import hashlib
 from fastapi import Depends,APIRouter,Request
 from sqlalchemy.orm import Session
@@ -19,8 +18,8 @@ def get_db():
 
 
 
-ADMIN_EMAIL_ADDRESS = ''
-ADMIN_EMAIL_PASSWORD = ''
+ADMIN_EMAIL_ADDRESS = 'sayf.abidi1@gmail.com'
+ADMIN_EMAIL_PASSWORD = 'oteqgmabjfoihrsh'
 
 #lawem ma yrajaach pwd
 @router.get("/users/all")
@@ -79,8 +78,8 @@ def update_user(user: schemas.UserBaseMini,request : Request , db: Session = Dep
         if db_user.role != 'Admin' :
           return {"status": 403 , "message" : "Unauthorized"}
         if users.update_user(user=user,db=db):
-           #mail = SendMail(ADMIN_EMAIL_ADDRESS,ADMIN_EMAIL_PASSWORD,user.email,user.cin,user.name,'update')
-           #mail.send() 
+           mail = SendMail(ADMIN_EMAIL_ADDRESS,ADMIN_EMAIL_PASSWORD,user.email,user.cin,user.name,'update')
+           mail.send() 
            print('')
         return {"status" : 200 , "message":"User updated"} 
     else:

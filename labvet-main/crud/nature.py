@@ -1,7 +1,6 @@
 
 from sqlalchemy.orm import Session
 import models, schemas
-import mysql.connector
 
 def get_nature(db: Session, id: int):
     return db.query(models.Nature).filter(models.Nature.id == id).first()

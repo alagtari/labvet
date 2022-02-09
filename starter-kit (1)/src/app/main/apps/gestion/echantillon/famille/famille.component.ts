@@ -72,8 +72,7 @@ export class FamilleComponent implements OnInit {
 
     // Filter Our Data
     const temp = this.tempData.filter(function (d) {
-
-      return d.nomf.toLowerCase().indexOf(val) !== -1 || !val;
+      return d.nomf.toLowerCase().indexOf(val) !== -1 || !val || d.nature.toLowerCase().indexOf(val) !== -1;
     });
 
     // Update The Rows

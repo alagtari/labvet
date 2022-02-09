@@ -37,9 +37,9 @@ class Client(BaseModel):
     adresse: str
     responsable : str
 
-
+ 
 class Demande(BaseModel):
-    ref :str
+    ref :int
     observation :str
     date_reception = int
     preleveur :str
@@ -51,14 +51,10 @@ class methode(BaseModel):
     id: int
     designation : str
 
-class source(BaseModel):
-    id: int
-    designation : str
-
 class nature(BaseModel):
     id: int
     designation : str  
-    famille_id :   
+    
 
 class parametre(BaseModel):
     id: int
@@ -67,10 +63,37 @@ class parametre(BaseModel):
 class famille(BaseModel):
     idf: int
     nomf : str
+    idn :  int 
 
-class echantillon(BaseModel):
+
+class echantillonUpdate(BaseModel):
+    id :int
     ref :str
-    barcode :str
     quantite :int
     nlot :int 
     temperature :str
+    ref_codebarre:str
+
+
+
+class echantillon(BaseModel):
+    id:int
+    ref :str
+    quantite :int
+    nlot :int 
+    temperature :str
+    idn:int
+    idp:int
+    idd:int
+    ref_codebarre:str
+
+
+class Client(BaseModel):
+    idc :int
+    email:str
+    raisonSocial :str
+    responsable :str
+    adresse :str
+    tel :str
+
+ 

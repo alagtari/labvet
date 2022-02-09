@@ -18,6 +18,10 @@ const routes: Routes = [
     path: 'gestion',
     loadChildren: () => import('./gestion/gestion.module').then(m => m.GestionModule)
   },
+  {
+    path: 'client',
+    loadChildren: () => import('./client/client.module').then(m => m.ClientModule)
+  },
 
 ];
 
@@ -25,6 +29,7 @@ FullCalendarModule.registerPlugins([dayGridPlugin, timeGridPlugin, listPlugin, i
 
 @NgModule({
   declarations: [
+
   ],
   imports: [CommonModule, RouterModule.forChild(routes)]
 })

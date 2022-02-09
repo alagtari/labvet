@@ -71,8 +71,9 @@ export class NatureComponent implements OnInit {
 
     // Filter Our Data
     const temp = this.tempData.filter(function (d) {
+      console.log(d)
 
-      return d.nomf.toLowerCase().indexOf(val) !== -1 || !val || d.designation.toLowerCase().indexOf(val)! == -1;
+      return d.designation.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
     // Update The Rows

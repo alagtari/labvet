@@ -37,6 +37,27 @@ export const menu: CoreMenu[] = [
     ]
   },
 
+
+  {
+    id: 'capps',
+    type: 'section',
+    title: 'CLIENTS',
+    translate: '',
+    icon: 'package',
+    role: ['Admin'],
+    children: [
+      {
+        id: 'clist',
+        title: 'Liste',
+        translate: '',
+        type: 'item',
+        icon: 'users',
+        role: ['Admin'],
+        url: 'apps/client/client-list'
+      }
+    ]
+  },
+
   {
     id: 'gestion',
     type: 'section',

@@ -1,4 +1,4 @@
-from sqlalchemy import BLOB, TEXT, Column, Integer, String ,DATE, ForeignKey,Table,BigInteger
+from sqlalchemy import BLOB, LargeBinary, Column, Integer, String ,DATE, ForeignKey,Table,BigInteger,LargeBinary
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -12,8 +12,8 @@ class User(Base):
     name = Column(String(40))
     cin = Column(String(8))
     tel = Column(String(8))
-    photo = Column(TEXT)
-    contrat = Column(TEXT)
+    photo = Column(LargeBinary(length=(2**32)-1))
+    contrat = Column(LargeBinary(length=(2**32)-1))
     role = Column(String(20))
     datecr = Column(BigInteger)
 
@@ -50,49 +50,30 @@ parametre_methode = Table('Parametre_methode', Base.metadata,
     Column('parametre_id', ForeignKey('parametre.id')),
     Column('methode_id', ForeignKey('methode.id'))
 ) 
-
-parametre_echantillon = Table('Parametre_echantillon', Base.metadata,
-    Column('parametre_id', ForeignKey('parametre.id')),
-    Column('echantillon_ref', ForeignKey('echantillon.ref'))
-) 
-
-demande_echantillon = Table('demande_echantillon', Base.metadata,
-    Column('demande_ref', ForeignKey('demande.ref')),
-    Column('echantillon_ref', ForeignKey('echantillon.ref'))
-)
+ 
 
 class Demande(Base):
     __tablename__ = "demande"
 
-    ref = Column(String(20), primary_key=True, index=True)
+    ref = Column(Integer, primary_key=True, index=True)
     observation = Column(String(40), unique=True, index=True)
     date_reception = Column(BigInteger)
     preleveur = Column(String(100))
     controle = Column(String(100))
     client_id = Column(Integer, ForeignKey('client.idc'))
     client = relationship("Client", back_populates="demandes")
-    echantillons = relationship("Echantillon",secondary=demande_echantillon)
+    echantillons = relationship("Echantillon", back_populates="demande")
 
 
-class Echantillon(Base):
-    __tablename__ = "echantillon"
-
-    ref = Column(String(20), primary_key=True, index=True)
-    barcode = Column(BLOB)
-    quantite = Column(Integer)
-    nlot = Column(Integer)
-    temperature = Column(String(20)) 
-    demande = relationship("Demande",secondary=demande_echantillon)
-    parametres = relationship("Parametre",secondary=parametre_echantillon)
 
 
 
 class Parametre(Base):
     __tablename__ = "parametre"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True , autoincrement=True)
     nomp = Column(String(40))
-    echantillons = relationship("Echantillon",secondary=parametre_echantillon)
+    echantillons = relationship("Echantillon", back_populates="parametre")
     methodes = relationship("Methode",secondary=parametre_methode)
     natures = relationship("Nature",secondary=parametre_nature)
 
@@ -108,7 +89,8 @@ class Famille(Base):
 
     idf = Column(Integer, primary_key=True, index=True)
     nomf = Column(String(40))
-    natures = relationship("Nature", back_populates="famille")
+    nature_id = Column(Integer, ForeignKey('nature.id'))
+    nature = relationship("Nature", back_populates="familles")
 
 
 class Nature(Base):
@@ -116,8 +98,24 @@ class Nature(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     designation = Column(String(40))
-    famille_id = Column(Integer, ForeignKey('famille.idf'))
-    famille = relationship("Famille", back_populates="natures")
+    familles = relationship("Famille", back_populates="nature")
     parametres = relationship("Parametre",secondary=parametre_nature)
+    echantillons = relationship("Echantillon", back_populates="nature")
 
+    
+class Echantillon(Base):
+    __tablename__ = "echantillon"
+    id = Column(Integer, primary_key=True, index=True)
+    barcode = Column(LargeBinary(length=(2**32)-1))
+    ref = Column(String(2))
+    quantite = Column(Integer)
+    nlot = Column(Integer)
+    temperature = Column(String(20)) 
+    datecr = Column(BigInteger)
+    idd = Column(Integer, ForeignKey('demande.ref'))
+    idn = Column(Integer, ForeignKey('nature.id'))
+    idp = Column(Integer, ForeignKey('parametre.id'))
+    demande = relationship("Demande", back_populates="echantillons")
+    parametre = relationship("Parametre", back_populates="echantillons")
+    nature = relationship("Nature", back_populates="echantillons")
     
