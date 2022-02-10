@@ -1,4 +1,4 @@
-from sqlalchemy import BLOB, LargeBinary, Column, Integer, String ,DATE, ForeignKey,Table,BigInteger,LargeBinary
+from sqlalchemy import BLOB, LargeBinary, Column, Integer, String ,Sequence, ForeignKey,Table,BigInteger,LargeBinary
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -16,18 +16,6 @@ class User(Base):
     contrat = Column(LargeBinary(length=(2**32)-1))
     role = Column(String(20))
     datecr = Column(BigInteger)
-
-
-
-
-class Source(Base):
-    __tablename__ = "source"
-
-    id = Column(Integer, primary_key=True, index=True)
-    designation = Column(String(40))
-
-
-
 
 
 class Client(Base):
@@ -106,7 +94,7 @@ class Nature(Base):
 class Echantillon(Base):
     __tablename__ = "echantillon"
     id = Column(Integer, primary_key=True, index=True)
-    barcode = Column(LargeBinary(length=(2**32)-1))
+    barcode = Column(String(13))
     ref = Column(String(2))
     quantite = Column(Integer)
     nlot = Column(Integer)

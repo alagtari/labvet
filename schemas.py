@@ -83,6 +83,7 @@ class echantillon(BaseModel):
     nlot :int 
     temperature :str
     idn:int
+    idf:int
     idp:int
     idd:int
     ref_codebarre:str
