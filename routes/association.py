@@ -16,7 +16,7 @@ def get_db():
 
 
 @router.post("/associations/createParametreMethode")
-async def create_association_parametre_methode(idp :int,idm :int,request : Request , db: Session = Depends(get_db)):
+def create_association_parametre_methode(idp :int,idm :int,request : Request , db: Session = Depends(get_db)):
     
     token = request.headers.get('Authorization')
     if (tokens.verify_token(token)):
@@ -33,7 +33,7 @@ async def create_association_parametre_methode(idp :int,idm :int,request : Reque
     
 
 @router.post("/associations/createParametreNature")
-async def create_association_parametre_nature(idp :int,idn :int,request : Request , db: Session = Depends(get_db)):
+def create_association_parametre_nature(idp :int,idn :int,request : Request , db: Session = Depends(get_db)):
     
     token = request.headers.get('Authorization')
     if (tokens.verify_token(token)):

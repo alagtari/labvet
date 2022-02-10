@@ -18,10 +18,9 @@ def get_db():
 
 
 
-ADMIN_EMAIL_ADDRESS = 'agtari957@gmail.com'
-ADMIN_EMAIL_PASSWORD = ''
+ADMIN_EMAIL_ADDRESS = 'sayf.abidi1@gmail.com'
+ADMIN_EMAIL_PASSWORD = 'oteqgmabjfoihrsh'
 
-#lawem ma yrajaach pwd
 @router.get("/users/all")
 def read_users( request : Request ,db: Session = Depends(get_db)):
     token = request.headers.get('Authorization')
