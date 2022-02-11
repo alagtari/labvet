@@ -26,14 +26,14 @@ export class UserListComponent implements OnInit {
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
   public temp = [];
-  public previousRoleFilter = 'All';
+  public previousRoleFilter = 'Tout';
   public previousPlanFilter = '';
   public previousStatusFilter = '';
   public currentRow;
   public rowsz
   public avatarImage;
   public selectRole: any = [
-    { name: 'All', value: '' },
+    { name: 'Tout', value: '' },
     { name: 'Réceptionniste', value: 'Réceptionniste' },
     { name: 'technicien', value: 'technicien' },
   ];

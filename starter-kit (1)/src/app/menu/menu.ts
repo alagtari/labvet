@@ -3,60 +3,35 @@ import { CoreMenu } from '@core/types'
 export const menu: CoreMenu[] = [
   {
     id: 'home',
-    title: 'Menu',
+    title: 'Dashboard',
     translate: '',
     type: 'item',
     icon: 'home',
     url: 'home'
   },
+
   {
-    id: 'sample',
-    title: 'Sample',
-    translate: 'MENU.SAMPLE',
+    id: 'list',
+    title: 'Gestion Personnels',
+    translate: '',
     type: 'item',
-    icon: 'file',
-    url: 'sample'
-  },
-  {
-    id: 'apps',
-    type: 'section',
-    title: 'PERSONNELS',
-    translate: '',
-    icon: 'package',
+    icon: 'users',
     role: ['Admin'],
-    children: [
-      {
-        id: 'list',
-        title: 'Liste',
-        translate: '',
-        type: 'item',
-        icon: 'users',
-        role: ['Admin'],
-        url: 'apps/user/user-list'
-      }
-    ]
+    url: 'apps/user/user-list'
   },
 
 
+
   {
-    id: 'capps',
-    type: 'section',
-    title: 'CLIENTS',
+    id: 'clist',
+    title: 'Gestion Clients',
     translate: '',
-    icon: 'package',
+    type: 'item',
+    icon: 'users',
     role: ['Admin'],
-    children: [
-      {
-        id: 'clist',
-        title: 'Liste',
-        translate: '',
-        type: 'item',
-        icon: 'users',
-        role: ['Admin'],
-        url: 'apps/client/client-list'
-      }
-    ]
+    url: 'apps/client/client-list'
   },
+
 
   {
     id: 'gestion',

@@ -13,7 +13,7 @@
             ×
           </button>
           <div class="modal-header mb-1">
-            <h5 class="modal-title" id="exampleModalLabel">New Client</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Nouveau Client</h5>
           </div>
           <div class="modal-body flex-grow-1">
             <div class="form-group">
@@ -24,7 +24,7 @@
                 [pattern]="pattern"
                 id="basic-icon-default-email"
                 class="form-control dt-email"
-                placeholder="john.doe@example.com"
+                placeholder=""
                 aria-label="john.doe@example.com"
                 aria-describedby="basic-icon-default-email2"
                 name="email"
@@ -35,18 +35,18 @@
                 required
               />
               <span *ngIf="FEmailRef.invalid" class="invalid-form">
-                <small class="form-text text-danger" *ngIf="FEmailRef.errors.required">This field is required!</small>
+                <small class="form-text text-danger" *ngIf="FEmailRef.errors.required">Ce champ est requis!</small>
               </span>
-              <small class="form-text text-muted"> You can use letters, numbers & periods </small>
+              <small class="form-text text-muted"></small>
             </div>
             <div class="form-group">
-                <label class="form-label" for="basic-icon-default-email">Raison Social</label>
+                <label class="form-label" for="basic-icon-default-email">Raison Sociale</label>
                 <input
                   type="text"
                   id="basic-icon-default-email"
                   class="form-control dt-email"
                   [class.error]="rs.invalid"
-                  placeholder="24724704"
+                  placeholder=""
                   aria-describedby="basic-icon-default-email2"
                   name="raisonSocial"
                   [(ngModel)]="raisonSocial"
@@ -55,7 +55,7 @@
                   required
                 />
                 <span *ngIf="rs.errors?.invalid" class="invalid-form">
-                  <small class="form-text text-danger" *ngIf="rs.errors?.invalid">This field is required!</small>
+                  <small class="form-text text-danger" *ngIf="rs.errors?.invalid">Ce champ est requis!</small>
                 </span>
             </div>
             <div class="form-group">
@@ -65,7 +65,7 @@
                   id="basic-icon-default-email"
                   class="form-control dt-email"
                   [class.error]="rss.invalid"
-                  placeholder="..."
+                  placeholder=""
                   name = "responsable"
                   aria-describedby="basic-icon-default-email2"
                   [(ngModel)]="responsable"
@@ -74,9 +74,9 @@
                   required
                 />
                 <span *ngIf="rss.errors?.invalid" class="invalid-form">
-                  <small class="form-text text-danger" *ngIf="rss.errors?.invalid">This field is required!</small>
+                  <small class="form-text text-danger" *ngIf="rss.errors?.invalid">Ce champ est requis!</small>
                 </span>
-                <small class="form-text text-muted"> You can use only numbers </small>
+                <small class="form-text text-muted"></small>
             </div>
             <div class="form-group">
                 <label class="form-label" for="basic-icon-default-email">Adresse</label>
@@ -85,7 +85,7 @@
                   id="basic-icon-default-email"
                   class="form-control dt-email"
                   [class.error]="adr.invalid"
-                  placeholder="24724704"
+                  placeholder=""
                   aria-describedby="basic-icon-default-email2"
                   name="adresse"
                   [(ngModel)]="adresse"
@@ -94,9 +94,9 @@
                   required
                 />
                 <span *ngIf="adr.errors?.pattern" class="invalid-form">
-                  <small class="form-text text-danger" *ngIf="adr.errors?.pattern">This field is required!</small>
+                  <small class="form-text text-danger" *ngIf="adr.errors?.pattern">Ce champ est requis!</small>
                 </span>
-                <small class="form-text text-muted"> You can use only numbers </small>
+                <small class="form-text text-muted"></small>
             </div>
 
             <div class="form-group">
@@ -106,7 +106,7 @@
                   id="basic-icon-default-email"
                   class="form-control dt-email"
                   [class.error]="FTelRef.invalid"
-                  placeholder="24724704"
+                  placeholder=""
                   aria-describedby="basic-icon-default-email2"
                   name="tel"
                   [pattern]="unamePattern"
@@ -117,22 +117,22 @@
                   required
                 />
                 <span *ngIf="uname.errors?.pattern" class="invalid-form">
-                  <small class="form-text text-danger" *ngIf="uname.errors?.pattern">This field is required!</small>
+                  <small class="form-text text-danger" *ngIf="uname.errors?.pattern">Ce champ est requis!</small>
                 </span>
-                <small class="form-text text-muted"> You can use only numbers </small>
+                <small class="form-text text-muted"></small>
             </div>
            
             
             
             
-            <button type="submit" class="btn btn-primary mr-1" (click)="submit(newUserForm)" rippleEffect>Submit</button>
+            <button type="submit" class="btn btn-primary mr-1" (click)="submit(newUserForm)" rippleEffect>Valider</button>
             <button
               type="reset"
               class="btn btn-outline-secondary"
               (click)="toggleSidebar('new-client-sidebar')"
               rippleEffect
             >
-              Cancel
+              Annuler
             </button>
           </div>
         </form>

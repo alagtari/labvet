@@ -16,7 +16,7 @@
                         [(ngModel)]="selectedRole"
                         name="selectedRole"
                         bindLabel="name"
-                        placeholder="Select Role"
+                        placeholder="Filtrer par Role"
                         (change)="filterByRole($event)"
                       ></ng-select>
                     </fieldset>
@@ -221,7 +221,7 @@
                             <h4>{{ currentRow.name }}</h4>
                             <div class="col-12 d-flex mt-1 px-0">
                               <label class="btn btn-primary mr-75 mb-0" for="change-picture">
-                                <span class="d-none d-sm-block">Change</span>
+                                <span class="d-none d-sm-block">Modifier</span>
                                 <input
                                   class="form-control"
                                   type="file"
@@ -246,12 +246,12 @@
                           <div class="row">
                             <div class="col-md-4">
                               <div class="form-group">
-                                <label for="username">Name</label>
+                                <label for="username">Nom Complet</label>
                                 <input
                                   type="text"
                                   id="name"
                                   class="form-control"
-                                  placeholder="Name"
+                                  placeholder="Nom Complet"
                                   name="name"
                                   [(ngModel)]="currentRow.name"
                                   [class.error]="accountForm.submitted && UserNameRef.invalid"
@@ -260,7 +260,7 @@
                                 />
                                 <span *ngIf="accountForm.submitted && UserNameRef.invalid" class="invalid-form">
                                   <small class="form-text text-danger" *ngIf="UserNameRef.errors.required"
-                                    >This field is required!</small
+                                    >Ce champ est requis!</small
                                   >
                                 </span>
                               </div>
@@ -281,7 +281,7 @@
                                 />
                                 <span *ngIf="accountForm.submitted && FullNameRef.invalid" class="invalid-form">
                                   <small class="form-text text-danger" *ngIf="FullNameRef.errors.required"
-                                    >This field is required!</small
+                                    >Ce champ est requis!</small
                                   >
                                 </span>
                               </div>
@@ -302,14 +302,14 @@
                                 />
                                 <span *ngIf="accountForm.submitted && EmailRef.invalid" class="invalid-form">
                                   <small class="form-text text-danger" *ngIf="EmailRef.errors.required"
-                                    >This field is required!</small
+                                    >Ce champ est requis!</small
                                   >
                                 </span>
                               </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                  <label for="email">Password</label>
+                                  <label for="email">Mot de passe</label>
                                   <input
                                     type="text"
                                     class="form-control"
@@ -323,7 +323,7 @@
                                   />
                                   <span *ngIf="accountForm.submitted && EmailRef.invalid" class="invalid-form">
                                     <small class="form-text text-danger" *ngIf="EmailRef.errors.required"
-                                      >This field is required!</small
+                                      >Ce champ est requis!</small
                                     >
                                   </span>
                                 </div>
@@ -339,7 +339,7 @@
                             </div>
                             <div class="col-md-4">
                               <div class="form-group">
-                                <label for="company">Phone</label>
+                                <label for="company">Telephone</label>
                                 <input
                                   type="text"
                                   class="form-control"
@@ -358,7 +358,7 @@
                                 class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1"
                                 rippleEffect
                               >
-                                Save Changes
+                              Sauvegarder les modifications
                               </button>
                               
                             </div>

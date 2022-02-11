@@ -43,7 +43,7 @@ def delete_user(db: Session, id: int):
     db.commit()
 
 def create_user(db: Session, user,mdp):
-    db_user = models.User(name=user['name'], email=user['email'],password=mdp,cin=user['cin'],tel=user['tel'],photo=user['photo'],role=user['role'],contrat=user['contrat'],datecr=round(time.time() * 1000))
+    db_user = models.User(name=user['name'], email=user['email'],password=mdp,cin=user['cin'],tel=user['tel'],photo=str.encode(user['photo']),role=user['role'],contrat=str.encode(user['contrat']),datecr=round(time.time() * 1000))
     db.add(db_user)
     db.commit()
    

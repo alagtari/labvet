@@ -18,7 +18,7 @@ export const coreConfig: CoreConfig = {
   app: {
     appName     : 'LABVET',                                        // App Name
     appTitle    : 'LABVET', // App Title
-    appLogoImage: 'assets/images/logo/logo.svg',                  // App Logo
+    appLogoImage: 'assets/images/logo/favicon.png',                  // App Logo
     appLanguage : 'fr',                                           // App Default Language (en, fr, de, pt etc..)
   },
   layout: {

@@ -13,16 +13,16 @@
             ×
           </button>
           <div class="modal-header mb-1">
-            <h5 class="modal-title" id="exampleModalLabel">New User</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Nouveau personnel</h5>
           </div>
           <div class="modal-body flex-grow-1">
             <div class="form-group">
-              <label class="form-label" for="basic-icon-default-fullname">Full Name</label>
+              <label class="form-label" for="basic-icon-default-fullname">Nom complet</label>
               <input
                 type="text"
                 class="form-control dt-full-name"
                 id="basic-icon-default-fullname"
-                placeholder="John Doe"
+                placeholder="Nom Prenom"
                 name="name"
                 [(ngModel)]="fullname"
                 [class.error]="newUserForm.submitted && FNameRef.invalid"
@@ -32,7 +32,7 @@
                 aria-describedby="basic-icon-default-fullname2"
               />
               <span *ngIf="newUserForm.submitted && FNameRef.invalid" class="invalid-form">
-                <small class="form-text text-danger" *ngIf="FNameRef.errors.required">This field is required!</small>
+                <small class="form-text text-danger" *ngIf="FNameRef.errors.required">Ce champ est requis!</small>
               </span>
             </div>
             <div class="form-group">
@@ -52,7 +52,7 @@
                   required
                 />
                 <span *ngIf="uname.errors?.pattern" class="invalid-form">
-                  <small class="form-text text-danger" *ngIf="uname.errors?.pattern">This field is required!</small>
+                  <small class="form-text text-danger" *ngIf="uname.errors?.pattern">Ce champ est requis!</small>
                 </span>
               </div>
             <div class="form-group">
@@ -74,9 +74,9 @@
                 required
               />
               <span *ngIf="FEmailRef.invalid" class="invalid-form">
-                <small class="form-text text-danger" *ngIf="FEmailRef.errors.required">This field is required!</small>
+                <small class="form-text text-danger" *ngIf="FEmailRef.errors.required">Ce champ est requis!</small>
               </span>
-              <small class="form-text text-muted"> You can use letters, numbers & periods </small>
+              <small class="form-text text-muted"></small>
             </div>
 
             <div class="form-group">
@@ -97,12 +97,12 @@
                   required
                 />
                 <span *ngIf="uname.errors?.pattern" class="invalid-form">
-                  <small class="form-text text-danger" *ngIf="uname.errors?.pattern">This field is required!</small>
+                  <small class="form-text text-danger" *ngIf="uname.errors?.pattern">Ce champ est requis!</small>
                 </span>
-                <small class="form-text text-muted"> You can use only numbers </small>
+                <small class="form-text text-muted"></small>
               </div>
             <div class="form-group">
-              <label class="form-label" for="role">User Role</label>
+              <label class="form-label" for="role">Role</label>
               <select id="user-role" class="form-control" name = "role" [(ngModel)]="role">
                 <option value="Réceptionniste">Réceptionniste</option>
                 <option value="technicien">technicien</option>
@@ -117,20 +117,20 @@
             <div class = "form-group">
                 <div _ngcontent-ymy-c274="" class="custom-file">
                     <input (change) = 'onSelectFile($event , "contrat")'  _ngcontent-ymy-c274="" type="file" ng2fileselect="" id="file-upload-single2" class="custom-file-input" ng-reflect-uploader="[object Object]">
-                    <label _ngcontent-ymy-c274="" class="custom-file-label">Contract</label></div>
+                    <label _ngcontent-ymy-c274="" class="custom-file-label">Contrat</label></div>
 
             </div>
             
             
             
-            <button type="submit" class="btn btn-primary mr-1" (click)="submit(newUserForm)" rippleEffect>Submit</button>
+            <button type="submit" class="btn btn-primary mr-1" (click)="submit(newUserForm)" rippleEffect>Valider</button>
             <button
               type="reset"
               class="btn btn-outline-secondary"
               (click)="toggleSidebar('new-user-sidebar')"
               rippleEffect
             >
-              Cancel
+            Annuler
             </button>
           </div>
         </form>
