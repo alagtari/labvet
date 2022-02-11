@@ -45,6 +45,7 @@ class Demande(BaseModel):
     preleveur :str
     controle :str
     client_id :int
+    etat :str
 
 
 class methode(BaseModel):
@@ -61,9 +62,9 @@ class parametre(BaseModel):
     nomp : str
 
 class famille(BaseModel):
-    idf: int
-    nomf : str
-    idn :  int 
+    idf  :  int
+    nomf :  str
+    idn  :  int 
 
 
 class echantillonUpdate(BaseModel):
@@ -83,7 +84,6 @@ class echantillon(BaseModel):
     nlot :int 
     temperature :str
     idn:int
-    idf:int
     idp:int
     idd:int
     ref_codebarre:str
@@ -96,5 +96,3 @@ class Client(BaseModel):
     responsable :str
     adresse :str
     tel :str
-
- 

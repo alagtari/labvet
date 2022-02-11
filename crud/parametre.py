@@ -1,4 +1,3 @@
-
 from sqlalchemy.orm import Session
 import models, schemas
 
@@ -7,7 +6,16 @@ def get_parametre_by_id(db: Session, id: str):
 
 
 def get_parametres(db: Session):
-    return db.query(models.Parametre).all()
+    parametres =  db.query(models.Parametre).all()
+    res = []
+    for parametre in parametres:
+        o = {}
+        o['id'] = parametre.id
+        o['nomp'] = parametre.nomp
+        o['nature'] = parametre.natures[0].designation
+        o['methodes'] = parametre.methodes
+        res.append(o)
+    return res
 
 def delete_parametre(db: Session, id: str):
     db_parametre =db.query(models.Parametre).filter(models.Parametre.id == id).first()
@@ -40,6 +48,3 @@ def get_natures_by_parametre(db: Session,id :str) :
 def get_methodes_by_parametre(db: Session,id :str) :
     parametre = get_parametre_by_id(db, id)
     return parametre.methodes
-
-
-    

@@ -1,5 +1,5 @@
 from sqlalchemy import BLOB, LargeBinary, Column, Integer, String ,Sequence, ForeignKey,Table,BigInteger,LargeBinary
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship,backref
 from database import Base
 
 
@@ -48,6 +48,8 @@ class Demande(Base):
     date_reception = Column(BigInteger)
     preleveur = Column(String(100))
     controle = Column(String(100))
+    etat = Column(String(100))
+    codeDemande = Column(String(20))
     client_id = Column(Integer, ForeignKey('client.idc'))
     client = relationship("Client", back_populates="demandes")
     echantillons = relationship("Echantillon", back_populates="demande")
@@ -72,13 +74,7 @@ class Methode(Base):
     designation = Column(String(40))
     parametres = relationship("Parametre",secondary=parametre_methode)
 
-class Famille(Base):
-    __tablename__ = "famille"
 
-    idf = Column(Integer, primary_key=True, index=True)
-    nomf = Column(String(40))
-    nature_id = Column(Integer, ForeignKey('nature.id'))
-    nature = relationship("Nature", back_populates="familles")
 
 
 class Nature(Base):
@@ -90,6 +86,14 @@ class Nature(Base):
     parametres = relationship("Parametre",secondary=parametre_nature)
     echantillons = relationship("Echantillon", back_populates="nature")
 
+
+class Famille(Base):
+    __tablename__ = "famille"
+
+    idf = Column(Integer, primary_key=True, index=True)
+    nomf = Column(String(40))
+    nature_id = Column(Integer, ForeignKey('nature.id'))
+    nature = relationship(Nature, backref=backref("famille" , cascade="all,delete"))
     
 class Echantillon(Base):
     __tablename__ = "echantillon"

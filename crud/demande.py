@@ -1,6 +1,6 @@
-
 from sqlalchemy.orm import Session
-import models, schemas
+import models, schemas 
+import time
 
 def get_demande_by_ref(db: Session, ref: int):
     return db.query(models.Demande).filter(models.Demande.ref == ref).first()
@@ -16,9 +16,14 @@ def delete_demande(db: Session, ref: int):
     return True
 
 def create_demande(db: Session, demande: schemas.Demande):
-    db_demande = models.Demande(ref= demande.ref ,observation=demande.observation,date_reception=demande.date_reception,preleveur=demande.preleveur,controle=demande.controle,client_id=demande.client_id)
+    db_demande = models.Demande(etat='',ref= demande.ref ,observation=demande.observation,date_reception=demande.date_reception,preleveur=demande.preleveur,controle=demande.controle,client_id=demande.client_id)
     db.add(db_demande)
+    db.flush()
+    db.refresh(db_demande)
     db.commit()
+    db_demande.codeDemande = str(db_demande.ref)+str(round(time.time() * 1000))
+    db.commit()
+
     return True
 
 def update_demande(db: Session,demande: schemas.Demande):
@@ -28,6 +33,7 @@ def update_demande(db: Session,demande: schemas.Demande):
     db_demande.preleveur  = demande.preleveur
     db_demande.controle = demande.controle
     db_demande.client_id  = demande.client_id
+    db_demande.etat = demande.etat
     db.commit()
     return True
 
@@ -39,6 +45,8 @@ def get_client_by_demande(db: Session,ref :int) :
 def get_echantillons_by_demande(db: Session,ref :int) :
     demande = get_demande_by_ref(db, ref)
     return demande.echantillons
+
+
 
 
     

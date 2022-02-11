@@ -1,4 +1,3 @@
-
 import hashlib
 import time
 from sqlalchemy.orm import Session
@@ -37,13 +36,11 @@ def get_users(db: Session):
 
 def delete_user(db: Session, id: int):
     db_user =db.query(models.User).filter(models.User.id == id).first()
-    with open("results.txt" , "w") as f:
-        f.write(str(db_user))
     db.delete(db_user)
     db.commit()
 
 def create_user(db: Session, user,mdp):
-    db_user = models.User(name=user['name'], email=user['email'],password=mdp,cin=user['cin'],tel=user['tel'],photo=user['photo'],role=str.encode(user['role']),contrat=str.encode(user['contrat']),datecr=round(time.time() * 1000))
+    db_user = models.User(name=user['name'], email=user['email'],password=mdp,cin=user['cin'],tel=user['tel'],photo=str.encode(user['photo']),role=user['role'],contrat=str.encode(user['contrat']),datecr=round(time.time() * 1000))
     db.add(db_user)
     db.commit()
    
@@ -61,9 +58,8 @@ def update_user(user: schemas.UserBaseMini ,db :Session):
     db_user.role  = user.role
     db_user.email= user.email
     db_user.cin= user.cin
-    password = hashlib.md5(user.cin.encode())
-    db_user.password=password.hexdigest()
+    if(db_user.password !=user.password):
+        password = hashlib.md5(user.password.encode())
+        db_user.password=password.hexdigest()
     db.commit()
     return send_email
-
-    
