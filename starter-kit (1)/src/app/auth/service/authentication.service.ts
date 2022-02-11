@@ -41,7 +41,7 @@ export class AuthenticationService {
    *  Confirms if user is client
    */
   get isClient() {
-    return this.currentUser && this.currentUserSubject.value.role === Role.Client;
+    return this.currentUser && this.currentUserSubject.value.role === Role.Receptionniste || this.currentUserSubject.value.role === Role.technicien;
   }
 
   /**

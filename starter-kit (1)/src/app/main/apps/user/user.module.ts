@@ -20,6 +20,10 @@ import { UserListService } from 'app/main/apps/user/user-list/user-list.service'
 import { NewUserSidebarComponent } from 'app/main/apps/user/user-list/new-user-sidebar/new-user-sidebar.component';
 import { UserEditComponent } from './user-edit/user-edit.component';
 import { UserEditService } from './user-edit/user-edit.service';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserProfileService } from './user-profile/user-profile.service';
+import { AuthGuard } from 'app/auth/helpers';
+import { Role } from 'app/auth/models';
 
 // routing
 const routes: Routes = [
@@ -32,6 +36,15 @@ const routes: Routes = [
     data: { animation: 'UserListComponent' }
   },
   {
+    path: 'user-profile',
+    canActivate: [AuthGuard],
+    component: UserProfileComponent,
+    resolve: {
+
+    },
+    data: { animation: 'UserProfileComponent', roles: [Role.Receptionniste, Role.technicien] }
+  },
+  {
     path: 'user-edit/:id',
     component: UserEditComponent,
     resolve: {
@@ -42,7 +55,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [UserListComponent, NewUserSidebarComponent, UserEditComponent],
+  declarations: [UserListComponent, NewUserSidebarComponent, UserEditComponent, UserProfileComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
@@ -56,6 +69,6 @@ const routes: Routes = [
     CoreDirectivesModule,
     CoreSidebarModule
   ],
-  providers: [UserListService, UserEditService , UserListComponent]
+  providers: [UserListService, UserEditService, UserListComponent, UserProfileService]
 })
 export class UserModule { }

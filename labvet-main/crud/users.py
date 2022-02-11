@@ -61,8 +61,9 @@ def update_user(user: schemas.UserBaseMini ,db :Session):
     db_user.role  = user.role
     db_user.email= user.email
     db_user.cin= user.cin
-    password = hashlib.md5(user.cin.encode())
-    db_user.password=password.hexdigest()
+    if(db_user.password !=user.password):
+        password = hashlib.md5(user.password.encode())
+        db_user.password=password.hexdigest()
     db.commit()
     return send_email
 

@@ -53,6 +53,7 @@ export class ParametreComponent implements OnInit {
   public selectedStatus = [];
   public searchValue = '';
   public modal;
+  public methodes_param;
   public methodes;
   public natures;
   public familles;
@@ -192,6 +193,15 @@ export class ParametreComponent implements OnInit {
 
     }
 
+  }
+  AfficherMethodes(modal, methodes) {
+    this.methodes_param = methodes;
+    console.log(this.methodes_param)
+    this.modalservice.open(modal, {
+      centered: true,
+
+      size: 'sm' // size: 'xs' | 'sm' | 'lg' | 'xl'
+    });
   }
 
   modalOpenSM(modalSM) {

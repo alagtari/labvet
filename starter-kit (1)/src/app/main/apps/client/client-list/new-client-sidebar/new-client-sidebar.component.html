@@ -29,13 +29,13 @@
                 aria-describedby="basic-icon-default-email2"
                 name="email"
                 [(ngModel)]="email"
-                [class.error]="FEmailRef.invalid"
+                [class.error]="FEmailRef.invalid && FEmailRef.touched"
                 #FEmailRef="ngModel"
                 
                 required
               />
               <span *ngIf="FEmailRef.invalid" class="invalid-form">
-                <small class="form-text text-danger" *ngIf="FEmailRef.errors.required">Ce champ est requis!</small>
+                <small class="form-text text-danger" *ngIf="FEmailRef.errors.required && FEmailRef.touched">Ce champ est requis!</small>
               </span>
               <small class="form-text text-muted"></small>
             </div>
@@ -45,7 +45,7 @@
                   type="text"
                   id="basic-icon-default-email"
                   class="form-control dt-email"
-                  [class.error]="rs.invalid"
+                  [class.error]="rs.invalid && rs.touched"
                   placeholder=""
                   aria-describedby="basic-icon-default-email2"
                   name="raisonSocial"
@@ -54,9 +54,10 @@
                   
                   required
                 />
-                <span *ngIf="rs.errors?.invalid" class="invalid-form">
-                  <small class="form-text text-danger" *ngIf="rs.errors?.invalid">Ce champ est requis!</small>
+                <span *ngIf="rs.invalid" class="invalid-form">
+                  <small class="form-text text-danger" *ngIf="rs.errors.required && rs.touched">Ce champ est requis!</small>
                 </span>
+                <small class="form-text text-muted"></small>
             </div>
             <div class="form-group">
                 <label class="form-label" for="basic-icon-default-email">Responsable</label>
@@ -64,7 +65,7 @@
                   type="text"
                   id="basic-icon-default-email"
                   class="form-control dt-email"
-                  [class.error]="rss.invalid"
+                  [class.error]="rss.invalid && rss.touched"
                   placeholder=""
                   name = "responsable"
                   aria-describedby="basic-icon-default-email2"
@@ -73,8 +74,8 @@
                   
                   required
                 />
-                <span *ngIf="rss.errors?.invalid" class="invalid-form">
-                  <small class="form-text text-danger" *ngIf="rss.errors?.invalid">Ce champ est requis!</small>
+                <span *ngIf="rss.invalid" class="invalid-form">
+                  <small class="form-text text-danger" *ngIf="rss.errors.required && rss.touched">Ce champ est requis!</small>
                 </span>
                 <small class="form-text text-muted"></small>
             </div>
@@ -84,7 +85,7 @@
                   type="text"
                   id="basic-icon-default-email"
                   class="form-control dt-email"
-                  [class.error]="adr.invalid"
+                  [class.error]="adr.invalid && adr.touched"
                   placeholder=""
                   aria-describedby="basic-icon-default-email2"
                   name="adresse"
@@ -93,8 +94,8 @@
                   
                   required
                 />
-                <span *ngIf="adr.errors?.pattern" class="invalid-form">
-                  <small class="form-text text-danger" *ngIf="adr.errors?.pattern">Ce champ est requis!</small>
+                <span *ngIf="adr.invalid" class="invalid-form">
+                  <small class="form-text text-danger" *ngIf="adr.errors.required && adr.touched">Ce champ est requis!</small>
                 </span>
                 <small class="form-text text-muted"></small>
             </div>
@@ -105,7 +106,7 @@
                   type="text"
                   id="basic-icon-default-email"
                   class="form-control dt-email"
-                  [class.error]="FTelRef.invalid"
+                  [class.error]="FTelRef.invalid && FTelRef.touched"
                   placeholder=""
                   aria-describedby="basic-icon-default-email2"
                   name="tel"
@@ -116,8 +117,8 @@
                   
                   required
                 />
-                <span *ngIf="uname.errors?.pattern" class="invalid-form">
-                  <small class="form-text text-danger" *ngIf="uname.errors?.pattern">Ce champ est requis!</small>
+                <span *ngIf="uname.invalid" class="invalid-form">
+                  <small class="form-text text-danger" *ngIf="FTelRef.errors.required && FTelRef.touched ">Ce champ est requis!</small>
                 </span>
                 <small class="form-text text-muted"></small>
             </div>

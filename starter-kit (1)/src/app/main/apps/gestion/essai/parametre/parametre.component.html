@@ -50,8 +50,20 @@
             [scrollbarH]="true"
           >
             <ngx-datatable-column name="Nom" prop="nomp" [width]="200"></ngx-datatable-column>
+            <ngx-datatable-column name="Nature" prop="nature" [width]="200"></ngx-datatable-column>
+            <ngx-datatable-column name="Methodes"  [width]="200">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                
+                  
+                <a  (click) = "AfficherMethodes(modalsSM , row.methodes)"
+                ><span  class = "text-primary"  [size]="16" [class]="'mr-50'">Afficher Methodes</span> </a
+              >
+              
+              
             
+          </ng-template>
 
+            </ngx-datatable-column>
 
             <ngx-datatable-column name="Actions" [width]="40" [sortable]="false">
               <ng-template ngx-datatable-cell-template let-row="row">
@@ -143,6 +155,26 @@
           
         </div>
       </form>
+      
+    </div>
+  </ng-template>
+
+
+
+  <ng-template #modalsSM let-modals>
+    <div class="modal-header">
+      <h5 class="modal-title" id="myModalLabel160">Methodes</h5>
+      <button type="button" class="close" (click)="modals.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <ul>
+
+     <li *ngFor = "let methode of methodes_param">
+      {{methode.designation}}
+     </li>
+     </ul>
       
     </div>
   </ng-template>

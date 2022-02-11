@@ -61,9 +61,9 @@ class parametre(BaseModel):
     nomp : str
 
 class famille(BaseModel):
-    idf: int
-    nomf : str
-    idn :  int 
+    idf  :  int
+    nomf :  str
+    idn  :  int 
 
 
 class echantillonUpdate(BaseModel):

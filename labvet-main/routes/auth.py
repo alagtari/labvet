@@ -24,5 +24,5 @@ def login( request:schemas.Login ,db: Session = Depends(get_db)):
     elif request.password != db_user.password:
           return {'status' :404  , 'message' : "Mot de passe incorrect." }
     access_token = tokens.create_access_token(request.username)
-    return {"access_token": access_token, "token_type": "bearer" , "status" : 200 , "role" : db_user.role}
+    return {"access_token": access_token, "token_type": "bearer" , "status" : 200 , "role" : db_user.role , "id" : db_user.id}
         

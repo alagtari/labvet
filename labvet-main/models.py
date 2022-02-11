@@ -1,5 +1,5 @@
 from sqlalchemy import BLOB, LargeBinary, Column, Integer, String ,DATE, ForeignKey,Table,BigInteger,LargeBinary
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship , backref
 from database import Base
 
 
@@ -84,13 +84,7 @@ class Methode(Base):
     designation = Column(String(40))
     parametres = relationship("Parametre",secondary=parametre_methode)
 
-class Famille(Base):
-    __tablename__ = "famille"
 
-    idf = Column(Integer, primary_key=True, index=True)
-    nomf = Column(String(40))
-    nature_id = Column(Integer, ForeignKey('nature.id'))
-    nature = relationship("Nature", back_populates="familles")
 
 
 class Nature(Base):
@@ -101,6 +95,14 @@ class Nature(Base):
     familles = relationship("Famille", back_populates="nature")
     parametres = relationship("Parametre",secondary=parametre_nature)
     echantillons = relationship("Echantillon", back_populates="nature")
+
+class Famille(Base):
+    __tablename__ = "famille"
+
+    idf = Column(Integer, primary_key=True, index=True)
+    nomf = Column(String(40))
+    nature_id = Column(Integer, ForeignKey(Nature.id))
+    nature = relationship(Nature, backref=backref("famille" , cascade="all,delete"))
 
     
 class Echantillon(Base):

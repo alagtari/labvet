@@ -35,7 +35,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public languageOptions: any;
   public navigation: any;
   public selectedLanguage: any;
-  public reloaded  = false;
+  public reloaded = false;
   @HostBinding('class.fixed-top')
   public isFixed = false;
 
@@ -86,7 +86,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private authService: AuthenticationService
   ) {
     this._authenticationService.currentUser.subscribe(x => (this.currentUser = x));
-
     this.languageOptions = {
       en: {
         title: 'English',

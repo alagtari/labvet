@@ -46,6 +46,7 @@ export const menu: CoreMenu[] = [
         title: "Echantillon",
         type: "collapsible",
         icon: 'list',
+        role: ['Admin'],
         children: [
           {
             id: 'nature',
@@ -72,6 +73,7 @@ export const menu: CoreMenu[] = [
         title: "Essai",
         type: "collapsible",
         icon: "list",
+        role: ['Admin'],
         children: [
           {
             id: "methode",
