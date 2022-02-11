@@ -1,4 +1,4 @@
-from sqlalchemy import BLOB, LargeBinary, Column, Integer, String ,Sequence, ForeignKey,Table,BigInteger,LargeBinary
+from sqlalchemy import  LargeBinary, Column, Integer, String , ForeignKey,Table,BigInteger,LargeBinary
 from sqlalchemy.orm import relationship,backref
 from database import Base
 
@@ -38,7 +38,11 @@ parametre_methode = Table('Parametre_methode', Base.metadata,
     Column('parametre_id', ForeignKey('parametre.id')),
     Column('methode_id', ForeignKey('methode.id'))
 ) 
- 
+
+parametre_echantillon = Table('Parametre_echantillon', Base.metadata,
+    Column('parametre_id', ForeignKey('parametre.id')),
+    Column('echantillon_id', ForeignKey('echantillon.id'))
+) 
 
 class Demande(Base):
     __tablename__ = "demande"
@@ -63,7 +67,7 @@ class Parametre(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     nomp = Column(String(40))
-    echantillons = relationship("Echantillon", back_populates="parametre")
+    echantillons = relationship("Echantillon", secondary=parametre_echantillon)
     methodes = relationship("Methode",secondary=parametre_methode)
     natures = relationship("Nature",secondary=parametre_nature)
 
@@ -99,15 +103,15 @@ class Echantillon(Base):
     __tablename__ = "echantillon"
     id = Column(Integer, primary_key=True, index=True)
     barcode = Column(String(13))
-    ref = Column(String(2))
+    ref = Column(String(4))
+    dep = Column(String(2))
     quantite = Column(Integer)
     nlot = Column(Integer)
     temperature = Column(String(20)) 
     datecr = Column(BigInteger)
     idd = Column(Integer, ForeignKey('demande.ref'))
     idn = Column(Integer, ForeignKey('nature.id'))
-    idp = Column(Integer, ForeignKey('parametre.id'))
     demande = relationship("Demande", back_populates="echantillons")
-    parametre = relationship("Parametre", back_populates="echantillons")
+    parametres = relationship("Parametre", secondary=parametre_echantillon)
     nature = relationship("Nature", back_populates="echantillons")
     

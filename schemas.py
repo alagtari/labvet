@@ -1,4 +1,4 @@
-from ast import Str
+from typing import List
 from datetime import date
 from pydantic import BaseModel
 
@@ -84,9 +84,9 @@ class echantillon(BaseModel):
     nlot :int 
     temperature :str
     idn:int
-    idp:int
+    idp:List[int]
     idd:int
-    ref_codebarre:str
+    idf:int
 
 
 class Client(BaseModel):

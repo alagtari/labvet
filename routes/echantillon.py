@@ -34,8 +34,6 @@ async def create_echantillon(ech:schemas.echantillon ,request : Request , db: Se
     
     token = request.headers.get('Authorization')
     if (tokens.verify_token(token)):
-        if not parametre.get_parametre_by_id(db,ech.idp) :
-            return   {"status" : 404 , "message" : "parametre not found."} 
         if not nature.get_nature(db,ech.idn) :
             return   {"status" : 404 , "message" : "nature not found."}  
         if not demande.get_demande_by_ref(db,ech.idd) :

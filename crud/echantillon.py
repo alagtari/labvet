@@ -39,22 +39,34 @@ def delete_echantillon(db: Session, id:int):
 
 def create_echantillon(db: Session, echantillon: schemas.echantillon ):
     datecr = round(time.time() * 1000)
-    barcode = str(echantillon.idd)+'00000'+echantillon.ref+str(echantillon.idf)+str(echantillon.idn)+str(echantillon.idp)
-    db_echantillon = models.Echantillon(barcode= barcode,idn= echantillon.idf,idp= echantillon.idp,idd= echantillon.idd,ref= echantillon.ref ,quantite=echantillon.quantite,nlot=echantillon.nlot,temperature=echantillon.temperature,datecr=datecr)
+    if echantillon.ref == 'MIC':
+        dep = '01'
+    elif echantillon.ref == 'Phys':  
+        dep = '02'   
+    else :
+        dep = '03'
+
+    barcode = str(echantillon.idd)+'00000'+dep+str(echantillon.idf)+str(echantillon.idn)+str(echantillon.idp)
+    db_echantillon = models.Echantillon(dep = dep,barcode= barcode,idn= echantillon.idf,idd= echantillon.idd,ref= echantillon.ref ,quantite=echantillon.quantite,nlot=echantillon.nlot,temperature=echantillon.temperature,datecr=datecr)
     db.add(db_echantillon)
     db.flush()
     db.refresh(db_echantillon)
     db.commit()
+    for id in echantillon.idp :
+        association = models.parametre_echantillon.insert().values(parametre_id=id , echantillon_id=db_echantillon.id)
+        db.execute(association)
+        db.commit()
     db_echantillon.barcode = str(db_echantillon.id)+db_echantillon.barcode
     db.commit()
     return True
 
 
 def update_echantillon(db: Session,echantillon: schemas.echantillonUpdate):
-    db_echantillon = get_echantillon_by_id(db, echantillon.id)
+    db_echantillon = db.query(models.Echantillon).filter(models.Echantillon.id == echantillon.id).first()
     db_echantillon.quantite = echantillon.quantite
-    db_echantillon.nlot  = echantillon.nlot
+    db_echantillon.nlot = echantillon.nlot
     db_echantillon.temperature = echantillon.temperature
+    
     db.commit()
     return True
 
