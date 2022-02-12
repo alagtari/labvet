@@ -96,3 +96,4 @@ class Client(BaseModel):
     responsable :str
     adresse :str
     tel :str
+
