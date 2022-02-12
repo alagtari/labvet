@@ -30,18 +30,18 @@ class Client(Base):
     demandes = relationship("Demande", back_populates="client")
     
 parametre_nature = Table('Parametre_nature', Base.metadata,
-    Column('parametre_id', ForeignKey('parametre.id')),
-    Column('nature_id', ForeignKey('nature.id'))
+    Column('parametre_id', ForeignKey('parametre.id'),primary_key=True),
+    Column('nature_id', ForeignKey('nature.id'), primary_key=True)
 ) 
 
 parametre_methode = Table('Parametre_methode', Base.metadata,
-    Column('parametre_id', ForeignKey('parametre.id')),
-    Column('methode_id', ForeignKey('methode.id'))
+    Column('parametre_id', ForeignKey('parametre.id'), primary_key=True),
+    Column('methode_id', ForeignKey('methode.id'), primary_key=True)
 ) 
 
 parametre_echantillon = Table('Parametre_echantillon', Base.metadata,
-    Column('parametre_id', ForeignKey('parametre.id')),
-    Column('echantillon_id', ForeignKey('echantillon.id'))
+    Column('parametre_id', ForeignKey('parametre.id'), primary_key=True),
+    Column('echantillon_id', ForeignKey('echantillon.id'), primary_key=True)
 ) 
 
 class Demande(Base):
