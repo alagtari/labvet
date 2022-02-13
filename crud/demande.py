@@ -1,13 +1,22 @@
 from sqlalchemy.orm import Session
 import models, schemas 
 import time
-
+import datetime
 def get_demande_by_ref(db: Session, ref: int):
     return db.query(models.Demande).filter(models.Demande.ref == ref).first()
 
 
 def get_demandes(db: Session):
-    return db.query(models.Demande).all()
+    demandes =  db.query(models.Demande).all()
+    res = []
+    for demande in demandes:
+        o = {}
+        o['ref'] = demande.ref
+        o['client'] = demande.client.email
+        o['date_reception'] =datetime.datetime.utcfromtimestamp(float(demande.date_reception) // 1000).strftime('%Y-%m-%d %H:%M:%S')
+        o['nbr'] = len(demande.echantillons)
+        res.append(o)
+    return res
 
 def delete_demande(db: Session, ref: int):
     db_demande =db.query(models.Demande).filter(models.Demande.ref == ref).first()
@@ -16,7 +25,7 @@ def delete_demande(db: Session, ref: int):
     return True
 
 def create_demande(db: Session, demande: schemas.Demande):
-    db_demande = models.Demande(etat='en cours',ref= demande.ref ,observation=demande.observation,date_reception=demande.date_reception,preleveur=demande.preleveur,controle=demande.controle,client_id=demande.client_id)
+    db_demande = models.Demande(etat='en cours',observation=demande.observation,date_reception=demande.date_reception,preleveur=demande.preleveur,controle=demande.controle,client_id=demande.client_id)
     db.add(db_demande)
     db.flush()
     db.refresh(db_demande)
@@ -24,7 +33,7 @@ def create_demande(db: Session, demande: schemas.Demande):
     db_demande.codeDemande = str(db_demande.ref)+str(round(time.time() * 1000))
     db.commit()
 
-    return True
+    return db_demande.ref
 
 def update_demande(db: Session,demande: schemas.Demande):
     db_demande = get_demande_by_ref(db, demande.ref)

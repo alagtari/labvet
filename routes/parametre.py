@@ -39,8 +39,8 @@ async def create_parametre(param:schemas.parametre ,request : Request , db: Sess
         db_parametre = parametre.get_parametre_by_id(db,param.id)
         if db_parametre:
           return {"status" : 400 , "message" : "parametre already exists"}
-        parametre.create_parametre(db,param)
-        return   {"status" : 200 , "message": "parametre created."}
+        returned_id = parametre.create_parametre(db,param)
+        return   {"status" : 200 , "message": "parametre created." , "id" : returned_id}
     else:
         return{"status" : 403,"message" :"token expired"}
     
