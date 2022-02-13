@@ -17,6 +17,7 @@ export class ParametreComponent implements OnInit {
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
   public sidebarToggleRef = false;
+  public selectMultiSelected;
   public rows;
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
@@ -153,31 +154,36 @@ export class ParametreComponent implements OnInit {
 
       this._parametreService.addParametre(data).subscribe(
         result => {
+          console.log(result)
           if (result) {
             if (result['status'] == 200) {
               let id = result.id
-              let data = { idp: id, idm: form.form.value.methode.id }
-              this._parametreService.addPM(data).subscribe(
-                result => {
-                  if (result) {
-                    let data2 = { idp: id, idn: form.form.value.nature.id }
-                    this._parametreService.addPN(data2).subscribe(
-                      results => {
-                        if (results) {
-                          this._toastr.success('Parametre Ajoutée', 'Succès!', {
-                            toastClass: 'toast ngx-toastr',
-                            closeButton: true
-                          });
-                          modal.close('Accept click')
-                          setTimeout(() => {                           // <<<---using ()=> syntax
-                            window.location.reload()
-                          }, 1100);
+              for (let i = 0; i < this.selectMultiSelected.length; i++) {
+                let data = { idp: id, idm: this.selectMultiSelected[i].id }
+                this._parametreService.addPM(data).subscribe(
+                  result => {
+                    if (result) {
+                      let data2 = { idp: id, idn: form.form.value.nature.id }
+                      this._parametreService.addPN(data2).subscribe(
+                        results => {
+                          if (results) {
+                            this._toastr.success('Parametre Ajoutée', 'Succès!', {
+                              toastClass: 'toast ngx-toastr',
+                              closeButton: true
+                            });
+                            modal.close('Accept click')
+                            setTimeout(() => {                           // <<<---using ()=> syntax
+                              window.location.reload()
+                            }, 1100);
+                          }
                         }
-                      }
-                    )
+                      )
+                    }
                   }
-                }
-              )
+                )
+              }
+
+
 
             }
             else if (result['status'] == 400) {

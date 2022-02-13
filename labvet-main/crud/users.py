@@ -54,7 +54,7 @@ def create_user(db: Session, user,mdp):
 def update_user(user: schemas.UserBaseMini ,db :Session):
     db_user = db.query(models.User).filter(models.User.id == user.id).first()
     send_email = False
-    if db_user.cin != user.cin or db_user.email != user.email :
+    if db_user.password != user.password or db_user.email != user.email  :
        send_email =True 
     db_user.name = user.name
     db_user.tel = user.tel

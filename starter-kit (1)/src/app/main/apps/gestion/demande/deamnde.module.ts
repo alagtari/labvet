@@ -6,15 +6,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { Ng2FlatpickrModule } from 'ng2-flatpickr';
-
+import { SweetAlert2LoaderService, SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { CoreCommonModule } from '@core/common.module';
 import { CoreDirectivesModule } from '@core/directives/directives';
 import { CorePipesModule } from '@core/pipes/pipes.module';
 import { CoreSidebarModule } from '@core/components';
-import { NatureComponent } from './echantillon/nature/nature.component';
-import { FamilleComponent } from './echantillon/famille/famille.component';
-import { MethodeComponent } from './essai/methode/methode.component';
-import { ParametreComponent } from './essai/parametre/parametre.component';
+import { DemandeGestionComponent } from './demande-gestion/demande-gestion.component';
+import { DemandeGestionService } from './demande-gestion/deamnde-gestion.service';
+import { DemandeAddComponent } from './demande-add/demande-add.component';
+import { DemandeAddService } from './demande-add/demande-add.service';
 
 
 
@@ -25,24 +25,31 @@ import { ParametreComponent } from './essai/parametre/parametre.component';
 // routing
 const routes: Routes = [
     {
-        path: 'echantillon',
-        loadChildren: () => import('./echantillon/echantillon.module').then(m => m.EchantillonModule)
+        path: 'gestion',
+        component: DemandeGestionComponent,
+        resolve: {
+            dgs: DemandeGestionService
+        },
+        data: { animation: 'DemandeGestionComponent' }
     },
     {
-        path: 'essai',
-        loadChildren: () => import('./essai/essai.module').then(m => m.EchantillonModule)
-    },
-    {
-        path: 'demande',
-        loadChildren: () => import('./demande/deamnde.module').then
-            (m => m.DemandeModule)
+        path: 'add',
+        component: DemandeAddComponent,
+        resolve: {
+
+        },
+        data: { animation: 'DemandeAddComponent' }
     }
 ];
 
 @NgModule({
-    declarations: [NatureComponent, FamilleComponent, MethodeComponent, ParametreComponent],
+    declarations: [
+        DemandeGestionComponent,
+        DemandeAddComponent
+    ],
     imports: [
         CommonModule,
+        SweetAlert2Module,
         RouterModule.forChild(routes),
         CoreCommonModule,
         FormsModule,
@@ -54,5 +61,6 @@ const routes: Routes = [
         CoreDirectivesModule,
         CoreSidebarModule
     ],
+    providers: [DemandeGestionService, DemandeAddService, SweetAlert2LoaderService]
 })
-export class GestionModule { }
+export class DemandeModule { }

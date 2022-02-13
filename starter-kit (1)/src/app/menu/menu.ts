@@ -94,6 +94,14 @@ export const menu: CoreMenu[] = [
 
     ]
   },
-
+  {
+    id: 'demande',
+    title: 'Gestion demandes',
+    translate: '',
+    type: 'item',
+    icon: 'home',
+    role: ['Admin'],
+    url: 'apps/gestion/demande/gestion'
+  },
 
 ]

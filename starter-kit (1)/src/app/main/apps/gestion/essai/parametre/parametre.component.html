@@ -118,13 +118,22 @@
             <div class="col-12 col-md-12">
               <fieldset class="form-group">
                 <ng-select
-                  [items]="methodes"
-                  [(ngModel)]="methode"
-                  name="methode"
-                  bindLabel="designation"
-                  placeholder="Methode"
-                  required
-                ></ng-select>
+                          [items]="methodes"
+                          [multiple]="true"
+                          [closeOnSelect]="true"
+                          [searchable]="true"
+                          bindLabel="designation"
+                          name = "param{{ i }}"
+                          id = "param{{ i }}"
+                          placeholder="Select parametre(s)"
+                          [(ngModel)]="selectMultiSelected"
+                          
+                        >
+                          <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                            <span class="ng-value-label"> {{ item.designation }}</span>
+                            <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                          </ng-template>
+                        </ng-select>
               </fieldset>
             </div>
             
