@@ -6,7 +6,10 @@ def get_nature(db: Session, id: int):
     return db.query(models.Nature).filter(models.Nature.id == id).first()
 
 def get_all_natures(db: Session):
-    return db.query(models.Nature).all()
+    natures  =  db.query(models.Nature).all()
+    for nature in natures:
+        n  = nature.parametres
+    return natures
 
 def get_natures_by_designation(db: Session,designation:str):
     return db.query(models.Nature).filter(models.Nature.designation == designation).first()
