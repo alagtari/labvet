@@ -14,7 +14,7 @@ def get_demandes(db: Session):
         o = {}
         o['ref'] = demande.ref
         o['client'] = demande.client.email
-       # o['date_reception'] =datetime.datetime.utcfromtimestamp(float(demande.date_reception) // 1000).strftime('%Y-%m-%d %H:%M:%S')
+        o['date_reception'] =datetime.datetime.utcfromtimestamp(float(demande.date_reception) // 1000).strftime('%Y-%m-%d %H:%M:%S')
         o['controle'] = demande.controle
         o['etat'] = demande.etat
         for ech in demande.echantillons:
@@ -34,7 +34,7 @@ def delete_demande(db: Session, ref: int):
     return True
 
 def create_demande(db: Session, demande: schemas.Demande):
-    db_demande = models.Demande(etat='en cours',observation=demande.observation,date_reception=demande.date_reception,preleveur=demande.preleveur,controle=demande.controle,client_id=demande.client_id)
+    db_demande = models.Demande(etat='en cours',observation=demande.observation,date_reception=round(time.time() * 1000),preleveur=demande.preleveur,controle=demande.controle,client_id=demande.client_id)
     db.add(db_demande)
     db.flush()
     db.refresh(db_demande)

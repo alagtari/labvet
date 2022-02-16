@@ -30,7 +30,7 @@ def get_echantillons(db: Session):
                 barcode = base64.b64encode(f.read())
        ech['code a barre'] = barcode
        echantillons.append(ech)
-    return ech   
+    return echantillons   
 
 def delete_echantillon(db: Session, id:int):
     db_echantillon =db.query(models.Echantillon).filter(models.Echantillon.id == id).first()
@@ -47,7 +47,7 @@ def create_echantillon(db: Session, echantillon: schemas.echantillon ):
     else :
         dep = '03'
 
-    barcode = str(echantillon.idd)+'000000'+dep+str(echantillon.idf)+str(echantillon.idn)
+    barcode = str(echantillon.idd)+dep+str(echantillon.idf)+str(echantillon.idn)
     db_echantillon = models.Echantillon(dep = dep,barcode= barcode,idn= echantillon.idf,idd= echantillon.idd,ref= echantillon.ref ,quantite=echantillon.quantite,nlot=echantillon.nlot,temperature=echantillon.temperature,datecr=datecr)
     db.add(db_echantillon)
     db.flush()
@@ -58,6 +58,9 @@ def create_echantillon(db: Session, echantillon: schemas.echantillon ):
         db.execute(association)
         db.commit()
     db_echantillon.barcode = str(db_echantillon.id)+db_echantillon.barcode
+    l = len(db_echantillon.barcode)
+    for item in range(12-l):
+        db_echantillon.barcode = str(0)+db_echantillon.barcode
     db.commit()
     return True
 
