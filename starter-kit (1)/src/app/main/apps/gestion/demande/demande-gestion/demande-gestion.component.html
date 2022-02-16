@@ -48,17 +48,47 @@
             [columnMode]="ColumnMode.force"
             [headerHeight]="50"
             [footerHeight]="50"
-            [scrollbarH]="true"
+            [scrollbarH]="false"
           >
-            <ngx-datatable-column name="Référence" prop="ref" [width]="200"></ngx-datatable-column>
+            <ngx-datatable-column name="Référence" prop="ref" [width]="50"></ngx-datatable-column>
             <ngx-datatable-column name="Client" prop="client" [width]="200"></ngx-datatable-column>
-            <ngx-datatable-column name="Nombre d'échantillon" prop="nbr" [width]="200"></ngx-datatable-column>
-            <ngx-datatable-column name="date de réception" prop="date_reception" [width]="200"></ngx-datatable-column>
+            <ngx-datatable-column name="Controle" prop="controle" [width]="80"></ngx-datatable-column>
+            <ngx-datatable-column name="Echantillons" prop="nbr" [width]="90">
+              <ng-template let-nbr = "value" ngx-datatable-cell-template let-row="row" >
+                <a class="btn btn-flat-secondary"  (click) = "AfficherModal(modalSM , row.echantillons)"
+                ><span  class = "text-info"  [size]="16" [class]="'mr-50'">{{nbr}} Echantillon(s)</span> </a
+              >
+      
+
+                
+
+              </ng-template>
+
+            </ngx-datatable-column>
+            
+            <ngx-datatable-column name="date de réception" prop="date_reception" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="Etat" prop="etat" [width]="70">
+              <ng-template let-status="value" ngx-datatable-cell-template>
+                <div
+                  class="badge badge-pill"
+                  [ngClass]="{
+                    'badge-light-success': status == 'traite',
+                    'badge-light-secondary': status == 'inactive',
+                    'badge-light-warning': status == 'en cours'
+                  }"
+                >
+                  {{ status }}
+                </div>
+              </ng-template>
+
+            </ngx-datatable-column>
             <ngx-datatable-column name="Actions" [width]="40" [sortable]="false">
               <ng-template ngx-datatable-cell-template let-row="row">
                 
                   
-                 
+                <a  (click) = "deleteDemande(row.ref)"
+                ><span [data-feather]="'edit'" class = "text-warning"  [size]="16" [class]="'mr-50'"></span> </a
+              >
                     <a  (click) = "deleteDemande(row.ref)"
                       ><span [data-feather]="'trash'" class = "text-danger"  [size]="16" [class]="'mr-50'"></span> </a
                     >
@@ -76,6 +106,106 @@
     <!-- New User Sidebar -->
     <!--/ New User Sidebar -->
   </div>
+
+  <ng-template #modalSM let-modals>
+    <div class="modal-header">
+      <h5 class="modal-title" id="myModalLabel160">Echantillons</h5>
+      <button type="button" class="close" (click)="modals.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <ngb-accordion #acc="ngbAccordion">
+
+        <ngb-panel *ngFor = "let ech of selected_echantillons">
+          <ng-template ngbPanelTitle>
+            <span class="lead collapse-title"> Echantillon : {{getDateFromMs(ech.echantillon.datecr)}} </span>
+          </ng-template>
+          <ng-template ngbPanelContent>
+           <div class = "row">
+              <div class="col-xl-6 col-md-6 col-sm-6">
+                <div class="card text-center">
+                  <div class="card-body">
+                    <div class="avatar bg-light-info p-50 m-0 mb-1">
+                      <div class="avatar-content">
+                        <i data-feather="home" class="font-medium-5"></i>
+                      </div>
+                    </div>
+                    <h2 class="font-weight-bolder">{{ech.echantillon.ref}}</h2>
+                    <p class="mb-0 line-ellipsis">Departement</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-6 col-md-6 col-sm-6">
+                <div class="card text-center">
+                  <div class="card-body">
+                    <div class="avatar bg-light-danger p-50 m-0 mb-1">
+                      <div class="avatar-content">
+                        <i data-feather="thermometer" class="font-medium-5"></i>
+                      </div>
+                    </div>
+                    <h2 class="font-weight-bolder">{{ech.echantillon.temperature}}</h2>
+                    <p class="mb-0 line-ellipsis">Température</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class = "row">
+              <div class="col-xl-6 col-md-6 col-sm-6">
+                <div class="card text-center">
+                  <div class="card-body">
+                    <div class="avatar bg-light-warning p-50 m-0 mb-1">
+                      <div class="avatar-content">
+                        <i data-feather="package" class="font-medium-5"></i>
+                      </div>
+                    </div>
+                    <h2 class="font-weight-bolder">{{ech.echantillon.quantite}}</h2>
+                    <p class="mb-0 line-ellipsis">Quantité</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-xl-6 col-md-6 col-sm-6">
+                <div class="card text-center">
+                  <div class="card-body">
+                    <div class="avatar bg-light-warning p-50 m-0 mb-1">
+                      <div class="avatar-content">
+                        <i data-feather="shopping-bag" class="font-medium-5"></i>
+                      </div>
+                    </div>
+                    <h2 class="font-weight-bolder">{{ech.echantillon.nlot}}</h2>
+                    <p class="mb-0 line-ellipsis">NLot</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class = "row">
+              <div class="col-xl-12 col-md-12 col-sm-12">
+                <div class="card text-center">
+                  <div class="card-body">
+                    <div class="avatar bg-light-warning p-50 m-0 mb-1">
+                      <div class="avatar-content">
+                        <i data-feather="droplet" class="font-medium-5"></i>
+                      </div>
+                    </div>
+                    <h2 class="font-weight-bolder">{{ech.echantillon.nature.designation}}</h2>
+                    <p class="mb-0 line-ellipsis">Nature</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class = "row">
+              <div class = "col-6 offset-2">
+                <img src  = "{{ech.code_a_barre}}">
+              </div>
+              
+            </div>
+
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+    </div>
+  </ng-template>
 
   
 

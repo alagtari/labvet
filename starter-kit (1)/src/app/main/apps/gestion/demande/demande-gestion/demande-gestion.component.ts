@@ -18,12 +18,13 @@ export class DemandeGestionComponent implements OnInit {
   public ColumnMode = ColumnMode;
   public selectedOption = 10;
   public tempData;
+  public selected_echantillons;
   public tempRow;
   public temp = [];
   public rows: any;
   public searchValue: any;
   public _unsubscribeAll;
-  constructor(private _coreConfigService: CoreConfigService, private _router: Router, private _toastr: ToastrService, private _service: DemandeGestionService) {
+  constructor(private modalservice: NgbModal, private _coreConfigService: CoreConfigService, private _router: Router, private _toastr: ToastrService, private _service: DemandeGestionService) {
     this._unsubscribeAll = new Subject();
 
   }
@@ -42,8 +43,20 @@ export class DemandeGestionComponent implements OnInit {
     // Whenever The Filter Changes, Always Go Back To The First Page
     this.table.offset = 0;
   }
+  getDateFromMs(ms: any) {
+    return new Date(ms).toLocaleDateString("en-US")
+  }
   ToAdd() {
     this._router.navigate(['/apps/gestion/demande/add'])
+  }
+  AfficherModal(modal, echantillons) {
+    this.selected_echantillons = echantillons;
+    console.log(echantillons)
+    this.modalservice.open(modal, {
+      centered: true,
+
+      size: 'lg' // size: 'xs' | 'sm' | 'lg' | 'xl'
+    });
   }
   deleteDemande(id: any) {
     this._service.deleteDemande(id).subscribe(

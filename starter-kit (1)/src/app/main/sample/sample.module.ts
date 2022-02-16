@@ -8,6 +8,7 @@ import { ContentHeaderModule } from 'app/layout/components/content-header/conten
 
 import { SampleComponent } from './sample.component';
 import { HomeComponent } from './home.component';
+import { HomeService } from './home.service';
 
 const routes = [
   {
@@ -18,6 +19,9 @@ const routes = [
   {
     path: 'home',
     component: HomeComponent,
+    resolve: {
+      hs: HomeService
+    },
     data: { animation: 'home' }
   }
 ];
@@ -25,6 +29,7 @@ const routes = [
 @NgModule({
   declarations: [SampleComponent, HomeComponent],
   imports: [RouterModule.forChild(routes), ContentHeaderModule, TranslateModule, CoreCommonModule],
+  providers: [HomeService],
   exports: [SampleComponent, HomeComponent]
 })
-export class SampleModule {}
+export class SampleModule { }

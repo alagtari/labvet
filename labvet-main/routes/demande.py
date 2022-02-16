@@ -4,7 +4,7 @@ import crud.demande as demande, schemas ,tokens
 from database import  SessionLocal
 
 
-router = APIRouter(tags=['nature'])
+router = APIRouter(tags=['demande'])
 
 db = Session()
 def get_db():
@@ -34,8 +34,8 @@ async def create_demande(d:schemas.Demande ,request : Request , db: Session = De
         db_demande = demande.get_demande_by_ref(db,d.ref)
         if db_demande:
           return {"status" : 400 , "message" : "demande already exists"}
-        demande.create_demande(db,d)
-        return   {"status" : 200 , "message": "demande created."}
+        returned_id = demande.create_demande(db,d)
+        return   {"status" : 200 , "message": "demande created." , "id":returned_id}
     else:
         return{"status" : 403,"message" :"token expired"}
     

@@ -39,8 +39,8 @@ async def create_famille(f:schemas.famille ,request : Request , db: Session = De
         db_famille = famille.get_famille_by_id(db,f.idf)
         if db_famille:
           return {"status" : 400 , "message" : "famille already exists"}
-        famille.create_famille(db,f)
-        return   {"status" : 200 , "message": "famille created."}
+        id = famille.create_famille(db,f)
+        return   {"status" : 200 , "message": "famille created." , "id" : id}
     else:
         return{"status" : 403,"message" :"token expired"}
     

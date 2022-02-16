@@ -15,7 +15,7 @@ export const menu: CoreMenu[] = [
     title: 'Gestion Personnels',
     translate: '',
     type: 'item',
-    icon: 'users',
+    icon: 'user',
     role: ['Admin'],
     url: 'apps/user/user-list'
   },
@@ -45,7 +45,7 @@ export const menu: CoreMenu[] = [
         id: "echantillon",
         title: "Echantillon",
         type: "collapsible",
-        icon: 'list',
+        icon: 'thermometer',
         role: ['Admin'],
         children: [
           {
@@ -53,7 +53,7 @@ export const menu: CoreMenu[] = [
             title: 'Nature',
             translate: '',
             type: 'item',
-            icon: 'list',
+            icon: 'droplet',
             role: ['Admin'],
             url: 'apps/gestion/echantillon/nature'
           },
@@ -72,7 +72,7 @@ export const menu: CoreMenu[] = [
         id: "essai",
         title: "Essai",
         type: "collapsible",
-        icon: "list",
+        icon: "archive",
         role: ['Admin'],
         children: [
           {
@@ -99,7 +99,7 @@ export const menu: CoreMenu[] = [
     title: 'Gestion demandes',
     translate: '',
     type: 'item',
-    icon: 'home',
+    icon: 'file-text',
     role: ['Admin'],
     url: 'apps/gestion/demande/gestion'
   },

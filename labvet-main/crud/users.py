@@ -1,4 +1,3 @@
-
 import hashlib
 import time
 from sqlalchemy.orm import Session
@@ -37,8 +36,6 @@ def get_users(db: Session):
 
 def delete_user(db: Session, id: int):
     db_user =db.query(models.User).filter(models.User.id == id).first()
-    with open("results.txt" , "w") as f:
-        f.write(str(db_user))
     db.delete(db_user)
     db.commit()
 
@@ -54,7 +51,7 @@ def create_user(db: Session, user,mdp):
 def update_user(user: schemas.UserBaseMini ,db :Session):
     db_user = db.query(models.User).filter(models.User.id == user.id).first()
     send_email = False
-    if db_user.password != user.password or db_user.email != user.email  :
+    if db_user.cin != user.cin or db_user.email != user.email :
        send_email =True 
     db_user.name = user.name
     db_user.tel = user.tel
@@ -66,5 +63,3 @@ def update_user(user: schemas.UserBaseMini ,db :Session):
         db_user.password=password.hexdigest()
     db.commit()
     return send_email
-
-    

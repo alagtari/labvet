@@ -4,6 +4,11 @@ import Stepper from 'bs-stepper';
 import { DemandeAddService } from './demande-add.service';
 import Swal from 'sweetalert2';
 import { cpuUsage } from 'process';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FamilleService } from '../../echantillon/famille/famille.service';
+import { ToastrService } from 'ngx-toastr';
+import { timeStamp } from 'console';
+import { NatureService } from '../../echantillon/nature/nature.service';
 
 @Component({
   selector: 'app-demande-add',
@@ -17,6 +22,13 @@ export class DemandeAddComponent implements OnInit {
   public TDEmailVar;
   public TDFirstNameVar;
   public TDLastNameVar;
+  public current_i;
+  public selected_famille = {
+    0: { idf: 0, nomf: "" }
+  };
+  public selected_nature = {
+    0: { id: 0, designation: "" }
+  };
   public twitterVar;
   public facebookVar;
   public googleVar;
@@ -62,6 +74,8 @@ export class DemandeAddComponent implements OnInit {
   }
   deleteItem(id) {
     delete this.selectMultiSelected[this.count]
+    delete this.selected_famille[this.count]
+    delete this.selected_nature[this.count]
     for (let i = 0; i < this.items.length; i++) {
       if (this.items.indexOf(this.items[i]) === id) {
         this.items.splice(i, 1);
@@ -79,9 +93,62 @@ export class DemandeAddComponent implements OnInit {
   }
   public client_id;
   public natures;
-  public familles;
+  public familles = {
+
+  };
   public clients;
   public paramatres = {
+
+  }
+  afficherAddFamille(modal, i) {
+    this.current_i = i;
+    this.modalservice.open(modal, {
+      centered: true,
+
+      size: 'sm' // size: 'xs' | 'sm' | 'lg' | 'xl'
+    });
+  }
+  afficherAddNature(modal, i) {
+    this.current_i = i;
+    this.modalservice.open(modal, {
+      centered: true,
+
+      size: 'sm' // size: 'xs' | 'sm' | 'lg' | 'xl'
+    });
+  }
+  onSubmit(form, modal) {
+    console.log(form.form.value)
+    form.form.value.idf = 0
+    form.form.value.idn = form.form.value.nature.id
+    delete form.form.value.nature
+    console.log(form.form.value)
+    if (form.valid) {
+
+      this._familleService.addFamille(form.form.value).subscribe(
+        result => {
+          if (result) {
+            if (result['status'] == 200) {
+              this._toastr.success('Nature Ajoutée', 'Succès!', {
+                toastClass: 'toast ngx-toastr',
+                closeButton: true
+              });
+              modal.close('Accept click')
+              let id = result.id;
+              this.familles[this.current_i] = [...this.familles[this.current_i], { idf: id, nomf: form.form.value.nomf }]
+              this.selected_famille[this.current_i] = { idf: id, nomf: form.form.value.nomf }
+            }
+            else if (result['status'] == 400) {
+
+              //error
+            }
+            else {
+
+            }
+          }
+        }
+      )
+
+    }
 
   }
 
@@ -151,16 +218,44 @@ export class DemandeAddComponent implements OnInit {
   /**
    * On Submit
    */
-  submit() {
-    alert('Submitted!!');
-    return false;
+  submit(form, modal) {
+    console.log(form.form.value)
+    form.form.value.id = 0
+    if (form.valid) {
+
+      this._natureService.addNature(form.form.value).subscribe(
+        result => {
+          if (result) {
+            if (result['status'] == 200) {
+              this._toastr.success('Nature Ajoutée', 'Succès!', {
+                toastClass: 'toast ngx-toastr',
+                closeButton: true
+              });
+              modal.close('Accept click')
+              let id = result.id
+              this.natures = [...this.natures, { id: id, designation: form.form.value.designation }]
+              this.selected_nature[this.current_i] = { id: id, designation: form.form.value.designation }
+            }
+            else if (result['status'] == 400) {
+
+              //error
+            }
+            else {
+
+            }
+          }
+        }
+      )
+
+    }
+
   }
   onChange(event: any) {
     console.log(event)
     this.client_id = event
   }
 
-  constructor(private _service: DemandeAddService) { }
+  constructor(private _service: DemandeAddService, private modalservice: NgbModal, private _familleService: FamilleService, private _toastr: ToastrService, private _natureService: NatureService) { }
 
   ConfirmTextOpen() {
     console.log(this.items)
@@ -219,7 +314,9 @@ export class DemandeAddComponent implements OnInit {
    */
 
   updateParams(event: any, i: any) {
+    console.log(event)
     this.paramatres[i] = event.parametres
+    this.familles[i] = event.familles
   }
   ngOnInit() {
 
@@ -235,11 +332,7 @@ export class DemandeAddComponent implements OnInit {
       }
     )
 
-    this._service.getFamilles().subscribe(
-      result => {
-        this.familles = result.data;
-      }
-    )
+
     this.verticalWizardStepper = new Stepper(document.querySelector('#stepper2'), {
       linear: false,
       animation: true

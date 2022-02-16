@@ -16,34 +16,34 @@ def get_db():
 
 
 @router.post("/associations/createParametreMethode")
-async def create_association_parametre_methode(idp :int,idm :int,request : Request , db: Session = Depends(get_db)):
+def create_association_parametre_methode(idp :int,idm :int,request : Request , db: Session = Depends(get_db)):
     
     token = request.headers.get('Authorization')
     if (tokens.verify_token(token)):
-        if not association.get_association_parametre_methode(db,idp,idm):
-          return   {"status" : 400 , "message" : "association already exists"} 
+        
         if not parametre.get_parametre_by_id(db,idp) :
             return   {"status" : 404 , "message" : "parametre not found."} 
         if not methode.get_methode(db,idm) :
             return   {"status" : 404 , "message" : "methode not found."}     
-        db_association = association.create_association_parametre_methode(db,idp,idm) 
+        if not association.create_association_parametre_methode(db,idp,idm):
+          return   {"status" : 400 , "message" : "association already exists"} 
         return   {"status" : 200 , "message": "association created."}
     else:
         return{"status" : 403,"message" :"token expired"}
     
 
 @router.post("/associations/createParametreNature")
-async def create_association_parametre_nature(idp :int,idn :int,request : Request , db: Session = Depends(get_db)):
+def create_association_parametre_nature(idp :int,idn :int,request : Request , db: Session = Depends(get_db)):
     
     token = request.headers.get('Authorization')
     if (tokens.verify_token(token)):
-        if not association.get_association_parametre_nature(db,idp,idn):
-              return   {"status" : 400 , "message" : "association already exists"} 
+         
         if not parametre.get_parametre_by_id(db,idp) :
             return   {"status" : 404 , "message" : "parametre not found."} 
         if not nature.get_nature(db,idn) :
             return   {"status" : 404 , "message" : "nature not found."}
-        db_association = association.create_association_parametre_nature(db,idp,idn) 
+        if not association.create_association_parametre_nature(db,idp,idn) :
+              return   {"status" : 400 , "message" : "association already exists"}
         return   {"status" : 200 , "message": "association created."}
     else:
         return{"status" : 403,"message" :"token expired"}

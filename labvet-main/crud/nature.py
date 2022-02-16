@@ -9,8 +9,8 @@ def get_all_natures(db: Session):
     natures  =  db.query(models.Nature).all()
     for nature in natures:
         n  = nature.parametres
+        f = nature.familles
     return natures
-    
 
 def get_natures_by_designation(db: Session,designation:str):
     return db.query(models.Nature).filter(models.Nature.designation == designation).first()
@@ -22,11 +22,12 @@ def delete_nature(db: Session, id: int):
     return True
 
 def create_nature(db: Session, nature: schemas.nature):
-    nature = models.Nature(id= nature.id,designation=nature.designation)
+    nature = models.Nature(designation=nature.designation)
     db.add(nature)
+    db.flush()
+    db.refresh(nature)
     db.commit()
-    return True
-
+    return nature.id
 
 def update_nature(db:Session ,nature: schemas.nature):
     db_nature = get_nature(db,nature.id)

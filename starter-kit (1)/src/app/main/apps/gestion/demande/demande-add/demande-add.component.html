@@ -55,11 +55,8 @@
               </form>
               
               <div class="d-flex justify-content-between">
-                <button class="btn btn-outline-secondary btn-prev" disabled rippleEffect>
-                  <i data-feather="arrow-left" class="align-middle mr-sm-25 mr-0"></i>
-                  <span class="align-middle d-sm-inline-block d-none">Précédent</span>
-                </button>
-                <button class="btn btn-primary btn-next" (click)="verticalWizardNext()" rippleEffect [disabled] = "form.form.valid">
+                
+                <button class="btn btn-primary btn-next" (click)="verticalWizardNext()" rippleEffect = "form.form.valid">
                   <span class="align-middle d-sm-inline-block d-none">Suivant</span>
                   <i data-feather="arrow-right" class="align-middle ml-sm-25 ml-0"></i>
                 </button>
@@ -76,34 +73,36 @@
                     <div class="col-md-4 col-4">
                       <div class="form-group">
                         <label for="nature{{ i }}">Nature</label>
-                        <ng-select (change) = "updateParams($event , i)" id = "nature{{ i }}" name = "nature{{ i }}" [items]="natures" bindLabel="designation" [loading]="selectBasicLoading" [(ngModel)] = "item.nature"> </ng-select>
+                        <ng-select (change) = "updateParams($event , i)" id = "nature{{ i }}" name = "nature{{ i }}" [items]="natures" bindLabel="designation" [loading]="selectBasicLoading" [(ngModel)] = "selected_nature[i]"> 
+                          <ng-template ng-footer-tmp>
+                            <button (click) = "afficherAddNature(modalSMm , i)" style="width: 100%;" type="button" class="btn btn-flat-primary" rippleEffect>
+                              <span [data-feather]="'plus-circle'" [class]="'mr-25'"></span>Ajouter</button
+                            >
+                        </ng-template>
+
+                        </ng-select>
                       </div>
                     </div>
               
                     <div class="col-md-2 col-12">
                       <div class="form-group">
                         <label for="famille{{ i }}">Famille</label>
-                        <ng-select id = "famille{{ i }}" name = "famille{{ i }}" [items]="familles" bindLabel="nomf" [loading]="selectBasicLoading" [(ngModel)] = "item.famille"> </ng-select>
+                        <ng-select id = "famille{{ i }}" name = "famille{{ i }}" [items]="familles[i]" bindLabel="nomf" [loading]="selectBasicLoading" [(ngModel)] = "selected_famille[i]">
+                          <ng-template ng-footer-tmp>
+                            <button (click) = "afficherAddFamille(modalSM , i)" style="width: 100%;" type="button" class="btn btn-flat-primary" rippleEffect>
+                              <span [data-feather]="'plus-circle'" [class]="'mr-25'"></span>Ajouter</button
+                            >
+                        </ng-template>
+                        </ng-select>
                       </div>
                     </div>
               
-                    <div class="col-md-2 col-12">
-                      <div class="form-group">
-                        <label for="designation{{ i }}">Désignation</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="designation{{ i }}"
-                          name="designation{{ i }}"
-                          [(ngModel)]="item.designation"
-                        />
-                      </div>
-                    </div>
+                   
               
                     <div class="col-md-2 col-12">
                       <div class="form-group">
                         <label for="nlot{{ i }}">Nlot</label>
-                        <input type="number"  class="form-control" id="nlot{{ i }}" name = "nlot{{ i }}" [(ngModel)] = "item.nlot" />
+                        <input type="number"  class="form-control" id="nlot{{ i }}" name = "nlot{{ i }}" />
                       </div>
                     </div>
               
@@ -111,7 +110,7 @@
                       <div class="form-group">
                         <button class="btn btn-outline-danger text-nowrap px-1" (click)="deleteItem(i)" rippleEffect>
                           <i data-feather="x" class="mr-25"></i>
-                          <span>Delete</span>
+                          <span>Supprimer</span>
                         </button>
                       </div>
                     </div>
@@ -122,14 +121,14 @@
                 <div class="col-md-2 col-12">
                     <div class="form-group">
                       <label for="qunatite{{ i }}">Quantité</label>
-                      <input type="number"  class="form-control" id="qunatite{{ i }}" name = "qunatite{{ i }}" [(ngModel)] = "item.quantite"  />
+                      <input type="number"  class="form-control" id="qunatite{{ i }}" name = "qunatite{{ i }}"   />
                     </div>
                 </div>
 
                 <div class="col-md-2 col-2">
                     <div class="form-group">
                       <label for="temperature{{ i }}">Température</label>
-                      <input type="number"  class="form-control" id="temperature{{ i }}" name = "temperature{{ i }}"  [(ngModel)] = "item.temperature" />
+                      <input type="number"  class="form-control" id="temperature{{ i }}" name = "temperature{{ i }}"  />
                     </div>
                 </div>
 
@@ -169,7 +168,6 @@
                         name = "dep{{ i }}"
                         id = "dep{{ i }}"
                         [(ngModel)] = "item.dep"
-                        placeholder="Departement"
                       >
                       </ng-select>
                       <!--/ Basic Multi select -->
@@ -219,4 +217,97 @@
   </div>
 
   <swal #SweetAlertConfirmText (open)="ConfirmTextOpen()"></swal>
+
+  <ng-template #modalSM let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="myModalLabel160">Ajouter Famille</h5>
+      <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <form (ngSubmit)="(newUserForm.form.valid)" #newUserForm="ngForm">
+        <div class="row">
+          <div class="col-12 col-md-12">
+            <fieldset class="form-group">
+              <ng-select
+                [items]="natures"
+                [(ngModel)]="nature"
+                name="nature"
+                bindLabel="designation"
+                required
+              >
+              
+            </ng-select>
+            </fieldset>
+          </div>
+          
+          
+        </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="designation">Nom Famille</label>
+            <input
+              type="text"
+              name = "nomf"
+              [(ngModel)]="designation"
+              class="form-control"
+              placeholder="designation"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+          <button
+          
+            (click) = "onSubmit(newUserForm , modal)"
+            class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1"
+            rippleEffect
+          >
+            Ajouter
+          </button>
+          
+        </div>
+      </form>
+      
+    </div>
+  </ng-template>
+  <ng-template #modalSMm let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="myModalLabel160">Ajouter Nature</h5>
+      <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <form (ngSubmit)="(newUserForms.form.valid)" #newUserForms="ngForm">
+        
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="designation">Designation</label>
+            <input
+              type="text"
+              name = "designation"
+              [(ngModel)]="designation"
+              class="form-control"
+              placeholder="designation"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+          <button
+          
+            (click) = "submit(newUserForms , modal)"
+            class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1"
+            rippleEffect
+          >
+            Ajouter
+          </button>
+          
+        </div>
+      </form>
+      
+    </div>
+  </ng-template>
   

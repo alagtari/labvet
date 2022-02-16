@@ -15,6 +15,8 @@ import { DemandeGestionComponent } from './demande-gestion/demande-gestion.compo
 import { DemandeGestionService } from './demande-gestion/deamnde-gestion.service';
 import { DemandeAddComponent } from './demande-add/demande-add.component';
 import { DemandeAddService } from './demande-add/demande-add.service';
+import { FamilleService } from '../echantillon/famille/famille.service';
+import { NatureService } from '../echantillon/nature/nature.service';
 
 
 
@@ -61,6 +63,6 @@ const routes: Routes = [
         CoreDirectivesModule,
         CoreSidebarModule
     ],
-    providers: [DemandeGestionService, DemandeAddService, SweetAlert2LoaderService]
+    providers: [DemandeGestionService, DemandeAddService, SweetAlert2LoaderService, FamilleService, NatureService]
 })
 export class DemandeModule { }

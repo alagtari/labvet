@@ -35,7 +35,7 @@
                             class="btn btn-sm btn-primary mb-75 mr-75"
                             rippleEffect
                           >
-                            Upload
+                            Modifier
                           </button>
                           <input
                             type="file"
@@ -45,7 +45,7 @@
                             accept="image/*"
                             (change)="uploadImage($event)"
                           />
-                          <button class="btn btn-sm btn-outline-secondary mb-75" rippleEffect>Reset</button>
+                          <button class="btn btn-sm btn-outline-secondary mb-75" rippleEffect>Annuler</button>
                         </div>
                         <!--/ upload and reset button -->
                       </div>
@@ -56,7 +56,7 @@
                         <div class="row">
                           <div class="col-12 col-sm-6">
                             <div class="form-group">
-                              <label for="account-name">Name</label>
+                              <label for="account-name">Nom complet</label>
                               <input
                                 type="text"
                                 [(ngModel)]="data.name"
@@ -107,8 +107,8 @@
                             </div>
                           </div>
                           <div class="col-12">
-                            <button type="submit" class="btn btn-primary mt-2 mr-1" rippleEffect (click) = "submit(profileForm)">Save changes</button>
-                            <button type="reset" class="btn btn-outline-secondary mt-2" rippleEffect>Cancel</button>
+                            <button type="submit" class="btn btn-primary mt-2 mr-1" rippleEffect (click) = "submit(profileForm)">Valider</button>
+                            <button type="reset" class="btn btn-outline-secondary mt-2" rippleEffect>Annuler</button>
                           </div>
                         </div>
                       </form>
@@ -127,7 +127,7 @@
                   aria-expanded="false"
                 >
                   <i data-feather="lock" class="font-medium-3 mr-1"></i>
-                  <span class="font-weight-bold">Change Password</span>
+                  <span class="font-weight-bold">Mot de passe</span>
                 </a>
                 <ng-template ngbNavContent>
                   <div class="card">
@@ -137,7 +137,7 @@
                         <div class="row">
                           <div class="col-12 col-sm-6">
                             <div class="form-group">
-                              <label for="account-old-password">Old Password</label>
+                              <label for="account-old-password">Ancien mot de passe</label>
                               <div class="input-group form-password-toggle input-group-merge">
                                 <input
                                   [type]="passwordTextTypeOld ? 'text' : 'password'"
@@ -160,14 +160,14 @@
                                 </div>
                                 
                               </div>
-                              <small class="form-text text-danger" *ngIf="oldpwdwrng">Invalid Password</small>
+                              <small class="form-text text-danger" *ngIf="oldpwdwrng">Mot de passe invalide</small>
                             </div>
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-12 col-sm-6">
                             <div class="form-group">
-                              <label for="account-new-password">New Password</label>
+                              <label for="account-new-password">Nouveau mot de passe</label>
                               <div class="input-group form-password-toggle input-group-merge">
                                 <input
                                   [type]="passwordTextTypeNew ? 'text' : 'password'"
@@ -193,7 +193,7 @@
                           </div>
                           <div class="col-12 col-sm-6">
                             <div class="form-group">
-                              <label for="account-retype-new-password">Retype New Password</label>
+                              <label for="account-retype-new-password">Réécrire votre mot de passe</label>
                               <div class="input-group form-password-toggle input-group-merge">
                                 <input
                                   [type]="passwordTextTypeRetype ? 'text' : 'password'"
@@ -215,12 +215,12 @@
                                   ></span>
                                 </div>
                               </div>
-                              <small class="form-text text-danger" *ngIf="pwdmatch">Password doesn't match</small>
+                              <small class="form-text text-danger" *ngIf="pwdmatch">Le mot de passe ne correspond pas</small>
                             </div>
                           </div>
                           <div class="col-12">
-                            <button type="submit" class="btn btn-primary mr-1 mt-1" (click) = "submitPassword(passwordForm)" rippleEffect>Save changes</button>
-                            <button type="reset" class="btn btn-outline-secondary mt-1" rippleEffect>Cancel</button>
+                            <button type="submit" class="btn btn-primary mr-1 mt-1" (click) = "submitPassword(passwordForm)" rippleEffect>Valider</button>
+                            <button type="reset" class="btn btn-outline-secondary mt-1" rippleEffect>Annuler</button>
                           </div>
                         </div>
                       </form>
