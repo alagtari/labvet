@@ -48,7 +48,7 @@ def create_echantillon(db: Session, echantillon: schemas.echantillon ):
         dep = '03'
 
     barcode = str(echantillon.idd)+dep+str(echantillon.idf)+str(echantillon.idn)
-    db_echantillon = models.Echantillon(dep = dep,barcode= barcode,idn= echantillon.idf,idd= echantillon.idd,ref= echantillon.ref ,quantite=echantillon.quantite,nlot=echantillon.nlot,temperature=echantillon.temperature,datecr=datecr)
+    db_echantillon = models.Echantillon(dep = dep,barcode= barcode,idn= echantillon.idn,idd= echantillon.idd,ref= echantillon.ref ,quantite=echantillon.quantite,nlot=echantillon.nlot,temperature=echantillon.temperature,datecr=datecr)
     db.add(db_echantillon)
     db.flush()
     db.refresh(db_echantillon)
