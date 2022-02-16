@@ -12,8 +12,8 @@ def get_echantillon_by_id(db: Session, id:str):
     my_code = EAN13(echantillon.barcode, writer=ImageWriter()) 
     my_code.save("code_a_barre")
     with open('code_a_barre.png', 'rb') as f :
-        barcode = base64.b64encode(f.read())
-    ech['code a barre'] = barcode
+        barcode = "data:image/png;base64,"+str(base64.b64encode(f.read())).replace("b'" , "").replace("'" , "")
+    ech['code_a_barre'] = barcode
     return ech
 
 
@@ -23,6 +23,7 @@ def get_echantillons(db: Session):
     for echantillon in db_echantillons :
        ech = {}
        ech['echantillon'] = echantillon
+       p = echantillon.nature
        my_code = EAN13(echantillon.barcode, writer=ImageWriter()) 
        my_code.save("code_a_barre")
        with open('code_a_barre.png', 'rb') as f :
@@ -45,7 +46,7 @@ def create_echantillon(db: Session, echantillon: schemas.echantillon ):
         dep = '02'   
     else :
         dep = '03'
-
+    
     barcode = str(echantillon.idd)+'00000'+dep+str(echantillon.idf)+str(echantillon.idn)+str(echantillon.idp)
     db_echantillon = models.Echantillon(dep = dep,barcode= barcode,idn= echantillon.idf,idd= echantillon.idd,ref= echantillon.ref ,quantite=echantillon.quantite,nlot=echantillon.nlot,temperature=echantillon.temperature,datecr=datecr)
     db.add(db_echantillon)

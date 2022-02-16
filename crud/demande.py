@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 import models, schemas 
 import time
 import datetime
+import crud.echantillon as echantillon
 def get_demande_by_ref(db: Session, ref: int):
     return db.query(models.Demande).filter(models.Demande.ref == ref).first()
 
@@ -14,6 +15,14 @@ def get_demandes(db: Session):
         o['ref'] = demande.ref
         o['client'] = demande.client.email
         o['date_reception'] =datetime.datetime.utcfromtimestamp(float(demande.date_reception) // 1000).strftime('%Y-%m-%d %H:%M:%S')
+        o['controle'] = demande.controle
+        o['etat'] = demande.etat
+        for ech in demande.echantillons:
+            ech.nature
+        o['echantillons'] = []
+        for ech in demande.echantillons:
+            ech = echantillon.get_echantillon_by_id(db , ech.id)
+            o['echantillons'].append(ech)
         o['nbr'] = len(demande.echantillons)
         res.append(o)
     return res

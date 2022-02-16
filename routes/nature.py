@@ -39,8 +39,8 @@ async def create_nature(n:schemas.nature ,request : Request , db: Session = Depe
         db_nature = nature.get_nature(db,n.id)
         if db_nature:
           return {"status" : 400 , "message" : "nature already exists"}
-        nature.create_nature(db,n)
-        return   {"status" : 200 , "message": "nature created."}
+        id  = nature.create_nature(db,n)
+        return   {"status" : 200 , "message": "nature created." , "id" : id}
     else:
         return{"status" : 403,"message" :"token expired"}
     

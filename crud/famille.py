@@ -25,10 +25,12 @@ def delete_famille(db: Session, idf: str):
     return True
 
 def create_famille(db: Session, famille: schemas.famille):
-    db_famille = models.Famille(idf= famille.idf ,nomf=famille.nomf,nature_id=famille.idn)
+    db_famille = models.Famille(nomf=famille.nomf,nature_id=famille.idn)
     db.add(db_famille)
+    db.flush()
+    db.refresh(db_famille)
     db.commit()
-    return True
+    return db_famille.idf
 
 def update_famille(db: Session,famille: schemas.famille):
     db_famille = get_famille_by_id(db, famille.idf)
