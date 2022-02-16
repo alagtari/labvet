@@ -48,7 +48,7 @@ class Demande(Base):
     __tablename__ = "demande"
 
     ref = Column(Integer, primary_key=True, index=True)
-    observation = Column(String(40), unique=True, index=True)
+    observation = Column(String(40), index=True)
     date_reception = Column(BigInteger)
     preleveur = Column(String(100))
     controle = Column(String(100))

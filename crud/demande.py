@@ -14,7 +14,7 @@ def get_demandes(db: Session):
         o = {}
         o['ref'] = demande.ref
         o['client'] = demande.client.email
-        o['date_reception'] =datetime.datetime.utcfromtimestamp(float(demande.date_reception) // 1000).strftime('%Y-%m-%d %H:%M:%S')
+       # o['date_reception'] =datetime.datetime.utcfromtimestamp(float(demande.date_reception) // 1000).strftime('%Y-%m-%d %H:%M:%S')
         o['controle'] = demande.controle
         o['etat'] = demande.etat
         for ech in demande.echantillons:
