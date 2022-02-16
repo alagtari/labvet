@@ -116,6 +116,9 @@ export class DemandeAddComponent implements OnInit {
       size: 'sm' // size: 'xs' | 'sm' | 'lg' | 'xl'
     });
   }
+  updateFamille(event, i) {
+    this.selected_famille[i] = event
+  }
   onSubmit(form, modal) {
     console.log(form.form.value)
     form.form.value.idf = 0
@@ -275,7 +278,7 @@ export class DemandeAddComponent implements OnInit {
           let deamnde_id = result.id
           for (let i = 0; i < this.items.length; i++) {
             let item = this.items[i]
-            let echantillon_data = { id: 0, ref: item.dep.value, quantite: item.quantite, nlot: item.nlot, temperature: item.temperature, idn: item.nature.id, idp: [], idd: deamnde_id, idf: item.famille.idf }
+            let echantillon_data = { id: 0, ref: item.dep.value, quantite: item.quantite, nlot: item.nlot, temperature: item.temperature, idn: this.selected_nature[i].id, idp: [], idd: deamnde_id, idf: this.selected_famille[i].idf }
 
             for (let j = 0; j < this.selectMultiSelected[i].length; j++) {
               echantillon_data.idp.push(this.selectMultiSelected[i][j].id)
@@ -298,7 +301,8 @@ export class DemandeAddComponent implements OnInit {
           });
           setTimeout(() => {                           // <<<---using ()=> syntax
             window.location.reload()
-          }, 1100);
+          }, 2100);
+
 
         }
 
@@ -315,6 +319,7 @@ export class DemandeAddComponent implements OnInit {
 
   updateParams(event: any, i: any) {
     console.log(event)
+    this.selected_nature[i] = event
     this.paramatres[i] = event.parametres
     this.familles[i] = event.familles
   }

@@ -34,7 +34,7 @@ def delete_demande(db: Session, ref: int):
     return True
 
 def create_demande(db: Session, demande: schemas.Demande):
-    db_demande = models.Demande(etat='en cours',observation=demande.observation,date_reception=demande.date_reception,preleveur=demande.preleveur,controle=demande.controle,client_id=demande.client_id)
+    db_demande = models.Demande(etat='en cours',observation=demande.observation,date_reception=round(time.time() * 1000),preleveur=demande.preleveur,controle=demande.controle,client_id=demande.client_id)
     db.add(db_demande)
     db.flush()
     db.refresh(db_demande)

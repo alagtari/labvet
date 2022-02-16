@@ -46,9 +46,9 @@ def create_echantillon(db: Session, echantillon: schemas.echantillon ):
         dep = '02'   
     else :
         dep = '03'
-    
-    barcode = str(echantillon.idd)+'00000'+dep+str(echantillon.idf)+str(echantillon.idn)+str(echantillon.idp)
-    db_echantillon = models.Echantillon(dep = dep,barcode= barcode,idn= echantillon.idf,idd= echantillon.idd,ref= echantillon.ref ,quantite=echantillon.quantite,nlot=echantillon.nlot,temperature=echantillon.temperature,datecr=datecr)
+
+    barcode = str(echantillon.idd)+dep+str(echantillon.idf)+str(echantillon.idn)
+    db_echantillon = models.Echantillon(dep = dep,barcode= barcode,idn= echantillon.idn,idd= echantillon.idd,ref= echantillon.ref ,quantite=echantillon.quantite,nlot=echantillon.nlot,temperature=echantillon.temperature,datecr=datecr)
     db.add(db_echantillon)
     db.flush()
     db.refresh(db_echantillon)
@@ -58,6 +58,9 @@ def create_echantillon(db: Session, echantillon: schemas.echantillon ):
         db.execute(association)
         db.commit()
     db_echantillon.barcode = str(db_echantillon.id)+db_echantillon.barcode
+    l = len(db_echantillon.barcode)
+    for item in range(12-l):
+        db_echantillon.barcode = str(0)+db_echantillon.barcode
     db.commit()
     return True
 

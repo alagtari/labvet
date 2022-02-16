@@ -48,14 +48,14 @@ class Demande(Base):
     __tablename__ = "demande"
 
     ref = Column(Integer, primary_key=True, index=True)
-    observation = Column(String(40), unique=True, index=True)
+    observation = Column(String(40), index=True)
     date_reception = Column(BigInteger)
     preleveur = Column(String(100))
     controle = Column(String(100))
     etat = Column(String(100))
     codeDemande = Column(String(20))
     client_id = Column(Integer, ForeignKey('client.idc'))
-    client = relationship("Client", back_populates="demandes")
+    client = relationship("Client", backref=backref("demande" , cascade="all,delete"))
     echantillons = relationship("Echantillon", back_populates="demande")
 
 
@@ -111,7 +111,7 @@ class Echantillon(Base):
     datecr = Column(BigInteger)
     idd = Column(Integer, ForeignKey('demande.ref'))
     idn = Column(Integer, ForeignKey('nature.id'))
-    demande = relationship("Demande", back_populates="echantillons")
+    demande = relationship("Demande",backref=backref("echantillon" , cascade="all,delete"))
     parametres = relationship("Parametre", secondary=parametre_echantillon)
     nature = relationship("Nature", back_populates="echantillons")
     
