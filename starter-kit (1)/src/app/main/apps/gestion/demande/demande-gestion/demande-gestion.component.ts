@@ -1,5 +1,5 @@
-import { Component, Inject, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component, EventEmitter, Inject, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { ColumnMode, DatatableComponent } from '@swimlane/ngx-datatable';
@@ -13,20 +13,90 @@ import { DemandeGestionService } from './deamnde-gestion.service';
   templateUrl: './demande-gestion.component.html',
   styleUrls: ['./demande-gestion.component.scss']
 })
+
 export class DemandeGestionComponent implements OnInit {
+  @Output() dateSelect = new EventEmitter<NgbDateStruct>();
   @ViewChild(DatatableComponent) table: DatatableComponent;
   public ColumnMode = ColumnMode;
   public selectedOption = 10;
   public tempData;
   public selected_echantillons;
   public tempRow;
+  public basicDPdata: NgbDateStruct;
+  public previousPlanFilter = '';
+  public previousStatusFilter = '';
+  public selected_controle;
   public temp = [];
+  public selectedEtat = [];
+  public selectedControle = [];
+  public selectControle = [
+    {
+      name: "Auto-Controle", value: "Auto-Controle"
+    },
+    {
+      name: "controle officiel", value: "controle officiel"
+    }
+  ]
+
+  public selectEtat = [
+    {
+      name: "Demandes en cours", value: "en cours"
+    },
+    {
+      name: "Demandes traitées", value: "traite"
+    }
+  ]
+
   public rows: any;
   public searchValue: any;
+  public previousControleFilter = ''
+  public previousEtatFilter = '';
   public _unsubscribeAll;
   constructor(private modalservice: NgbModal, private _coreConfigService: CoreConfigService, private _router: Router, private _toastr: ToastrService, private _service: DemandeGestionService) {
     this._unsubscribeAll = new Subject();
 
+  }
+  filterByControle(event: any) {
+    const filter = event ? event.value : '';
+    this.previousControleFilter = filter;
+    this.temp = this.filterRows(filter, this.previousEtatFilter, this.previousStatusFilter);
+    this.rows = this.temp;
+  }
+  filterByEtat(event: any) {
+    const filter = event ? event.value : '';
+    this.previousEtatFilter = filter;
+    this.temp = this.filterRows(this.previousControleFilter, filter, this.previousStatusFilter);
+    this.rows = this.temp;
+  }
+  dateCompare(event) {
+    console.log(event)
+    this.searchValue = '';
+    const temp = this.tempData.filter(function (row) {
+      let currentDate = { day: 0, month: 0, year: 0 };
+      let dateData = row.date_reception.split('-')
+      currentDate.year = dateData[0]
+      currentDate.month = dateData[1]
+      currentDate.day = dateData[2].split(' ')[0]
+      const match = (event.day == currentDate.day && event.month == currentDate.month && event.year == currentDate.year) || event == "none"
+      return match
+    })
+    this.rows = temp;
+    // Whenever The Filter Changes, Always Go Back To The First Page
+    this.table.offset = 0;
+  }
+  filterRows(roleFilter, planFilter, statusFilter): any[] {
+    // Reset search on select change
+    this.searchValue = '';
+
+    roleFilter = roleFilter.toLowerCase();
+    planFilter = planFilter.toLowerCase();
+    statusFilter = statusFilter.toLowerCase();
+
+    return this.tempData.filter(row => {
+      const isPartialNameMatch = row.controle.toLowerCase().indexOf(roleFilter) !== -1 || !roleFilter;
+
+      return isPartialNameMatch;
+    });
   }
   filterUpdate(event) {
     // Reset ng-select on search
@@ -35,7 +105,8 @@ export class DemandeGestionComponent implements OnInit {
 
     // Filter Our Data
     const temp = this.tempData.filter(function (d) {
-      return d.nomf.toLowerCase().indexOf(val) !== -1 || !val || d.nature.toLowerCase().indexOf(val) !== -1;
+      console.log(d)
+      return d.ref.toString().indexOf(val) !== -1 || !val || d.client.toLowerCase().indexOf(val) !== -1 || d.controle.toLowerCase().indexOf(val) !== -1 || d.nbr.toString().indexOf(val) !== -1;
     });
 
     // Update The Rows

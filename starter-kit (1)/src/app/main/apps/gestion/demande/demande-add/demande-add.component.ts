@@ -298,10 +298,14 @@ export class DemandeAddComponent implements OnInit {
             customClass: {
               confirmButton: 'btn btn-success'
             }
-          });
-          setTimeout(() => {                           // <<<---using ()=> syntax
-            window.location.reload()
-          }, 2100);
+          }).then(result => {
+            if (result.isConfirmed) {
+              setTimeout(() => {                           // <<<---using ()=> syntax
+                window.location.reload()
+              }, 1);
+            }
+          })
+
 
 
         }

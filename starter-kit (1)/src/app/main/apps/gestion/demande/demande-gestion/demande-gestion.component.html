@@ -3,6 +3,46 @@
       <!-- User List -->
       <section class="users-list-wrapper">
         <!-- users filter start -->
+        <div class="card">
+          <h5 class="card-header">Filtre de recherche</h5>
+          <div class="card-body">
+            <div class="users-list-filter">
+              <form>
+                <div class="row">
+                  <div class="col-12 col-md-4">
+                    <fieldset class="form-group">
+                      <ng-select
+                        [items]="selectControle"
+                        [(ngModel)]="selectedControle"
+                        name="selectedControle"
+                        bindLabel="name"
+                        placeholder="Filtrer par Controle"
+                        (change)="filterByControle($event)"
+                      ></ng-select>
+                    </fieldset>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <div class="input-group">
+                      <input class="form-control" placeholder="yyyy-mm-dd" name="Basic Date Picker" [(ngModel)]="basicDPdata"
+                        ngbDatepicker #basicDP="ngbDatepicker" (dateSelect) = "dateCompare($event)">
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-secondary feather icon-calendar" (click)="basicDP.toggle()"
+                          type="button" rippleEffect></button>
+                      </div>
+                      <div class="input-group-append">
+                        <button class="btn btn-outline-danger feather icon-x" (click)="dateCompare('none')"
+                          type="button" rippleEffect></button>
+                      </div>
+                    </div>
+                  </div>
+        
+                  
+                  
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
         <!-- users filter end -->
         
   
