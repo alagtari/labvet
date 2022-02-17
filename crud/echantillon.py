@@ -1,7 +1,7 @@
 
 from sqlalchemy.orm import Session
 import models, schemas 
-from barcode import EAN13 
+import barcode as BARCODE
 from barcode.writer import ImageWriter 
 import base64
 import time
@@ -9,8 +9,11 @@ def get_echantillon_by_id(db: Session, id:str):
     echantillon = db.query(models.Echantillon).filter(models.Echantillon.id == id).first()
     ech = {}
     ech['echantillon'] = echantillon
-    my_code = EAN13(echantillon.barcode, writer=ImageWriter()) 
-    my_code.save("code_a_barre")
+
+    Code39 = BARCODE.get_barcode_class('code39')
+    code39 = Code39(echantillon.barcode, add_checksum=False, writer=ImageWriter())
+    code39.save('code_a_barre')
+
     with open('code_a_barre.png', 'rb') as f :
         barcode = "data:image/png;base64,"+str(base64.b64encode(f.read())).replace("b'" , "").replace("'" , "")
     ech['code_a_barre'] = barcode
@@ -24,8 +27,11 @@ def get_echantillons(db: Session):
        ech = {}
        ech['echantillon'] = echantillon
        p = echantillon.nature
-       my_code = EAN13(echantillon.barcode, writer=ImageWriter()) 
-       my_code.save("code_a_barre")
+
+       Code39 = BARCODE.get_barcode_class('code39')
+       code39 = Code39(echantillon.barcode, add_checksum=False, writer=ImageWriter())
+       code39.save('code_a_barre')
+       
        with open('code_a_barre.png', 'rb') as f :
                 barcode = base64.b64encode(f.read())
        ech['code a barre'] = barcode
@@ -47,8 +53,8 @@ def create_echantillon(db: Session, echantillon: schemas.echantillon ):
     else :
         dep = '03'
 
-    barcode = str(echantillon.idd)+dep+str(echantillon.idf)+str(echantillon.idn)
-    db_echantillon = models.Echantillon(dep = dep,barcode= barcode,idn= echantillon.idn,idd= echantillon.idd,ref= echantillon.ref ,quantite=echantillon.quantite,nlot=echantillon.nlot,temperature=echantillon.temperature,datecr=datecr)
+    
+    db_echantillon = models.Echantillon(dep = dep,idn= echantillon.idn,idd= echantillon.idd,ref= echantillon.ref ,quantite=echantillon.quantite,nlot=echantillon.nlot,temperature=echantillon.temperature,datecr=datecr)
     db.add(db_echantillon)
     db.flush()
     db.refresh(db_echantillon)
@@ -57,10 +63,9 @@ def create_echantillon(db: Session, echantillon: schemas.echantillon ):
         association = models.parametre_echantillon.insert().values(parametre_id=id , echantillon_id=db_echantillon.id)
         db.execute(association)
         db.commit()
-    db_echantillon.barcode = str(db_echantillon.id)+db_echantillon.barcode
-    l = len(db_echantillon.barcode)
-    for item in range(12-l):
-        db_echantillon.barcode = str(0)+db_echantillon.barcode
+    
+    db_echantillon.barcode = str(echantillon.idd)+dep+str(echantillon.idn)+str(echantillon.idf)+str(db_echantillon.id)
+
     db.commit()
     return True
 
