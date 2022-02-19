@@ -24,6 +24,7 @@ def get_demandes(db: Session):
             ech = echantillon.get_echantillon_by_id(db , ech.id)
             o['echantillons'].append(ech)
         o['nbr'] = len(demande.echantillons)
+        o['observation'] = demande.observation
         res.append(o)
     return res
 
@@ -47,11 +48,8 @@ def create_demande(db: Session, demande: schemas.Demande):
 def update_demande(db: Session,demande: schemas.Demande):
     db_demande = get_demande_by_ref(db, demande.ref)
     db_demande.observation = demande.observation
-    db_demande.date_reception = demande.date_reception
-    db_demande.preleveur  = demande.preleveur
+    db_demande.date_reception = round(time.time() * 1000)
     db_demande.controle = demande.controle
-    db_demande.client_id  = demande.client_id
-    db_demande.etat = demande.etat
     db.commit()
     return True
 

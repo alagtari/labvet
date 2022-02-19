@@ -21,6 +21,7 @@ export class DemandeGestionComponent implements OnInit {
   public selectedOption = 10;
   public tempData;
   public selected_echantillons;
+  public selected_echantillons_edit;
   public tempRow;
   public basicDPdata: NgbDateStruct;
   public previousPlanFilter = '';
@@ -123,6 +124,99 @@ export class DemandeGestionComponent implements OnInit {
   AfficherModal(modal, echantillons) {
     this.selected_echantillons = echantillons;
     console.log(echantillons)
+    this.modalservice.open(modal, {
+      centered: true,
+
+      size: 'lg' // size: 'xs' | 'sm' | 'lg' | 'xl'
+    });
+  }
+  public selected_demande;
+  public control_stat = true;
+  onChange(event) {
+    if (this.control_stat == true) {
+      this.control_stat = false
+    }
+    else {
+      this.control_stat = true
+    }
+  }
+  sendUpdateDemande() {
+    let controle = ""
+    if (this.control_stat) {
+      controle = "Auto-controle"
+    }
+    else {
+      controle = "Controle Officiel"
+    }
+    let demande_data = {
+      ref: this.selected_demande.ref,
+      observation: this.selected_demande.observation,
+      "preleveur": "string",
+      controle: controle,
+      "client_id": 0,
+      "etat": "string"
+    }
+    this._service.updateDemande(demande_data).subscribe(result => {
+      if (result) {
+        if (result['status'] == 200) {
+
+          for (let i = 0; i < this.selected_echantillons_edit.length; i++) {
+            let ech_data = {
+              "id": this.selected_echantillons_edit[i].echantillon.id,
+              "ref": "string",
+              "quantite": this.selected_echantillons_edit[i].echantillon.quantite,
+              "nlot": this.selected_echantillons_edit[i].echantillon.nlot,
+              "temperature": this.selected_echantillons_edit[i].echantillon.temperature,
+              "ref_codebarre": "string"
+            }
+            console.log(ech_data)
+            this._service.updateEchantillon(ech_data).subscribe(result => {
+              if (result) {
+                if (result.stats == 200) {
+                  console.log("Echantillon modifié")
+                }
+                else {
+                  console.log(result)
+                }
+
+              }
+            })
+          }
+
+
+
+          this._toastr.success('Demande modifiée', 'Succès!', {
+            toastClass: 'toast ngx-toastr',
+            closeButton: true
+          });
+
+        }
+
+        else if (result['status'] == 401) {
+          localStorage.clear()
+          this._toastr.error('Session expirée', 'Erreur!', {
+            toastClass: 'toast ngx-toastr',
+            closeButton: true
+          });
+          this._router.navigate(['/home']);
+        }
+        else {
+          console.log(result)
+        }
+      }
+    })
+  }
+  editDemande(modal, row) {
+    console.log(row)
+    this.selected_demande = row;
+    this.selected_echantillons_edit = row.echantillons;
+    if (row.controle == 'Auto-Controle') {
+      this.control_stat = true;
+
+    }
+    else {
+      this.control_stat = false;
+    }
     this.modalservice.open(modal, {
       centered: true,
 

@@ -50,6 +50,39 @@ export class DemandeGestionService implements Resolve<any> {
   /**
    * Get rows
    */
+  updateEchantillon(data) {
+    let token = JSON.parse(localStorage.getItem("currentUser")).access_token;
+    const optionRequete = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': token
+      })
+    };
+    return this._httpClient.put<any>(`${environment.apiUrl}/echantillons/update`, data, optionRequete).pipe(
+      map(results => {
+        if (results) {
+          return results;
+        }
+      })
+    )
+  }
+
+  updateDemande(data) {
+    let token = JSON.parse(localStorage.getItem("currentUser")).access_token;
+    const optionRequete = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': token
+      })
+    };
+    return this._httpClient.put<any>(`${environment.apiUrl}/demandes/update`, data, optionRequete).pipe(
+      map(results => {
+        if (results) {
+          return results;
+        }
+      })
+    )
+  }
 
   deleteDemande(id: any) {
     let token = JSON.parse(localStorage.getItem("currentUser")).access_token;

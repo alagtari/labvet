@@ -126,7 +126,7 @@
               <ng-template ngx-datatable-cell-template let-row="row">
                 
                   
-                <a  (click) = "deleteDemande(row.ref)"
+                <a  (click) = "editDemande(modalSMx,row)"
                 ><span [data-feather]="'edit'" class = "text-warning"  [size]="16" [class]="'mr-50'"></span> </a
               >
                     <a  (click) = "deleteDemande(row.ref)"
@@ -159,7 +159,7 @@
 
         <ngb-panel *ngFor = "let ech of selected_echantillons">
           <ng-template ngbPanelTitle>
-            <span class="lead collapse-title"> Echantillon : {{getDateFromMs(ech.echantillon.datecr)}} </span>
+            <span class="lead collapse-title"> Echantillon :  #{{ech.echantillon.id}} </span>
           </ng-template>
           <ng-template ngbPanelContent>
            <div class = "row">
@@ -244,6 +244,168 @@
           </ng-template>
         </ngb-panel>
       </ngb-accordion>
+    </div>
+  </ng-template>
+
+  <ng-template #modalSMx let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="myModalLabel160">Modifier Demande</h5>
+      <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+          <!-- users edit start -->
+          <section class="app-user-edit">
+            <div class="card">
+              <div class="card-body">
+                <ul ngbNav #nav="ngbNav" class="nav nav-pills">
+                  <li ngbNavItem>
+                    
+                    <ng-template ngbNavContent>
+                      <!-- Account Tab starts -->
+                      <div class="tab-pane active" id="account" aria-labelledby="account-tab" role="tabpanel">
+                        <!-- users edit media object start -->
+                        
+                        <!-- users edit media object ends -->
+                        <!-- users edit account form start -->
+                        <form class="form-validate" (ngSubmit)="(accountForm.form.valid)" #accountForm="ngForm">
+                          <div class="row">
+                            <div class="form-group form-password-toggle col-md-8">
+                              <label for="observation">Observation</label>
+                              <fieldset class="form-group">
+
+                                <textarea
+                                  [(ngModel)] = "this.selected_demande.observation"
+                                  name="observation"
+                                 class="form-control" id="observation" rows="5" placeholder="Observation" required></textarea>
+                              </fieldset>
+                          </div>
+                            <div class="col-md-4">
+                              <div class="form-group">
+                                <div class="form-group col-md" style="margin-top: 30px;">
+                                  <div class="custom-control custom-switch custom-control-inline">
+                                      <input (click)="onChange($event)"
+                                      [checked]='control_stat'
+                                       type="checkbox" class="custom-control-input" id ="controle" />
+                                      <label class="custom-control-label" for="controle">Auto-Controle</label>
+                                    </div>
+                              </div>
+                              </div>
+                            </div>
+                            
+                            <ngb-accordion #acc="ngbAccordion">
+
+                              <ngb-panel *ngFor = "let ech of selected_echantillons_edit">
+                                <ng-template ngbPanelTitle>
+                                  <span class="lead collapse-title"> Echantillon #{{ech.echantillon.id}} </span>
+                                </ng-template>
+                                <ng-template ngbPanelContent>
+                                 <div class = "row">
+                                    <div class="col-xl-12 col-md-12 col-sm-12">
+                                      <div class="card text-center">
+                                        <div class="card-body">
+                                          <div class="avatar bg-light-danger p-50 m-0 mb-1">
+                                            <div class="avatar-content">
+                                              <i data-feather="droplet" class="font-medium-5"></i>
+                                            </div>
+                                          </div>
+                                          <div class="form-group">
+                                            <label for="tel">Température</label>
+                                            <input
+                                            [(ngModel)]="ech.echantillon.temperature"
+                                            name ="temperature{{ech.echantillon.ref}}"
+                                              type="text"
+                                              class="form-control"
+                                              
+                                            />
+                                          </div>
+                                         
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class = "row">
+                                    <div class="col-xl-6 col-md-6 col-sm-6">
+                                      <div class="card text-center">
+                                        <div class="card-body">
+                                          <div class="avatar bg-light-warning p-50 m-0 mb-1">
+                                            <div class="avatar-content">
+                                              <i data-feather="package" class="font-medium-5"></i>
+                                            </div>
+                                          </div>
+                                          <div class="form-group">
+                                            <label for="tel">Quantité</label>
+                                            <input
+                                            [(ngModel)]="ech.echantillon.quantite"
+                                            name = "quantite{{ech.echantillon.ref}}"
+                                              type="text"
+                                              class="form-control"
+                                              
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-xl-6 col-md-6 col-sm-6">
+                                      <div class="card text-center">
+                                        <div class="card-body">
+                                          <div class="avatar bg-light-warning p-50 m-0 mb-1">
+                                            <div class="avatar-content">
+                                              <i data-feather="shopping-bag" class="font-medium-5"></i>
+                                            </div>
+                                          </div>
+                                          <div class="form-group">
+                                            <label for="tel">NLot</label>
+                                            <input
+                                            [(ngModel)]="ech.echantillon.nlot"
+                                            name = "nlot{{ech.echantillon.ref}}"
+                                              type="text"
+                                              class="form-control"
+                                              
+                                            />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
+                            
+                      
+                                </ng-template>
+                              </ngb-panel>
+                            </ngb-accordion>
+                            <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+                              <button
+                                type="submit"
+                                (click)="sendUpdateDemande()"
+                                class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1"
+                                rippleEffect
+                              >
+                                  Sauvegarder les modifications
+                              </button>
+                              
+                            </div>
+                          </div>
+                        </form>
+                        <!-- users edit account form ends -->
+                      </div>
+                      <!-- Account Tab ends -->
+                    </ng-template>
+                  </li>
+                  
+                  
+                </ul>
+                <div [ngbNavOutlet]="nav" class="mt-2"></div>
+              </div>
+            </div>
+          </section>
+          <!-- users edit ends -->
+        </div>
+      </div>
+      
     </div>
   </ng-template>
 
