@@ -89,5 +89,16 @@ def delete_demande(id :int ,request : Request , db: Session = Depends(get_db)):
         return {"status" :  200 , "message" : "demande deleted"}
     else:
         return{"status" : 401 ,"message":"token expired"}
+
+@router.put("/demandes/update")
+def update_demande(e: schemas.Demande,request : Request , db: Session = Depends(get_db)):
+    token = request.headers.get('Authorization')
+    if (tokens.verify_token(token)):
+        if not demande.get_demande_by_ref(db,e.ref) :
+            return {"status" : 404 , "message" : "echantillon not found"}    
+        demande.update_demande(db,e)
+        return {"status" : 200 , "message":"echantillon updated"} 
+    else:
+        return {"status": 401 , "message" : "Token expired!"}
     
 
