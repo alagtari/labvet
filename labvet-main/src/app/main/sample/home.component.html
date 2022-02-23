@@ -1,0 +1,147 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <!-- content-header component -->
+
+    <!-- Basic Alerts start -->
+    <section id="home-page">
+      <div class="row">
+        <div class="col-lg-12 col-12">
+          <div class="card card-statistics">
+            <div class="card-header">
+              <h4 class="card-title">Statistiques</h4>
+            </div>
+            <div class="card-body statistics-body">
+              <div class="row">
+                <div class="col-md-3 col-sm-6 col-12 mb-2 mb-md-0">
+                  <div class="media">
+                    <div class="avatar bg-light-primary mr-2">
+                      <div class="avatar-content">
+                        <i data-feather="user" class="avatar-icon"></i>
+                      </div>
+                    </div>
+                    <div class="media-body my-auto">
+                      <h4 class="font-weight-bolder mb-0">{{rows.client}}</h4>
+                      <p class="card-text font-small-3 mb-0">Clients</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12 mb-2 mb-md-0">
+                  <div class="media">
+                    <div class="avatar bg-light-info mr-2">
+                      <div class="avatar-content">
+                        <i data-feather="file-text" class="avatar-icon"></i>
+                      </div>
+                    </div>
+                    <div class="media-body my-auto">
+                      <h4 class="font-weight-bolder mb-0">{{rows.demande}}</h4>
+                      <p class="card-text font-small-3 mb-0">Demandes</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12 mb-2 mb-sm-0">
+                  <div class="media">
+                    <div class="avatar bg-light-success mr-2">
+                      <div class="avatar-content">
+                        <i data-feather="check" class="avatar-icon"></i>
+                      </div>
+                    </div>
+                    <div class="media-body my-auto">
+                      <h4 class="font-weight-bolder mb-0">{{rows.demande_traire}}</h4>
+                      <p class="card-text font-small-3 mb-0">Demandes traitées</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                  <div class="media">
+                    <div class="avatar bg-light-warning mr-2">
+                      <div class="avatar-content">
+                        <i data-feather="refresh-cw" class="avatar-icon"></i>
+                      </div>
+                    </div>
+                    <div class="media-body my-auto">
+                      <h4 class="font-weight-bolder mb-0">{{rows.demande_en_cours}}</h4>
+                      <p class="card-text font-small-3 mb-0">Demande en cours</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-xl-4 col-md-6 col-sm-6">
+          <div class="card text-center">
+            <div class="card-body">
+              <div class="avatar bg-light-info p-50 m-0 mb-1">
+                <div class="avatar-content">
+                  <i data-feather="thermometer" class="font-medium-5"></i>
+                </div>
+              </div>
+              <h2 class="font-weight-bolder">{{rows.echantillon_totale}}</h2>
+              <p class="mb-0 line-ellipsis">Echantillons</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-6 col-sm-6">
+          <div class="card text-center">
+            <div class="card-body">
+              <div class="avatar bg-light-warning p-50 m-0 mb-1">
+                <div class="avatar-content">
+                  <i data-feather="tool" class="font-medium-5"></i>
+                </div>
+              </div>
+              <h2 class="font-weight-bolder">{{rows.methode}}</h2>
+              <p class="mb-0 line-ellipsis">Methodes</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-4 col-md-6 col-sm-6">
+          <div class="card text-center">
+            <div class="card-body">
+              <div class="avatar bg-light-success p-50 m-0 mb-1">
+                <div class="avatar-content">
+                  <i data-feather="settings" class="font-medium-5"></i>
+                </div>
+              </div>
+              <h2 class="font-weight-bolder">{{rows.parametre}}</h2>
+              <p class="mb-0 line-ellipsis">Parametres</p>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <div class = "row">
+        <div class="col-xl-6 col-md-6 col-sm-6">
+          <div class="card text-center">
+            <div class="card-body">
+              <div class="avatar bg-light-danger p-50 m-0 mb-1">
+                <div class="avatar-content">
+                  <i data-feather="home" class="font-medium-5"></i>
+                </div>
+              </div>
+              <h2 class="font-weight-bolder">{{rows.famille}}</h2>
+              <p class="mb-0 line-ellipsis">Familles</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-6 col-md-6 col-sm-6">
+          <div class="card text-center">
+            <div class="card-body">
+              <div class="avatar bg-light-primary p-50 m-0 mb-1">
+                <div class="avatar-content">
+                  <i data-feather="droplet" class="font-medium-5"></i>
+                </div>
+              </div>
+              <h2 class="font-weight-bolder">{{rows.nature}}</h2>
+              <p class="mb-0 line-ellipsis">Natures</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Basic Alerts end -->
+  </div>
+</div>

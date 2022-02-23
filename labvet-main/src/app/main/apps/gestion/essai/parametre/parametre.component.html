@@ -1,0 +1,191 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+      <!-- User List -->
+      <section class="users-list-wrapper">
+        <!-- users filter start -->
+        <!-- users filter end -->
+  
+        <div class="card">
+          <div class="row">
+            <div class="col-md-6 col-12">
+              <div class="d-flex justify-content-between align-items-center m-1">
+                <label class="d-flex align-items-center"
+                  >Afficher
+                  <select class="form-control mx-25" [(ngModel)]="selectedOption">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select>
+                  Parametres</label
+                >
+              </div>
+            </div>
+            <div class="col-md-6 col-12 d-flex justify-content-start justify-content-md-end">
+              <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pb-md-0">
+                <label class="d-flex align-items-center ml-1 ml-md-0"
+                  >Chercher:<input
+                    [(ngModel)]="searchValue"
+                    name="searchValue"
+                    type="search"
+                    class="form-control ml-25"
+                    (keyup)="filterUpdate($event)"
+                    (search)="filterUpdate($event)"
+                /></label>
+                <button class="btn btn-primary ml-1" rippleEffect (click) = "modalOpenSM(modalSM)" >
+                  <i data-feather="plus" class="d-sm-none d-inline-block mr-0 mr-sm-1"></i
+                  ><span class="d-none d-sm-inline-block">Ajouter Parametre</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <ngx-datatable
+            [rows]="rows"
+            [rowHeight]="50"
+            class="bootstrap core-bootstrap"
+            [limit]="selectedOption"
+            [columnMode]="ColumnMode.force"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [scrollbarH]="false"
+          >
+            <ngx-datatable-column name="Nom" prop="nomp" [width]="300"></ngx-datatable-column>
+            <ngx-datatable-column name="Nature" prop="nature" [width]="300"></ngx-datatable-column>
+            <ngx-datatable-column name="Methodes"  [width]="300">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                
+                  
+                <a  (click) = "AfficherMethodes(modalsSM , row.methodes)"
+                ><span  class = "text-primary"  [size]="16" [class]="'mr-50'">Afficher Methodes</span> </a
+              >
+              
+              
+            
+          </ng-template>
+
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Actions" [width]="40" [sortable]="false">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                
+                  
+                 
+                    <a  (click) = "deleteParametre(row.id)"
+                      ><span [data-feather]="'trash'" class = "text-danger"  [size]="16" [class]="'mr-50'"></span> </a
+                    >
+                  
+                
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </section>
+      <!--/ User List -->
+    </div>
+    
+  
+    <!-- New User Sidebar -->
+    <!--/ New User Sidebar -->
+  </div>
+
+  <ng-template #modalSM let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="myModalLabel160">Ajouter Parametre</h5>
+      <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <form (ngSubmit)="(newUserForm.form.valid)" #newUserForm="ngForm">
+        <div class="row">
+            <div class="col-12 col-md-12">
+              <fieldset class="form-group">
+                <ng-select
+                  [items]="natures"
+                  [(ngModel)]="nature"
+                  name="nature"
+                  bindLabel="designation"
+                  placeholder="Nature"
+                  required
+                ></ng-select>
+              </fieldset>
+            </div>
+            
+            
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-12">
+              <fieldset class="form-group">
+                <ng-select
+                          [items]="methodes"
+                          [multiple]="true"
+                          [closeOnSelect]="true"
+                          [searchable]="true"
+                          bindLabel="designation"
+                          name = "param{{ i }}"
+                          id = "param{{ i }}"
+                          placeholder="Select parametre(s)"
+                          [(ngModel)]="selectMultiSelected"
+                          
+                        >
+                          <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                            <span class="ng-value-label"> {{ item.designation }}</span>
+                            <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                          </ng-template>
+                        </ng-select>
+              </fieldset>
+            </div>
+            
+            
+          </div>
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="designation">Nom</label>
+            <input
+              type="text"
+              name = "designation"
+              [(ngModel)]="designation"
+              class="form-control"
+              placeholder="designation"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-12 d-flex flex-sm-row flex-column mt-2">
+          <button
+          
+            (click) = "submit(newUserForm , modal)"
+            class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1"
+            rippleEffect
+          >
+            Ajouter
+          </button>
+          
+        </div>
+      </form>
+      
+    </div>
+  </ng-template>
+
+
+
+  <ng-template #modalsSM let-modals>
+    <div class="modal-header">
+      <h5 class="modal-title" id="myModalLabel160">Methodes</h5>
+      <button type="button" class="close" (click)="modals.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <ul>
+
+     <li *ngFor = "let methode of methodes_param">
+      {{methode.designation}}
+     </li>
+     </ul>
+      
+    </div>
+  </ng-template>
+
+  

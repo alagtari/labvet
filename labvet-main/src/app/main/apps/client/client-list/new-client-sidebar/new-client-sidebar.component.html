@@ -1,0 +1,144 @@
+<div class="slideout-content">
+    <!-- Modal to add new user starts-->
+    <div class="modalsd modal-slide-in sdfade new-user-modal" id="modals-slide-in">
+      <div class="modal-dialog">
+        <form class="add-new-user modal-content pt-0" (ngSubmit)="(newUserForm.form.valid)" #newUserForm="ngForm">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+            (click)="toggleSidebar('new-client-sidebar')"
+          >
+            ×
+          </button>
+          <div class="modal-header mb-1">
+            <h5 class="modal-title" id="exampleModalLabel">Nouveau Client</h5>
+          </div>
+          <div class="modal-body flex-grow-1">
+            <div class="form-group">
+              <label class="form-label" for="basic-icon-default-email">Email</label>
+              <input
+              
+                type="email"
+                [pattern]="pattern"
+                id="basic-icon-default-email"
+                class="form-control dt-email"
+                placeholder=""
+                aria-label="john.doe@example.com"
+                aria-describedby="basic-icon-default-email2"
+                name="email"
+                [(ngModel)]="email"
+                [class.error]="FEmailRef.invalid && FEmailRef.touched"
+                #FEmailRef="ngModel"
+                
+                required
+              />
+              <span *ngIf="FEmailRef.invalid" class="invalid-form">
+                <small class="form-text text-danger" *ngIf="FEmailRef.errors.required && FEmailRef.touched">Ce champ est requis!</small>
+              </span>
+              <small class="form-text text-muted"></small>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="basic-icon-default-email">Raison Sociale</label>
+                <input
+                  type="text"
+                  id="basic-icon-default-email"
+                  class="form-control dt-email"
+                  [class.error]="rs.invalid && rs.touched"
+                  placeholder=""
+                  aria-describedby="basic-icon-default-email2"
+                  name="raisonSocial"
+                  [(ngModel)]="raisonSocial"
+                  #rs="ngModel"
+                  
+                  required
+                />
+                <span *ngIf="rs.invalid" class="invalid-form">
+                  <small class="form-text text-danger" *ngIf="rs.errors.required && rs.touched">Ce champ est requis!</small>
+                </span>
+                <small class="form-text text-muted"></small>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="basic-icon-default-email">Responsable</label>
+                <input
+                  type="text"
+                  id="basic-icon-default-email"
+                  class="form-control dt-email"
+                  [class.error]="rss.invalid && rss.touched"
+                  placeholder=""
+                  name = "responsable"
+                  aria-describedby="basic-icon-default-email2"
+                  [(ngModel)]="responsable"
+                  #rss="ngModel"
+                  
+                  required
+                />
+                <span *ngIf="rss.invalid" class="invalid-form">
+                  <small class="form-text text-danger" *ngIf="rss.errors.required && rss.touched">Ce champ est requis!</small>
+                </span>
+                <small class="form-text text-muted"></small>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="basic-icon-default-email">Adresse</label>
+                <input
+                  type="text"
+                  id="basic-icon-default-email"
+                  class="form-control dt-email"
+                  [class.error]="adr.invalid && adr.touched"
+                  placeholder=""
+                  aria-describedby="basic-icon-default-email2"
+                  name="adresse"
+                  [(ngModel)]="adresse"
+                  #adr="ngModel"
+                  
+                  required
+                />
+                <span *ngIf="adr.invalid" class="invalid-form">
+                  <small class="form-text text-danger" *ngIf="adr.errors.required && adr.touched">Ce champ est requis!</small>
+                </span>
+                <small class="form-text text-muted"></small>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="basic-icon-default-email">Telephone</label>
+                <input
+                  type="text"
+                  id="basic-icon-default-email"
+                  class="form-control dt-email"
+                  [class.error]="FTelRef.invalid && FTelRef.touched"
+                  placeholder=""
+                  aria-describedby="basic-icon-default-email2"
+                  name="tel"
+                  [pattern]="unamePattern"
+                  #uname="ngModel"
+                  [(ngModel)]="tel"
+                  #FTelRef="ngModel"
+                  
+                  required
+                />
+                <span *ngIf="uname.invalid" class="invalid-form">
+                  <small class="form-text text-danger" *ngIf="FTelRef.errors.required && FTelRef.touched ">Ce champ est requis!</small>
+                </span>
+                <small class="form-text text-muted"></small>
+            </div>
+           
+            
+            
+            
+            <button type="submit" class="btn btn-primary mr-1" (click)="submit(newUserForm)" rippleEffect>Valider</button>
+            <button
+              type="reset"
+              class="btn btn-outline-secondary"
+              (click)="toggleSidebar('new-client-sidebar')"
+              rippleEffect
+            >
+              Annuler
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Modal to add new user Ends-->
+  </div>
+  
