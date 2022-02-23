@@ -11,7 +11,10 @@ def get_clients_by_email(db: Session, email: str):
 
 
 def get_clients(db: Session):
-    return db.query(models.Client).all()
+    clients = db.query(models.Client).all()
+    for c in clients :
+        d = c.demandes
+    return clients    
 
 def delete_client(db: Session, idc: int):
     db_client =db.query(models.Client).filter(models.Client.idc == idc).first()

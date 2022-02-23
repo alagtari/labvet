@@ -38,7 +38,7 @@ const routes: Routes = [
         path: 'add',
         component: DepartementAddComponent,
         resolve: {
-
+            
         },
         data: { animation: 'DepartementAddComponent' }
     }

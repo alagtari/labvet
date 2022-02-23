@@ -44,6 +44,15 @@ parametre_echantillon = Table('Parametre_echantillon', Base.metadata,
     Column('echantillon_id', ForeignKey('echantillon.id'), primary_key=True)
 ) 
 
+departement_echantillon = Table('departement_echantillon', Base.metadata,
+    Column('departement_id', ForeignKey('departement.id'), primary_key=True),
+    Column('echantillon_id', ForeignKey('echantillon.id'), primary_key=True)
+) 
+
+departement_parametre = Table('departement_parametre', Base.metadata,
+    Column('departement_id', ForeignKey('departement.id'), primary_key=True),
+    Column('parametre_id', ForeignKey('parametre.id'), primary_key=True)
+) 
 class Demande(Base):
     __tablename__ = "demande"
 
@@ -62,6 +71,8 @@ class Demande(Base):
 
 
 
+
+
 class Parametre(Base):
     __tablename__ = "parametre"
 
@@ -70,6 +81,8 @@ class Parametre(Base):
     echantillons = relationship("Echantillon", secondary=parametre_echantillon)
     methodes = relationship("Methode",secondary=parametre_methode)
     natures = relationship("Nature",secondary=parametre_nature)
+    departements = relationship("Departement", secondary=departement_parametre)
+
 
 class Methode(Base):
     __tablename__ = "methode"
@@ -102,16 +115,23 @@ class Famille(Base):
 class Echantillon(Base):
     __tablename__ = "echantillon"
     id = Column(Integer, primary_key=True, index=True)
+    designation = Column(String(300))
     barcode = Column(String(13))
-    ref = Column(String(4))
-    dep = Column(String(2))
     quantite = Column(Integer)
     nlot = Column(Integer)
     temperature = Column(String(20)) 
     datecr = Column(BigInteger)
     idd = Column(Integer, ForeignKey('demande.ref'))
     idn = Column(Integer, ForeignKey('nature.id'))
+    departements = relationship("Departement", secondary=departement_echantillon)
     demande = relationship("Demande",backref=backref("echantillon" , cascade="all,delete"))
     parametres = relationship("Parametre", secondary=parametre_echantillon)
     nature = relationship("Nature", back_populates="echantillons")
     
+class Departement(Base):
+    __tablename__ = "departement"
+
+    id = Column(Integer, primary_key=True, index=True)
+    nomdep = Column(String(40))
+    echantillons = relationship("Echantillon", secondary=departement_echantillon)
+    parametres = relationship("Parametre", secondary=departement_parametre)

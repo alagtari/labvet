@@ -52,6 +52,10 @@ class methode(BaseModel):
     id: int
     designation : str
 
+class Departement(BaseModel):
+    id: int
+    nom : str    
+
 class nature(BaseModel):
     id: int
     designation : str  
@@ -60,6 +64,7 @@ class nature(BaseModel):
 class parametre(BaseModel):
     id: int
     nomp : str
+    id_dep :List[int]
 
 class famille(BaseModel):
     idf  :  int
@@ -74,12 +79,13 @@ class echantillonUpdate(BaseModel):
     nlot :int 
     temperature :str
     ref_codebarre:str
+    designation :str
 
 
 
 class echantillon(BaseModel):
     id:int
-    ref :str
+    id_dep :List[int]
     quantite :int
     nlot :int 
     temperature :str
@@ -87,6 +93,7 @@ class echantillon(BaseModel):
     idp:List[int]
     idd:int
     idf:int
+    designation :str
 
 
 class Client(BaseModel):

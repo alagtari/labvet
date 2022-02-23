@@ -16,6 +16,7 @@ def get_demandes(db: Session):
         o['client'] = demande.client.email
         o['date_reception'] =datetime.datetime.utcfromtimestamp(float(demande.date_reception) // 1000).strftime('%Y-%m-%d %H:%M:%S')
         o['controle'] = demande.controle
+        o['codedemande'] = demande.codeDemande
         o['etat'] = demande.etat
         for ech in demande.echantillons:
             ech.nature
@@ -40,7 +41,7 @@ def create_demande(db: Session, demande: schemas.Demande):
     db.flush()
     db.refresh(db_demande)
     db.commit()
-    db_demande.codeDemande = str(db_demande.ref)+str(round(time.time() * 1000))
+    db_demande.codeDemande = str(db_demande.ref)+datetime.datetime.utcfromtimestamp(float(round(time.time() * 1000)) // 1000).strftime('%Y%m%d')
     db.commit()
 
     return db_demande.ref
