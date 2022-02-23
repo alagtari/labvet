@@ -1,4 +1,5 @@
 
+from sqlalchemy import JSON
 from sqlalchemy.orm import Session
 import models, schemas 
 import barcode as BARCODE
@@ -8,13 +9,12 @@ import time
 def get_echantillon_by_id(db: Session, id:str):
     echantillon = db.query(models.Echantillon).filter(models.Echantillon.id == id).first()
     ech = {}
-
- 
     ech['echantillon'] = echantillon
     echantillon.departements
-    echantillon.demande
     echantillon.parametres
     echantillon.nature
+    
+    
 
 
     Code39 = BARCODE.get_barcode_class('code39')
