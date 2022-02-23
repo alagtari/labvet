@@ -18,6 +18,7 @@ export class ParametreComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
   public sidebarToggleRef = false;
   public selectMultiSelected;
+  public selectMultiSelected_deps;
   public rows;
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
@@ -147,9 +148,11 @@ export class ParametreComponent implements OnInit {
   submit(form, modal) {
     console.log(form.form.value)
     form.form.value.id = 0
-    let data: { id: number, nomp: string } = { id: 0, nomp: form.form.value.designation }
-
-    console.log(data)
+    let deps_ids = []
+    for (let i = 0; i < this.selectMultiSelected_deps.length; i++) {
+      deps_ids.push(this.selectMultiSelected_deps[i].id)
+    }
+    let data: { id: number, nomp: string, id_dep: any } = { id: 0, nomp: form.form.value.designation, id_dep: deps_ids }
     if (form.valid) {
 
       this._parametreService.addParametre(data).subscribe(
@@ -209,10 +212,13 @@ export class ParametreComponent implements OnInit {
       size: 'sm' // size: 'xs' | 'sm' | 'lg' | 'xl'
     });
   }
-
+  public departements;
   modalOpenSM(modalSM) {
     this._parametreService.getMethodes().subscribe(result => {
       this.methodes = result.data;
+    })
+    this._parametreService.getDepartements().subscribe(result => {
+      this.departements = result.data;
     })
     this._parametreService.getNatures().subscribe(r => {
       this.natures = r.data;
@@ -231,16 +237,18 @@ export class ParametreComponent implements OnInit {
         setTimeout(() => {
 
           this._parametreService.onUserListChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
-            console.log(this.rows)
+
             this.rows = response;
+            console.log(this.rows)
             this.tempData = this.rows;
           });
         }, 450);
       } else {
 
         this._parametreService.onUserListChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
-          console.log(this.rows)
+
           this.rows = response;
+          console.log(this.rows)
           this.tempData = this.rows;
         });
       }

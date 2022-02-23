@@ -102,14 +102,15 @@
                           <label for="dep{{ i }}">Departement</label>
                           <!-- Basic Multi select -->
                           <ng-select
+                            (change) = "updateDeps($event , i)"
                             [items]="departements"
-                            [multiple]="false"
+                            [multiple]="true"
                             [closeOnSelect]="true"
                             [searchable]="true"
-                            bindLabel = "name"
+                            bindLabel = "nomdep"
                             name = "dep{{ i }}"
                             id = "dep{{ i }}"
-                            [(ngModel)] = "item.dep"
+                            [(ngModel)] = "selected_departements[i]"
                           >
                           </ng-select>
                           <!--/ Basic Multi select -->
@@ -120,7 +121,7 @@
                   <div class="col-md-2 col-12">
                     <div class="form-group">
                       <label for="nlot{{ i }}">Designation</label>
-                      <input [(ngModel)] ="item.nlot"  type="text"  class="form-control" id="designation{{ i }}" name = "designation{{ i }}" />
+                      <input [(ngModel)] ="item.designation"  type="text"  class="form-control" id="designation{{ i }}" name = "designation{{ i }}" />
                     </div>
                   </div>
                    
@@ -142,11 +143,12 @@
                     </div>
                 </div>
 
-                <div class="col-md-4 col-4">
-                    <div class="form-group">
+                <div class="col-md-4 col-4" *ngIf = "selected_nature[i] && selected_departements[i].length > 0">
+                    <div class="form-group" >
                         <label for="param{{ i }}">Parametre(s)</label>
                         <!-- Basic Multi select -->
                         <ng-select
+                          
                           [items]="paramatres[i]"
                           [multiple]="true"
                           [closeOnSelect]="false"
@@ -157,7 +159,7 @@
                           [(ngModel)]="selectMultiSelected[i]"
                         >
                           <ng-template ng-label-tmp let-item="item" let-clear="clear">
-                            <span class="ng-value-label"> {{ item.nomp }}</span>
+                            <span class="ng-value-label"> {{ item.nomp }} | {{item.methodes}}</span>
                             <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
                           </ng-template>
                         </ng-select>

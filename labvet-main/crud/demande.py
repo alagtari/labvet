@@ -18,12 +18,12 @@ def get_demandes(db: Session):
         o['controle'] = demande.controle
         o['codedemande'] = demande.codeDemande
         o['etat'] = demande.etat
-        for ech in demande.echantillons:
-            ech.nature
+        #for ech in demande.echantillons:
+         #   ech.nature
         o['echantillons'] = []
         for ech in demande.echantillons:
-            ech = echantillon.get_echantillon_by_id(db , ech.id)
-            o['echantillons'].append(ech)
+            echs = echantillon.get_echantillon_by_id(db , ech.id)
+            o['echantillons'].append(echs)
         o['nbr'] = len(demande.echantillons)
         o['observation'] = demande.observation
         res.append(o)

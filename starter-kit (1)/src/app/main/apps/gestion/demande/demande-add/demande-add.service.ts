@@ -128,6 +128,42 @@ export class DemandeAddService {
       })
     )
   }
+  getDepartements() {
+    let token = JSON.parse(localStorage.getItem("currentUser")).access_token;
+    const optionRequete = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': token
+      })
+    };
+    return this._httpClient.get<any>(`${environment.apiUrl}/departements/all`, optionRequete).pipe(
+      map(users => {
+        if (users) {
+          console.log(users)
+          return users;
+        }
+      })
+    )
+  }
+
+  getMethodesByParametre(id) {
+    let token = JSON.parse(localStorage.getItem("currentUser")).access_token;
+    const optionRequete = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': token
+      })
+    };
+    return this._httpClient.get<any>(`${environment.apiUrl}/parametres/getMethodeByParametre?id=${id}`, optionRequete).pipe(
+      map(users => {
+        if (users) {
+          console.log(users)
+          return users;
+        }
+      })
+    )
+  }
+
 
   getParams() {
     let token = JSON.parse(localStorage.getItem("currentUser")).access_token;

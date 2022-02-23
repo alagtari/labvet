@@ -159,7 +159,7 @@
 
         <ngb-panel *ngFor = "let ech of selected_echantillons">
           <ng-template ngbPanelTitle>
-            <span class="lead collapse-title"> Echantillon :  {{ech.echantillon.barcode}} </span>
+            <span class="lead collapse-title"> Echantillon :  {{ech.echantillon.designation}} </span>
           </ng-template>
           <ng-template ngbPanelContent>
            <div class = "row">
@@ -171,7 +171,7 @@
                         <i data-feather="home" class="font-medium-5"></i>
                       </div>
                     </div>
-                    <h2 class="font-weight-bolder">{{ech.echantillon.ref}}</h2>
+                    <h2 class="font-weight-bolder">{{ech.echantillon.departements.length}}</h2>
                     <p class="mb-0 line-ellipsis">Departement</p>
                   </div>
                 </div>

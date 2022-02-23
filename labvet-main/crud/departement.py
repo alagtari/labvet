@@ -6,7 +6,10 @@ def get_departement(db: Session, id: int):
     return db.query(models.Departement).filter(models.Departement.id == id).first()
 
 def get_all_departements(db: Session):
-    return db.query(models.Departement).all()
+    deps =  db.query(models.Departement).all()
+    for dep in deps:
+        p = dep.parametres
+    return deps
 
 def delete_departement(db: Session, id: int):
     departement =db.query(models.Departement).filter(models.Departement.id == id).first()

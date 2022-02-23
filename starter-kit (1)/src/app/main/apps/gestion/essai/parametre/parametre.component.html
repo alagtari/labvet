@@ -139,6 +139,33 @@
             
             
           </div>
+          <div class="row">
+            <div class="col-12 col-md-12">
+              <fieldset class="form-group">
+                <ng-select
+                          [items]="departements"
+                          [multiple]="true"
+                          [closeOnSelect]="true"
+                          [searchable]="true"
+                          bindLabel="nomdep"
+                          name = "dep{{ i }}"
+                          id = "dep{{ i }}"
+                          placeholder="Select Departement"
+                          [(ngModel)]="selectMultiSelected_deps"
+                          
+                          
+                        >
+                        <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                          <span class="ng-value-label"> {{ item.nomdep }}</span>
+                          <span class="ng-value-icon right" (click)="clear(item)" aria-hidden="true">×</span>
+                        </ng-template>
+
+                        </ng-select>
+              </fieldset>
+            </div>
+            
+            
+          </div>
         <div class="col-md-12">
           <div class="form-group">
             <label for="designation">Nom</label>

@@ -42,7 +42,7 @@ const routes: Routes = [
             (m => m.DemandeModule)
     },
     {
-        path: 'departement',
+        path: 'Departement',
         loadChildren: () => import('./departement/departement.module').then
             (m => m.DepartementModule)
     }

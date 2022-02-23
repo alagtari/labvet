@@ -45,27 +45,39 @@ export class DemandeAddComponent implements OnInit {
     { name: 'Italy' },
     { name: 'Australia' }
   ];
-  public departements =
-    [{
-      name: 'Microbiologie', value: "MIC"
-    },
-
-    {
-      name: 'Physio-chimique', value: "Phys"
-    },
-    {
-      name: 'AGR', value: "AGR"
-    }
-
-    ];
+  public departements;
 
   public items = [{ id: 0, nature: { id: 1, designation: 'Eau', parametres: [] }, famille: { idf: 0, nomf: '', nature_id: 2, nature: '' }, designation: '', nlot: 0, quantite: 0, temperature: 0, param: [], dep: { name: "", value: "" } }]
 
+  getParametres(i) {
+    let result = []
+    for (let j = 0; j < this.selected_departements[i].length; j++) {
+      let dep = this.selected_departements[i][j]
+      for (let k = 0; k < dep.parametres.length; k++) {
+        let param = dep.parametres[k]
 
+        for (let p = 0; p < this.selected_nature[i].parametres.length; p++) {
+          let paramn = this.selected_nature[i].parametres[p]
+          console.log(paramn)
+          console.log(param)
+          if (paramn.id == param.id) {
+            result.push(paramn)
+            break;
+          }
+        }
+      }
+    }
+    console.log(result)
+    this.paramatres[i] = result;
+  }
+  updateDeps(event, i) {
+    this.getParametres(i)
+  }
   public count = 0;
   addItem() {
     this.count = this.count + 1;
     this.selectMultiSelected[this.count] = [];
+    this.selected_departements[this.count] = []
     this.items.push({
       id: 0, nature: { id: 1, designation: 'Eau', parametres: [] }, famille: { idf: 0, nomf: '', nature_id: 2, nature: '' }, designation: '', nlot: 0, quantite: 0, temperature: 0, param: [], dep: { name: "", value: "" }
     });
@@ -75,6 +87,7 @@ export class DemandeAddComponent implements OnInit {
   }
   deleteItem(id) {
     delete this.selectMultiSelected[this.count]
+    delete this.selected_departements[this.count]
     delete this.selected_famille[this.count]
     delete this.selected_nature[this.count]
     for (let i = 0; i < this.items.length; i++) {
@@ -92,6 +105,7 @@ export class DemandeAddComponent implements OnInit {
   public selectMultiSelected = {
     0: []
   }
+
   public client_id;
   public natures;
   public familles = {
@@ -99,6 +113,10 @@ export class DemandeAddComponent implements OnInit {
   };
   public clients;
   public paramatres = {
+
+  }
+  public selected_departements = {
+    0: []
 
   }
   afficherAddFamille(modal, i) {
@@ -140,9 +158,9 @@ export class DemandeAddComponent implements OnInit {
               let id = result.id;
               this.familles[this.current_i] = [...this.familles[this.current_i], { idf: id, nomf: form.form.value.nomf }]
               this.selected_famille[this.current_i] = { idf: id, nomf: form.form.value.nomf }
-              
+
             }
-            
+
             else if (result['status'] == 400) {
 
               //error
@@ -241,9 +259,9 @@ export class DemandeAddComponent implements OnInit {
               let id = result.id
               this.natures = [...this.natures, { id: id, designation: form.form.value.designation }]
               this.selected_nature[this.current_i] = { id: id, designation: form.form.value.designation }
-              
+
             }
-            
+
             else if (result['status'] == 400) {
 
               //error
@@ -251,9 +269,9 @@ export class DemandeAddComponent implements OnInit {
             else {
 
             }
-            
+
           }
-          
+
         }
       )
 
@@ -265,7 +283,7 @@ export class DemandeAddComponent implements OnInit {
     this.client_id = event
   }
 
-  constructor(private _service: DemandeAddService, private modalservice: NgbModal, private _familleService: FamilleService, private _toastr: ToastrService, private _natureService: NatureService,private _router: Router) { }
+  constructor(private _service: DemandeAddService, private modalservice: NgbModal, private _familleService: FamilleService, private _toastr: ToastrService, private _natureService: NatureService, private _router: Router) { }
 
   ConfirmTextOpen() {
     console.log(this.items)
@@ -285,10 +303,13 @@ export class DemandeAddComponent implements OnInit {
           let deamnde_id = result.id
           for (let i = 0; i < this.items.length; i++) {
             let item = this.items[i]
-            let echantillon_data = { id: 0, ref: item.dep.value, quantite: item.quantite, nlot: item.nlot, temperature: item.temperature, idn: this.selected_nature[i].id, idp: [], idd: deamnde_id, idf: this.selected_famille[i].idf }
+            let echantillon_data = { id_dep: [], id: 0, ref: item.dep.value, quantite: item.quantite, nlot: item.nlot, temperature: item.temperature, idn: this.selected_nature[i].id, idp: [], idd: deamnde_id, idf: this.selected_famille[i].idf, designation: item.designation }
 
             for (let j = 0; j < this.selectMultiSelected[i].length; j++) {
               echantillon_data.idp.push(this.selectMultiSelected[i][j].id)
+            }
+            for (let j = 0; j < this.selected_departements[i].length; j++) {
+              echantillon_data.id_dep.push(this.selected_departements[i][j].id)
             }
             console.log(echantillon_data)
             this._service.addEchantillon(echantillon_data).subscribe(
@@ -319,6 +340,15 @@ export class DemandeAddComponent implements OnInit {
     )
   }
 
+
+  getMethodesByParametre(id) {
+    this._service.getMethodesByParametre(id).subscribe(
+      result => {
+        console.log(result.data.toString())
+      }
+    )
+  }
+
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
 
@@ -330,6 +360,15 @@ export class DemandeAddComponent implements OnInit {
     console.log(event)
     this.selected_nature[i] = event
     this.paramatres[i] = event.parametres
+    for (let j = 0; j < this.paramatres[i].length; j++) {
+      let param = this.paramatres[i][j]
+      this.paramatres[i][j].methodes = []
+      this._service.getMethodesByParametre(param.id).subscribe(result => {
+        for (let k = 0; k < result.data.length; k++) {
+          this.paramatres[i][j].methodes.push(result.data[k].designation)
+        }
+      })
+    }
     this.familles[i] = event.familles
   }
   ngOnInit() {
@@ -345,6 +384,12 @@ export class DemandeAddComponent implements OnInit {
         this.natures = result.data;
       }
     )
+    this._service.getDepartements().subscribe(
+      result => {
+        this.departements = result.data;
+      }
+    )
+
 
 
     this.verticalWizardStepper = new Stepper(document.querySelector('#stepper2'), {

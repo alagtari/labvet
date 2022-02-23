@@ -49,6 +49,22 @@ export class ParametreService {
     )
 
   }
+  getDepartements() {
+    let token = JSON.parse(localStorage.getItem("currentUser")).access_token;
+    const optionRequete = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*',
+        'Authorization': token
+      })
+    };
+    return this._httpClient.get<any>(`${environment.apiUrl}/departements/all`, optionRequete).pipe(
+      map(result => {
+        if (result) {
+          return result;
+        }
+      })
+    )
+  }
   addPM(data: any) {
     let token = JSON.parse(localStorage.getItem("currentUser")).access_token;
     const optionRequete = {
@@ -156,6 +172,7 @@ export class ParametreService {
       this._httpClient.get(`${environment.apiUrl}/parametres/all`, optionRequete).subscribe((response: any) => {
         console.log(response)
         this.rows = response['data'];
+        
         this.onUserListChanged.next(this.rows);
         resolve(this.rows);
       }, reject);
