@@ -23,6 +23,10 @@ def create_parametre(db: Session, parametre: schemas.parametre):
     db.flush()
     db.refresh(db_parametre)
     db.commit()
+    for id in parametre.id_dep :
+        association = models.departement_parametre.insert().values(departement_id=id , parametre_id=db_parametre.id)
+        db.execute(association)
+        db.commit()  
     return db_parametre.id
 
 def update_parametre(db: Session,parametre: schemas.parametre):
