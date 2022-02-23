@@ -29,10 +29,7 @@ class Client(Base):
     tel = Column(String(8))
     demandes = relationship("Demande", back_populates="client")
     
-parametre_nature = Table('Parametre_nature', Base.metadata,
-    Column('parametre_id', ForeignKey('parametre.id'),primary_key=True),
-    Column('nature_id', ForeignKey('nature.id'), primary_key=True)
-) 
+ 
 
 parametre_methode = Table('Parametre_methode', Base.metadata,
     Column('parametre_id', ForeignKey('parametre.id'), primary_key=True),
@@ -78,10 +75,12 @@ class Parametre(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     nomp = Column(String(40))
+    idn = Column(Integer, ForeignKey('nature.id'))
     echantillons = relationship("Echantillon", secondary=parametre_echantillon)
     methodes = relationship("Methode",secondary=parametre_methode)
-    natures = relationship("Nature",secondary=parametre_nature)
+    nature = relationship("Nature",backref=backref("parametre" , cascade="all,delete"))
     departements = relationship("Departement", secondary=departement_parametre)
+
 
 
 class Methode(Base):
@@ -100,7 +99,7 @@ class Nature(Base):
     id = Column(Integer, primary_key=True, index=True)
     designation = Column(String(40))
     familles = relationship("Famille", back_populates="nature")
-    parametres = relationship("Parametre",secondary=parametre_nature)
+    parametres = relationship("Parametre", back_populates="nature")
     echantillons = relationship("Echantillon", back_populates="nature")
 
 

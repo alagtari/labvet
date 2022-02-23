@@ -7,7 +7,7 @@ def get_parametre_by_id(db: Session, id: str):
 def get_parametres(db: Session):
     parametres =  db.query(models.Parametre).all()
     for parametre in parametres:
-        o1 = parametre.natures
+        o1 = parametre.nature
         o2= parametre.methodes
     return parametres
 
