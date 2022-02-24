@@ -50,13 +50,28 @@
             [scrollbarH]="false"
           >
             <ngx-datatable-column name="Nom" prop="nomp" [width]="300"></ngx-datatable-column>
-            <ngx-datatable-column name="Nature" prop="nature" [width]="300"></ngx-datatable-column>
+            <ngx-datatable-column name="Nature" prop="nature.designation" [width]="300"></ngx-datatable-column>
             <ngx-datatable-column name="Methodes"  [width]="300">
               <ng-template ngx-datatable-cell-template let-row="row">
                 
                   
                 <a  (click) = "AfficherMethodes(modalsSM , row.methodes)"
                 ><span  class = "text-primary"  [size]="16" [class]="'mr-50'">Afficher Methodes</span> </a
+              >
+              
+              
+            
+          </ng-template>
+
+            </ngx-datatable-column>
+
+
+            <ngx-datatable-column name="Departements"  [width]="300">
+              <ng-template ngx-datatable-cell-template let-row="row">
+                
+                  
+                <a  (click) = "AfficherDepartements(modalssSM, row.departements)"
+                ><span  class = "text-primary"  [size]="16" [class]="'mr-50'">Afficher Departements</span> </a
               >
               
               
@@ -209,6 +224,24 @@
 
      <li *ngFor = "let methode of methodes_param">
       {{methode.designation}}
+     </li>
+     </ul>
+      
+    </div>
+  </ng-template>
+
+  <ng-template #modalssSM let-modals>
+    <div class="modal-header">
+      <h5 class="modal-title" id="myModalLabel160">Departements</h5>
+      <button type="button" class="close" (click)="modals.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <ul>
+
+     <li *ngFor = "let dep of departements_param">
+      {{dep.nomdep}}
      </li>
      </ul>
       

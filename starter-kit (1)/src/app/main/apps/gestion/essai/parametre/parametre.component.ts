@@ -152,7 +152,7 @@ export class ParametreComponent implements OnInit {
     for (let i = 0; i < this.selectMultiSelected_deps.length; i++) {
       deps_ids.push(this.selectMultiSelected_deps[i].id)
     }
-    let data: { id: number, nomp: string, id_dep: any } = { id: 0, nomp: form.form.value.designation, id_dep: deps_ids }
+    let data: { id: number, nomp: string, id_dep: any, idn: any } = { id: 0, nomp: form.form.value.designation, id_dep: deps_ids, idn: form.form.value.nature.id }
     if (form.valid) {
 
       this._parametreService.addParametre(data).subscribe(
@@ -205,6 +205,16 @@ export class ParametreComponent implements OnInit {
   }
   AfficherMethodes(modal, methodes) {
     this.methodes_param = methodes;
+    console.log(this.methodes_param)
+    this.modalservice.open(modal, {
+      centered: true,
+
+      size: 'sm' // size: 'xs' | 'sm' | 'lg' | 'xl'
+    });
+  }
+  public departements_param;
+  AfficherDepartements(modal, methodes) {
+    this.departements_param = methodes;
     console.log(this.methodes_param)
     this.modalservice.open(modal, {
       centered: true,
