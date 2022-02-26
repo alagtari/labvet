@@ -4,4 +4,5 @@ pymysql
 SQLAlchemy
 fastapi
 secure-smtplib
+gunicorn==20.0.4
 SQLAlchemy-Utils
