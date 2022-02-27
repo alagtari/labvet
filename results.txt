@@ -1,1 +1,0 @@
-<models.User object at 0x000000B9AE157580>

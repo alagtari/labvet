@@ -1,1 +1,0 @@
-{'name': 'null', 'tel': 'null', 'photo': 'null', 'role': 'null', 'email': 'agtari957@gmail.com', 'cin': '53454578', 'contrat': 'null'}
