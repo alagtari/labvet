@@ -4,7 +4,7 @@ appdirs
 async-exit-stack
 async-generator
 chardet
-click
+click 
 dnspython
 email-validator
 fastapi
@@ -35,4 +35,8 @@ typing-extensions
 ujson
 urllib3
 uvicorn
+<<<<<<< HEAD
 websockets
+=======
+websockets
+>>>>>>> f05ce24c37d7f75e321876c00059a3ea763330f9
