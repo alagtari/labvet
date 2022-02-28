@@ -6,6 +6,6 @@ services:
     replicas: 1
     ports:
       - 8080
-    resources:
+    resources: 
       cpu: 100m
       memory: 128Mi
