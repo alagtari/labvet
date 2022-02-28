@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+import uvicorn
 import  models
 from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
@@ -15,7 +16,7 @@ models.Base.metadata.create_all(bind=engine)
 origins = ["*"]
 middleware = [ Middleware(CORSMiddleware, allow_origins=['*'], allow_credentials=True, allow_methods=['*'], allow_headers=['*'])]
 app = FastAPI(middleware=middleware)
-origins = ["*"]
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -42,3 +43,6 @@ app.include_router(parametre.router)
 app.include_router(departement.router)
 app.include_router(association.router)
 app.include_router(statistique.router)
+
+if __name__ == "__main__":
+    uvicorn.run(app, port=5000)
