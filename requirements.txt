@@ -35,6 +35,4 @@ typing-extensions
 ujson
 urllib3
 uvicorn
-uvloop
-watchgod
 websockets

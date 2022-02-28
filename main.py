@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
-
+from  app.routes import home
 
 
 
@@ -18,6 +18,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get('/')
-def home():
-    return 'hello world'
+
+app.include_router(home.router)
+
+import uvicorn
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8080, reload=True)
