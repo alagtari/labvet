@@ -40,3 +40,4 @@ urllib3
 uvicorn
 PyJWT
 python-barcode
+gunicorn
