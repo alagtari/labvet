@@ -36,3 +36,4 @@ ujson
 urllib3
 uvicorn
 websockets
+gunicorn
