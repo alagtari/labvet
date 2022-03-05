@@ -4,31 +4,7 @@ from sqlalchemy.orm import relationship,backref
 from .database import Base
 
 
-class User(Base):
-    __tablename__ = "utilisateur"
 
-    id = Column(Integer, primary_key=True, index=True)
-    email = Column(String(40), unique=True, index=True)
-    password = Column(String(200))
-    name = Column(String(40))
-    cin = Column(String(8))
-    tel = Column(String(8))
-    photo = Column(LargeBinary(length=(2**32)-1))
-    contrat = Column(LargeBinary(length=(2**32)-1))
-    role = Column(String(20))
-    datecr = Column(BigInteger)
-
-
-class Client(Base):
-    __tablename__ = "client"
-
-    idc = Column(Integer, primary_key=True, index=True)
-    email = Column(String(40), unique=True, index=True)
-    raisonSocial = Column(String(8))
-    responsable = Column(String(40))
-    adresse = Column(String(8))
-    tel = Column(String(8))
-    demandes = relationship("Demande", back_populates="client")
     
  
 
@@ -47,10 +23,45 @@ departement_echantillon = Table('departement_echantillon', Base.metadata,
     Column('echantillon_id', ForeignKey('echantillon.id'), primary_key=True)
 ) 
 
+
 departement_parametre = Table('departement_parametre', Base.metadata,
     Column('departement_id', ForeignKey('departement.id'), primary_key=True),
     Column('parametre_id', ForeignKey('parametre.id'), primary_key=True)
-) 
+)
+
+departement_utilisateur = Table('departement_utilisateur', Base.metadata,
+    Column('departement_id', ForeignKey('departement.id'), primary_key=True),
+    Column('utilisateur_id', ForeignKey('utilisateur.id'), primary_key=True)
+)
+
+class User(Base):
+    __tablename__ = "utilisateur"
+
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String(40), unique=True, index=True)
+    password = Column(String(200))
+    name = Column(String(40))
+    cin = Column(String(8))
+    tel = Column(String(8))
+    photo = Column(LargeBinary(length=(2**32)-1))
+    contrat = Column(LargeBinary(length=(2**32)-1))
+    role = Column(String(20))
+    datecr = Column(BigInteger)
+    datesanalyse = relationship("Dateanalyse", back_populates="utilisateur")
+    departements = relationship("Departement", secondary=departement_utilisateur)
+
+
+class Client(Base):
+    __tablename__ = "client"
+
+    idc = Column(Integer, primary_key=True, index=True)
+    email = Column(String(40), unique=True, index=True)
+    raisonSocial = Column(String(8))
+    responsable = Column(String(40))
+    adresse = Column(String(8))
+    tel = Column(String(8))
+    demandes = relationship("Demande", back_populates="client")
+
 class Demande(Base):
     __tablename__ = "demande"
 
@@ -116,17 +127,20 @@ class Echantillon(Base):
     __tablename__ = "echantillon"
     id = Column(Integer, primary_key=True, index=True)
     designation = Column(String(300))
-    barcode = Column(String(13))
+    barcode = Column(String(40))
     quantite = Column(Integer)
     nlot = Column(Integer)
     temperature = Column(String(20)) 
     datecr = Column(BigInteger)
     idd = Column(Integer, ForeignKey('demande.ref'))
     idn = Column(Integer, ForeignKey('nature.id'))
+    iddate = Column(Integer, ForeignKey('dateanalyse.id'))
     departements = relationship("Departement", secondary=departement_echantillon)
     demande = relationship("Demande",backref=backref("echantillon" , cascade="all,delete"))
     parametres = relationship("Parametre", secondary=parametre_echantillon)
     nature = relationship("Nature", back_populates="echantillons")
+    germes = relationship("Germe", back_populates="echantillon")
+    dateanalyse = relationship("Dateanalyse", back_populates="echantillon")
     
 class Departement(Base):
     __tablename__ = "departement"
@@ -135,3 +149,29 @@ class Departement(Base):
     nomdep = Column(String(40))
     echantillons = relationship("Echantillon", secondary=departement_echantillon)
     parametres = relationship("Parametre", secondary=departement_parametre)
+    personnels = relationship("User", secondary=departement_utilisateur)
+
+
+class Germe(Base):
+    __tablename__ = "germe"
+
+    id = Column(Integer, primary_key=True, index=True)
+    etat = Column(String(200))
+    barcode = Column(String(40))
+    iddate = Column(Integer, ForeignKey('dateanalyse.id'))
+    ide = Column(Integer, ForeignKey('echantillon.id'))
+    echantillon = relationship("Echantillon",backref=backref("germes" , cascade="all,delete"))
+    dateanalyse = relationship("Dateanalyse", back_populates="germe")
+
+
+class Dateanalyse(Base):
+    __tablename__ = "dateanalyse"
+
+    id = Column(Integer, primary_key=True, index=True)
+    daterec = Column(BigInteger)
+    idu = Column(Integer, ForeignKey('utilisateur.id'))
+    idg = Column(Integer, ForeignKey('germe.id'))
+    ide = Column(Integer, ForeignKey('echantillon.id'))
+    echantillon = relationship("Echantillon",backref=backref("dateanalyse" , cascade="all,delete"))
+    germe = relationship("Germe",backref=backref("dateanalyse" , cascade="all,delete"))
+    utilisateur = relationship("Utilisateur", back_populates="datesanalyse")
