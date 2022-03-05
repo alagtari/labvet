@@ -42,8 +42,13 @@ def delete_user(db: Session, id: int):
 def create_user(db: Session, user,mdp):
     db_user = models.User(name=user['name'], email=user['email'],password=mdp,cin=user['cin'],tel=user['tel'],photo=str.encode(user['photo']),role=user['role'],contrat=str.encode(user['contrat']),datecr=round(time.time() * 1000))
     db.add(db_user)
+    db.flush()
+    db.refresh(db_user)
     db.commit()
-   
+    for id in user['dep']:
+        association = models.departement_utilisateur.insert().values(departement_id=id , utilisateur_id=db_user.id)
+        db.execute(association)
+        db.commit()
     
 
 
@@ -61,5 +66,10 @@ def update_user(user: schemas.UserBaseMini ,db :Session):
     if(db_user.password !=user.password):
         password = hashlib.md5(user.password.encode())
         db_user.password=password.hexdigest()
+    if len(user.dep) != 0 :
+        for id in user.dep:
+            association = models.departement_utilisateur.insert().values(departement_id=id , utilisateur_id=db_user.id)
+            db.execute(association)
+            db.commit()
     db.commit()
     return send_email
