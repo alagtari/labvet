@@ -104,3 +104,17 @@ class Client(BaseModel):
     adresse :str
     tel :str
 
+class Germe(BaseModel):
+    id :int
+    etat:str
+    barcode :str
+    iddate :int
+    ide :int
+
+
+class Dateanalyse(BaseModel):
+    id :int
+    daterec:int
+    idu:int
+    idg :int
+    ide :int
