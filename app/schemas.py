@@ -16,6 +16,7 @@ class UserBaseMini(BaseModel):
     cin: str
     email:str
     password : str
+    dep :List[int]
 
 
 
